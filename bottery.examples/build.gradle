@@ -1,0 +1,10 @@
+version = '0.5'
+
+
+dependencies {
+    compile project(':bottery.core')
+    compile project(':bottery.connector.telegram')
+    compile project(':bottery.connector.ms')
+    
+	compile 'log4j:log4j:1.2.17'
+}
