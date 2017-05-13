@@ -1,0 +1,14 @@
+
+// Apply the java plugin to add support for Java
+
+
+dependencies {
+	compile 'com.github.pengrad:java-telegram-bot-api:2.3.1.1'
+	
+    compile 'org.slf4j:slf4j-api:1.7.21'
+	compile 'log4j:log4j:1.2.17'
+	
+	compile project(':bottery.core')
+	
+    testCompile 'junit:junit:4.12'
+}
