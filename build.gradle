@@ -1,0 +1,33 @@
+plugins {
+    id "com.github.hierynomus.license" version "0.14.0"
+}
+    
+apply plugin: 'license'    
+    
+allprojects {
+    
+    apply plugin: 'java'
+    
+    license {
+        header rootProject.file('HEADER')
+        ext.year = '2016-2017'
+        ext.name = 'Harald Kuhn'
+    }   
+    repositories {
+        jcenter()
+    }
+    
+    dependencies {
+        compile 'org.slf4j:slf4j-api:1.7.21'
+        compile 'org.slf4j:slf4j-log4j12:1.7.21'
+        testCompile 'junit:junit:4.12'
+    }
+}
+
+subprojects {
+    tasks.withType(Jar) {
+        baseName = "rocks.$project.name"
+    }
+}
+
+

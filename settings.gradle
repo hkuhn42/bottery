@@ -1,0 +1,3 @@
+include 'bottery.core', 'bottery.connector.ms', 'bottery.connector.telegram', 'bottery.examples'
+
+rootProject.name = 'rocks.bottery'
