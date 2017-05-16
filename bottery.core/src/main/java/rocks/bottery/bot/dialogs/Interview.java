@@ -1,23 +1,21 @@
 /**
- *    Copyright (C) 2016-2017 Harald Kuhn
+ * Copyright (C) 2016-2017 Harald Kuhn
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  */
 /**
  * 
  */
 package rocks.bottery.bot.dialogs;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,14 +31,17 @@ import rocks.bottery.bot.ISession;
  */
 public class Interview implements IDialog {
 
-	private static final String	DIALOG_STATE_PREFIX	= "WaterfallDialog";
+	private static final String			  DIALOG_STATE_PREFIX = "Interview";
 
-	private List<IDialog>		dialogs;
-	private String				instanceStateKey;
-	private Class				resultBean;
+	protected List<IDialog>				  dialogs;
+	private String						  instanceStateKey;
+	private String						  resultBeanName;
+	private Class<? extends Serializable> resultBeanClazz;
 
-	public Interview(Class resultBean) {
-		this.resultBean = resultBean;
+	public Interview(String resultBeanName, Class<? extends Serializable> resultBeanClazz, IDialog[] dialogs) {
+		this(dialogs);
+		this.resultBeanClazz = resultBeanClazz;
+		this.resultBeanName = resultBeanName;
 	}
 
 	public Interview() {
@@ -60,6 +61,15 @@ public class Interview implements IDialog {
 	 */
 	@Override
 	public void handle(ISession session, IActivity activity) {
+		if (resultBeanClazz != null && session.getAttribute(resultBeanName) == null) {
+			try {
+				Serializable resultBean = resultBeanClazz.newInstance();
+				session.setAttribute(resultBeanName, resultBean);
+			}
+			catch (InstantiationException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
 		Integer instanceState = (Integer) session.getAttribute(instanceStateKey);
 		if (instanceState == null) {
 			instanceState = new Integer(0);
@@ -74,5 +84,4 @@ public class Interview implements IDialog {
 
 		activeDialog.handle(session, activity);
 	}
-
 }
