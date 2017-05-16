@@ -32,6 +32,8 @@ public interface IConnector {
 	 * @param handler
 	 */
 	public void listen(IBot handler);
+	
+	public void shutdown();
 
 	/**
 	 * Send an activity to the api or endpoint

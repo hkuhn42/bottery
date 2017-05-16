@@ -17,13 +17,10 @@ package rocks.bottery.bot.connector.console;
 
 import java.util.Scanner;
 
-import rocks.bottery.bot.ActivityType;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IBot;
 import rocks.bottery.bot.IConnector;
 import rocks.bottery.bot.IParticipant;
-import rocks.bottery.bot.connector.GenericActivity;
-import rocks.bottery.bot.connector.GenericConversation;
 import rocks.bottery.bot.connector.GenericParticipant;
 
 /**
@@ -32,7 +29,7 @@ import rocks.bottery.bot.connector.GenericParticipant;
  * @author Harald Kuhn
  *
  */
-public class ConsoleConnector implements IConnector {
+public class ConsoleConnector extends ExecutorConnectorBase {
 
 	@Override
 	public void listen(final IBot handler) {
@@ -74,30 +71,11 @@ public class ConsoleConnector implements IConnector {
 	}
 
 	@Override
-	public IActivity newMessageTo(IParticipant recipient) {
-		IActivity activity = new GenericActivity();
-		activity.setType(ActivityType.MESSAGE);
-		GenericConversation conversation = new GenericConversation();
-		conversation.setId(String.valueOf(this.hashCode()));
-		conversation.setChannel("console");
-		activity.setConversation(conversation);
-
-		activity.setFrom(getConnectorAccount());
-
-		activity.setRecipient(new GenericParticipant());
-		activity.getRecipient().setId(recipient.getId());
-		activity.getRecipient().setName(recipient.getName());
-		return activity;
-	}
-
-	@Override
-	public IActivity newReplyTo(IActivity toThisActivity) {
-		return newMessageTo(toThisActivity.getRecipient());
-	}
-
-	@Override
 	public IParticipant getConnectorAccount() {
 		return new GenericParticipant("shell", "shell");
 	}
-
+	
+	protected String getChannel() {
+		return "console";
+	}
 }
