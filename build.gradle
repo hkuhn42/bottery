@@ -1,12 +1,11 @@
 plugins {
     id "com.github.hierynomus.license" version "0.14.0"
 }
-    
-apply plugin: 'license'    
-    
+
 allprojects {
     
     apply plugin: 'java'
+    apply plugin: 'license'   
     
     license {
         header rootProject.file('HEADER')
