@@ -6,7 +6,18 @@ environment. Currently the projects tries to provide basic plumbing like i18n, m
 as a framework for simple scripted bots. The api already allows for using nlp and machine learning but will provide 
 implementations and examples in a later release.
 
-## Gettings started
+This is still in alpha state so expect api changes
+
+## Features
+- basic framework
+- i18n support with rincl
+- text template support with mustache
+- console connector for testing
+- telegram connector
+- microsoft bot framework connector
+
+
+## Getting started
 
 There is a number of examples in the examples package however a very basic echo bot on the console takes no more than:
 
