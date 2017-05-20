@@ -1,0 +1,15 @@
+version = '0.5'
+
+
+dependencies {
+    compile project(':bottery.core')
+    
+    compile 'log4j:log4j:1.2.17'
+	
+	compile files('libs/jackson-all-1.9.11.jar')
+	compile 'org.apache.cxf:cxf-rt-frontend-jaxrs:3.1.11'
+	compile 'org.apache.cxf:cxf-rt-rs-client:3.1.11'
+	compile 'org.bitbucket.b_c:jose4j:0.5.5'
+	
+    
+}

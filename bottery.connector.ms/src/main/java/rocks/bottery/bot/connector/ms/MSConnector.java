@@ -1,17 +1,14 @@
 /**
- *    Copyright (C) 2016-2017 Harald Kuhn
+ * Copyright (C) 2016-2017 Harald Kuhn
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  */
 /**
  * 
@@ -22,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.cxf.binding.BindingFactoryManager;
+import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.jaxrs.JAXRSBindingFactory;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
@@ -30,8 +28,8 @@ import org.codehaus.jackson.map.SerializationConfig;
 
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IBot;
-import rocks.bottery.bot.IConnector;
 import rocks.bottery.bot.IParticipant;
+import rocks.bottery.bot.connector.console.ConnectorBase;
 import rocks.bottery.bot.connector.ms.api.BotClient;
 import rocks.bottery.bot.connector.ms.api.MessageAPI;
 import rocks.bottery.bot.connector.ms.model.Activity;
@@ -41,7 +39,7 @@ import rocks.bottery.bot.connector.ms.model.Activity;
  * 
  * @author Harald Kuhn
  */
-public class MSConnector implements IConnector {
+public class MSConnector extends ConnectorBase {
 
 	private BotClient	 client;
 
@@ -51,17 +49,16 @@ public class MSConnector implements IConnector {
 
 	public static String LOCAL_PORT	   = "3978";
 
+	private Server		 server;
+
+	private String		 name;
+
 	public MSConnector() {
-		this(LOCAL_ADDRESS + ":" + LOCAL_PORT);
+		this("msBotFramework");
 	}
 
-	public MSConnector(int port) {
-		this(LOCAL_ADDRESS + ":" + port);
-	}
-
-	public MSConnector(String address) {
-		this.client = new BotClient();
-		this.address = address;
+	public MSConnector(String name) {
+		this.name = name;
 	}
 
 	/*
@@ -70,10 +67,17 @@ public class MSConnector implements IConnector {
 	 * @see org.sylvani.bot.IConnector#listen(org.sylvani.bot.IBot)
 	 */
 	@Override
-	public void listen(IBot handler) {
+	public void listen(IBot bot) {
+
+		this.client = new BotClient(name, bot.getBotConfig());
+		this.address = bot.getBotConfig().getSetting(name + ".serverAddress");
+		if (address == null) {
+			address = LOCAL_ADDRESS + ":" + LOCAL_PORT;
+		}
+
 		JAXRSServerFactoryBean sf = new JAXRSServerFactoryBean();
 		sf.setResourceClasses(MessageAPI.class);
-		sf.setResourceProvider(MessageAPI.class, new SingletonResourceProvider(new MessageAPIImpl(handler)));
+		sf.setResourceProvider(MessageAPI.class, new SingletonResourceProvider(new MessageAPIImpl(bot)));
 		List<Object> providers = new ArrayList<>();
 		JacksonJaxbJsonProvider provider = new JacksonJaxbJsonProvider();
 		provider.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
@@ -84,7 +88,7 @@ public class MSConnector implements IConnector {
 		JAXRSBindingFactory factory = new JAXRSBindingFactory();
 		factory.setBus(sf.getBus());
 		manager.registerBindingFactory(JAXRSBindingFactory.JAXRS_BINDING_ID, factory);
-		sf.create();
+		server = sf.create();
 	}
 
 	/*
@@ -100,13 +104,19 @@ public class MSConnector implements IConnector {
 		}
 		else {
 			msActivity = new Activity();
+			msActivity.setText(activity.getText());
+			msActivity.setTopicName(activity.getTopic());
 		}
 		client.send(msActivity);
 	}
 
 	@Override
+	protected String getChannel() {
+		return null;
+	}
+
+	@Override
 	public IParticipant getConnectorAccount() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -122,7 +132,10 @@ public class MSConnector implements IConnector {
 		return null;
 	}
 
+	@Override
 	public void shutdown() {
-		
+		server.stop();
+		server.destroy();
 	}
+
 }
