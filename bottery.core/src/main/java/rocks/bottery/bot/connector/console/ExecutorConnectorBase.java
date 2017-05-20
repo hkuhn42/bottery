@@ -13,32 +13,32 @@ import org.apache.log4j.Logger;
  */
 public abstract class ExecutorConnectorBase extends ConnectorBase {
 
-	private Logger logger = Logger.getLogger(ExecutorConnectorBase.class);
-	
+	private Logger			  logger = Logger.getLogger(ExecutorConnectorBase.class);
+
 	protected ExecutorService executor;
-	
+
 	public ExecutorConnectorBase() {
 		super();
-		executor = Executors.newSingleThreadExecutor();
+		executor = Executors.newCachedThreadPool();
 	}
-	
+
+	@Override
 	public void shutdown() {
 		try {
 			logger.debug("attempt to shutdown executor");
-		    executor.shutdown();
-		    executor.awaitTermination(5, TimeUnit.SECONDS);
+			executor.shutdown();
+			executor.awaitTermination(5, TimeUnit.SECONDS);
 		}
 		catch (InterruptedException e) {
 			logger.debug("tasks interrupted");
 		}
 		finally {
-		    if (!executor.isTerminated()) {
-		    	logger.debug("cancel non-finished tasks");
-		    }
-		    executor.shutdownNow();
-		    logger.debug("shutdown finished");
+			if (!executor.isTerminated()) {
+				logger.debug("cancel non-finished tasks");
+			}
+			executor.shutdownNow();
+			logger.debug("shutdown finished");
 		}
 	}
-	
 
 }
