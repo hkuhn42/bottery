@@ -54,13 +54,24 @@ public class ConsoleConnector extends ExecutorConnectorBase {
 	}
 
 	@Override
-	public void send(final IActivity data) {
+	public void send(final IActivity response) {
 		executor.submit(new Runnable() {
 			// Thread t = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
-				System.out.println(data.getText());
+				StringBuilder builder = new StringBuilder();
+				builder.append(response.getText());
+				if (response.getChoices() != null && response.getChoices().size() > 0) {
+					builder.append("\n");
+					for (int i = 0; i < response.getChoices().size(); i++) {
+						builder.append((i + 1) + ": ");
+						builder.append(response.getChoices().get(i).getLabelString());
+						builder.append("\n");
+					}
+				}
+
+				System.out.println(builder.toString());
 			}
 
 		});

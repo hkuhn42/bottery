@@ -31,7 +31,10 @@ import com.pengrad.telegrambot.model.File;
 import com.pengrad.telegrambot.model.PhotoSize;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.ForceReply;
+import com.pengrad.telegrambot.model.request.KeyboardButton;
 import com.pengrad.telegrambot.model.request.ParseMode;
+import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
+import com.pengrad.telegrambot.model.request.ReplyKeyboardRemove;
 import com.pengrad.telegrambot.request.GetFile;
 import com.pengrad.telegrambot.request.GetUpdates;
 import com.pengrad.telegrambot.request.SendMessage;
@@ -59,6 +62,10 @@ public class TelegramConnector implements IConnector {
 
 	private TelegramBot	telegramBot;
 	private String		name;
+
+	public TelegramConnector() {
+		this("telegram");
+	}
 
 	public TelegramConnector(String name) {
 		this.name = name;
@@ -149,16 +156,29 @@ public class TelegramConnector implements IConnector {
 		SendMessage request = new SendMessage(Long.valueOf(data.getConversation().getId()), data.getText()).parseMode(ParseMode.HTML)
 		        .disableWebPagePreview(true).disableNotification(true).replyToMessageId(1).replyMarkup(new ForceReply());
 
+		if (data.getChoices() != null && data.getChoices().size() > 0) {
+			KeyboardButton[] buttons = new KeyboardButton[data.getChoices().size()];
+			for (int i = 0; i < data.getChoices().size(); i++) {
+				buttons[i] = new KeyboardButton(data.getChoices().get(i).getLabelString());
+			}
+			ReplyKeyboardMarkup replyMarkup = new ReplyKeyboardMarkup(buttons);
+			request.replyMarkup(replyMarkup);
+			logger.debug("added keyboard with " + data.getChoices().size() + " choices");
+		}
+		else {
+			request.replyMarkup(new ReplyKeyboardRemove());
+		}
+
 		// async
 		telegramBot.execute(request, new Callback<SendMessage, SendResponse>() {
 			@Override
 			public void onResponse(SendMessage request, SendResponse response) {
-				System.out.println(response.description());
+				logger.debug("onResponse " + response.description());
 			}
 
 			@Override
 			public void onFailure(SendMessage request, IOException e) {
-				e.printStackTrace();
+				logger.debug("onFailure", e);
 			}
 		});
 
@@ -171,7 +191,7 @@ public class TelegramConnector implements IConnector {
 						telegramBot.execute(photoRequest, new Callback<SendPhoto, SendResponse>() {
 							@Override
 							public void onResponse(SendPhoto request, SendResponse response) {
-								System.out.println(response.description());
+								logger.debug("onResponse " + response.description());
 							}
 
 							@Override

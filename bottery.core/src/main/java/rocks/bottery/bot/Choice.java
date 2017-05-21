@@ -16,7 +16,7 @@
 /**
  * 
  */
-package rocks.bottery.bot.dialogs;
+package rocks.bottery.bot;
 
 import java.io.Serializable;
 

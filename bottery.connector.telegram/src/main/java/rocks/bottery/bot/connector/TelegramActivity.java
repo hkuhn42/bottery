@@ -21,6 +21,7 @@ import java.util.List;
 import com.pengrad.telegrambot.model.Update;
 
 import rocks.bottery.bot.ActivityType;
+import rocks.bottery.bot.Choice;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IAttachment;
 import rocks.bottery.bot.IConversation;
@@ -242,6 +243,15 @@ public class TelegramActivity implements IActivity {
 	@Override
 	public void setIntent(IIntent<?> intent) {
 		this.intent = intent;
+	}
+
+	@Override
+	public void setChoices(List<Choice<?>> choices) {
+	}
+
+	@Override
+	public List<Choice<?>> getChoices() {
+		return null;
 	}
 
 }

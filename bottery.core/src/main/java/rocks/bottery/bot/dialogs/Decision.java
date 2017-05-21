@@ -15,13 +15,13 @@
  */
 package rocks.bottery.bot.dialogs;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import rocks.bottery.bot.Choice;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.ISession;
-import rocks.bottery.bot.util.IModel;
 import rocks.bottery.bot.util.ISessionModel;
-import rocks.bottery.bot.util.Model;
 
 /**
  * @author Harald Kuhn
@@ -54,21 +54,17 @@ public abstract class Decision<T> extends Question<T> {
 		return null;
 	}
 
-	public IModel<String> getConfirmText(Choice<?> choice) {
-		return new Model<>("OK, added ");
-	}
+	// public IModel<String> getConfirmText(Choice<?> choice) {
+	// return new Model<>("OK, added ");
+	// }
 
 	@Override
 	protected void fillActivity(IActivity request, IActivity response, ISession session) {
 		super.fillActivity(request, response, session);
-		StringBuilder builder = new StringBuilder();
-		builder.append(response.getText());
-		builder.append("\n");
-		for (int i = 0; i < choices.size(); i++) {
-			builder.append((i + 1) + ": ");
-			builder.append(choices.get(i).getLabelString());
-			builder.append("\n");
+		List<Choice<?>> requestChoices = new ArrayList<Choice<?>>();
+		for (Choice<T> choice : choices) {
+			requestChoices.add(choice);
 		}
-		response.setText(builder.toString());
+		response.setChoices(requestChoices);
 	}
 }
