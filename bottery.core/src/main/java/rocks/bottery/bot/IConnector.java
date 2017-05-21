@@ -33,6 +33,9 @@ public interface IConnector {
 	 */
 	public void listen(IBot handler);
 	
+	/**
+	 * shutdown (stop listen)
+	 */
 	public void shutdown();
 
 	/**
