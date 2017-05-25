@@ -17,6 +17,7 @@ package rocks.bottery.bot.dialogs;
 
 import java.util.List;
 
+import rocks.bottery.bot.Choice;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.ISession;
 import rocks.bottery.bot.util.Data;
