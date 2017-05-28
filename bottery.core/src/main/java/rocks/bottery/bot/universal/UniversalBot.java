@@ -12,7 +12,6 @@
  */
 package rocks.bottery.bot.universal;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -56,16 +55,14 @@ public class UniversalBot extends ContextBase implements IBot, Rincled {
 	private Stack<IHandler>			  outInterceptorChain;
 
 	public UniversalBot(IConnector connector) {
+		this(connector, new UniversalBotConfig());
+	}
+
+	public UniversalBot(IConnector connector, IBotConfig botConfig) {
+		this.botConfig = botConfig;
 		this.connector = connector;
 		this.dialogs = new HashMap<>();
 		this.globalCommands = new HashMap<>();
-		try {
-			this.botConfig = new UniversalBotConfig();
-		}
-		catch (IOException e) {
-			throw new RuntimeException("config failed", e);
-		}
-		this.connector.listen(this);
 
 		inInterceptorChain = new Stack<>();
 		inInterceptorChain.push(this); // the bot is the final in handler
@@ -91,6 +88,8 @@ public class UniversalBot extends ContextBase implements IBot, Rincled {
 				outInterceptorChain.push(interceptor);
 			}
 		}
+
+		this.connector.listen(this);
 	}
 
 	@Override
