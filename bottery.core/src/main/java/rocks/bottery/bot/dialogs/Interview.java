@@ -63,7 +63,7 @@ public class Interview implements IDialog {
 	public void handle(ISession session, IActivity activity) {
 		if (resultBeanClazz != null && session.getAttribute(resultBeanName) == null) {
 			try {
-				Serializable resultBean = resultBeanClazz.newInstance();
+				Serializable resultBean = initBean();
 				session.setAttribute(resultBeanName, resultBean);
 			}
 			catch (InstantiationException | IllegalAccessException e) {
@@ -83,5 +83,16 @@ public class Interview implements IDialog {
 		session.setAttribute(instanceStateKey, instanceState);
 
 		activeDialog.handle(session, activity);
+	}
+
+	/**
+	 * initializes a new result bean
+	 * 
+	 * @return
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 */
+	protected Serializable initBean() throws InstantiationException, IllegalAccessException {
+		return resultBeanClazz.newInstance();
 	}
 }
