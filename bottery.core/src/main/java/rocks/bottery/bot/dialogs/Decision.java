@@ -21,7 +21,9 @@ import java.util.List;
 import rocks.bottery.bot.Choice;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.ISession;
+import rocks.bottery.bot.util.IModel;
 import rocks.bottery.bot.util.ISessionModel;
+import rocks.bottery.bot.util.Model;
 
 /**
  * @author Harald Kuhn
@@ -29,11 +31,16 @@ import rocks.bottery.bot.util.ISessionModel;
  */
 public abstract class Decision<T> extends Question<T> {
 
-	private List<Choice<T>> choices;
+	private IModel<List<Choice<T>>> choicesModel;
+
+	public Decision(ISessionModel<T> anwerModel, IModel<List<Choice<T>>> choicesModel) {
+		super(anwerModel);
+		this.choicesModel = choicesModel;
+	}
 
 	public Decision(ISessionModel<T> anwerModel, List<Choice<T>> choices) {
 		super(anwerModel);
-		this.choices = choices;
+		this.choicesModel = new Model<List<Choice<T>>>(choices);
 	}
 
 	@Override
@@ -42,6 +49,7 @@ public abstract class Decision<T> extends Question<T> {
 			return null;
 		}
 		String answer = text.trim();
+		List<Choice<T>> choices = choicesModel.getObject();
 		for (int i = 0; i < choices.size(); i++) {
 			if (answer.indexOf(String.valueOf(i + 1)) >= 0) {
 				return choices.get(i).getValue();
@@ -62,7 +70,7 @@ public abstract class Decision<T> extends Question<T> {
 	protected void fillActivity(IActivity request, IActivity response, ISession session) {
 		super.fillActivity(request, response, session);
 		List<Choice<?>> requestChoices = new ArrayList<Choice<?>>();
-		for (Choice<T> choice : choices) {
+		for (Choice<T> choice : choicesModel.getObject()) {
 			requestChoices.add(choice);
 		}
 		response.setChoices(requestChoices);
