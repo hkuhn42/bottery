@@ -12,7 +12,7 @@ import rocks.bottery.bot.Choice;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IConnector;
 import rocks.bottery.bot.ISession;
-import rocks.bottery.bot.connector.TelegramConnector;
+import rocks.bottery.bot.connector.console.ConsoleConnector;
 import rocks.bottery.bot.dialogs.Decision;
 import rocks.bottery.bot.dialogs.IDialog;
 import rocks.bottery.bot.dialogs.IValidator;
@@ -32,11 +32,6 @@ public class InterviewBot extends UniversalBot {
 
 	public InterviewBot(IConnector connector) {
 		super(connector);
-	}
-
-	public static void main(String[] args) {
-		BasicConfigurator.configure();
-		InterviewBot bot = new InterviewBot(new TelegramConnector());
 
 		List<Choice<String>> choices = new ArrayList<>();
 		choices.add(new Choice<String>("Java", "Java"));
@@ -45,7 +40,7 @@ public class InterviewBot extends UniversalBot {
 
 		// String[] choices = new String[] { "Java", "Groovy", "Scala" };
 
-		bot.setWelcomeDialog(new Interview("statsBean", DeveloperStatsBean.class, new IDialog[] {
+		setWelcomeDialog(new Interview("statsBean", DeveloperStatsBean.class, new IDialog[] {
 
 		        new Question<String>(new SessionPropertyModel<>("statsBean", "name")) {
 			        @Override
@@ -88,6 +83,12 @@ public class InterviewBot extends UniversalBot {
 		        }
 
 		}));
+
+	}
+
+	public static void main(String[] args) {
+		BasicConfigurator.configure();
+		new InterviewBot(new ConsoleConnector());
 
 	}
 

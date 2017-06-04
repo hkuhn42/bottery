@@ -8,11 +8,11 @@ import java.util.List;
 
 import org.apache.log4j.BasicConfigurator;
 
+import rocks.bottery.bot.Choice;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IConnector;
 import rocks.bottery.bot.ISession;
 import rocks.bottery.bot.connector.console.ConsoleConnector;
-import rocks.bottery.bot.dialogs.Choice;
 import rocks.bottery.bot.dialogs.Decision;
 import rocks.bottery.bot.dialogs.IDialog;
 import rocks.bottery.bot.dialogs.Interview;

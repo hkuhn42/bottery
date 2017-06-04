@@ -1,5 +1,6 @@
 version = '0.5'
 
+apply plugin: 'scala'
 
 dependencies {
     compile project(':bottery.core')
