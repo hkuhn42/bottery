@@ -47,8 +47,8 @@ import rocks.bottery.bot.AttachmentType;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IAttachment;
 import rocks.bottery.bot.IBot;
-import rocks.bottery.bot.IConnector;
 import rocks.bottery.bot.IParticipant;
+import rocks.bottery.bot.connector.console.ConnectorBase;
 
 /**
  * @author Harald Kuhn
@@ -56,7 +56,7 @@ import rocks.bottery.bot.IParticipant;
  *         https://github.com/pengrad/java-telegram-bot-api#creating-your-bot
  *
  */
-public class TelegramConnector implements IConnector {
+public class TelegramConnector extends ConnectorBase {
 
 	private Logger		logger = LoggerFactory.getLogger(TelegramConnector.class);
 
@@ -220,20 +220,6 @@ public class TelegramConnector implements IConnector {
 		return null;
 	}
 
-	@Override
-	public IActivity newMessageTo(IParticipant recipientId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public IActivity newReplyTo(IActivity toThisActivity) {
-		GenericActivity activity = new GenericActivity();
-		activity.setRecipient(toThisActivity.getFrom());
-		activity.setConversation(toThisActivity.getConversation());
-		return activity;
-	}
-
 	private GenericAttachment newAttachment(String fileId) throws MalformedURLException {
 		GenericAttachment attachment = new GenericAttachment();
 		GetFile request = new GetFile(fileId);
@@ -250,7 +236,11 @@ public class TelegramConnector implements IConnector {
 
 	@Override
 	public void shutdown() {
-		// TODO Auto-generated method stub
 		telegramBot.removeGetUpdatesListener();
+	}
+
+	@Override
+	protected String getChannel() {
+		return "telegram";
 	}
 }
