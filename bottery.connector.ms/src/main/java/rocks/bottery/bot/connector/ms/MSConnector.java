@@ -77,7 +77,7 @@ public class MSConnector extends ConnectorBase {
 
 		JAXRSServerFactoryBean sf = new JAXRSServerFactoryBean();
 		sf.setResourceClasses(MessageAPI.class);
-		sf.setResourceProvider(MessageAPI.class, new SingletonResourceProvider(new MessageAPIImpl(bot)));
+		sf.setResourceProvider(MessageAPI.class, new SingletonResourceProvider(new MessageAPIImpl(bot, this)));
 		List<Object> providers = new ArrayList<>();
 		JacksonJaxbJsonProvider provider = new JacksonJaxbJsonProvider();
 		provider.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);

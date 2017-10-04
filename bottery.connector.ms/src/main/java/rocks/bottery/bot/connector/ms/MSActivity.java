@@ -25,6 +25,7 @@ import rocks.bottery.bot.IAttachment;
 import rocks.bottery.bot.IConversation;
 import rocks.bottery.bot.IIntent;
 import rocks.bottery.bot.IParticipant;
+import rocks.bottery.bot.connector.GenericActivity;
 import rocks.bottery.bot.connector.ms.model.Activity;
 import rocks.bottery.bot.connector.ms.model.Attachment;
 import rocks.bottery.bot.connector.ms.model.ChannelAccount;
@@ -33,7 +34,7 @@ import rocks.bottery.bot.connector.ms.model.ChannelAccount;
  * @author Harald Kuhn
  *
  */
-public class MSActivity implements IActivity {
+public class MSActivity extends GenericActivity implements IActivity {
 
 	private IIntent<?> intent;
 	private Activity   activity;
@@ -189,8 +190,12 @@ public class MSActivity implements IActivity {
 	}
 
 	@Override
-	public void setAttachments(List<IAttachment> attachement) {
+	public void setAttachments(List<IAttachment> attachments) {
+		List<Attachment> msAttachments = new ArrayList<>();
+		for (IAttachment attachment : attachments) {
 
+		}
+		activity.setAttachments(msAttachments);
 	}
 
 	@Override
