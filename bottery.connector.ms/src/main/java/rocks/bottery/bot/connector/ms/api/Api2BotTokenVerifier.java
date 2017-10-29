@@ -1,17 +1,14 @@
 /**
- *    Copyright (C) 2016-2017 Harald Kuhn
+ * Copyright (C) 2016-2017 Harald Kuhn
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  */
 
 package rocks.bottery.bot.connector.ms.api;
@@ -58,10 +55,16 @@ public class Api2BotTokenVerifier {
 	private long			 configFetched;
 	private String			 issuer					   = DEFAULT_ISSUER;
 
+	private String			 appId;
+
+	public Api2BotTokenVerifier(String appId) {
+		this.appId = appId;
+	}
+
 	public boolean verifyToken(String token) {
 		// fetch config
 		if (config == null || isConfigToOld()) {
-			config = initOpenIdRestProxy(OPEN_ID_METADATA_API_3_0).getOpenIdConfiguration();
+			config = initOpenIdRestProxy(OPEN_ID_METADATA_API_3_1).getOpenIdConfiguration();
 
 			configFetched = System.currentTimeMillis();
 		}
@@ -75,10 +78,9 @@ public class Api2BotTokenVerifier {
 
 		JwtConsumer jwtConsumer = new JwtConsumerBuilder()
 
-		        .setVerificationKeyResolver(httpsJwksKeyResolver).setRequireExpirationTime()
-		        .setMaxFutureValidityInMinutes(20).setAllowedClockSkewInSeconds(5)
+		        .setVerificationKeyResolver(httpsJwksKeyResolver).setRequireExpirationTime().setMaxFutureValidityInMinutes(20).setAllowedClockSkewInSeconds(5)
 		        // .setRequireSubject() // the JWT must have a subject claim
-		        .setExpectedIssuer(issuer).setExpectedAudience(System.getProperty("MICROSOFT_APP_ID")).build(); // create
+		        .setExpectedIssuer(issuer).setExpectedAudience(getAppId()).build(); // create
 
 		try {
 			// Validate the JWT and process it to the Claims
@@ -90,6 +92,10 @@ public class Api2BotTokenVerifier {
 			logger.debug("Invalid Token " + e);
 			return false;
 		}
+	}
+
+	protected String getAppId() {
+		return appId;
 	}
 
 	protected static OpenIdAPI initOpenIdRestProxy(String url) {
