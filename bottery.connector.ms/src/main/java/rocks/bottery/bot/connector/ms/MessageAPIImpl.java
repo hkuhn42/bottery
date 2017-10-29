@@ -31,10 +31,10 @@ public class MessageAPIImpl implements MessageAPI {
 	private IConnector			 connector;
 	private Api2BotTokenVerifier verifier;
 
-	public MessageAPIImpl(IBot bot, IConnector connector) {
+	public MessageAPIImpl(IBot bot, IConnector connector, String appId) {
 		this.bot = bot;
 		this.connector = connector;
-		this.verifier = new Api2BotTokenVerifier();
+		this.verifier = new Api2BotTokenVerifier(appId);
 	}
 
 	/*
@@ -44,7 +44,9 @@ public class MessageAPIImpl implements MessageAPI {
 	 */
 	@Override
 	public Response receive(String bearer, Activity message) {
-		verifier.verifyToken(bearer.replace("Bearer ", ""));
+		// only in dev mode
+		if (bearer != null && bearer.length() > 0)
+			verifier.verifyToken(bearer.replace("Bearer ", ""));
 		bot.receive(new MSActivity(message), connector);
 		return Response.ok().build();
 	}

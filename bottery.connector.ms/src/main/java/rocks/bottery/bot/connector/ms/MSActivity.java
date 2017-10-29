@@ -36,8 +36,10 @@ import rocks.bottery.bot.connector.ms.model.ChannelAccount;
  */
 public class MSActivity extends GenericActivity implements IActivity {
 
-	private IIntent<?> intent;
-	private Activity   activity;
+	private static final long serialVersionUID = 1L;
+
+	private IIntent<?>		  intent;
+	private Activity		  activity;
 
 	MSActivity(Activity activity) {
 		this.activity = activity;

@@ -15,11 +15,13 @@
  */
 package rocks.bottery.bot.connector.ms;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.cxf.binding.BindingFactoryManager;
 import org.apache.cxf.endpoint.Server;
+import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.jaxrs.JAXRSBindingFactory;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
@@ -33,6 +35,8 @@ import rocks.bottery.bot.connector.console.ConnectorBase;
 import rocks.bottery.bot.connector.ms.api.BotClient;
 import rocks.bottery.bot.connector.ms.api.MessageAPI;
 import rocks.bottery.bot.connector.ms.model.Activity;
+import rocks.bottery.bot.connector.ms.model.ChannelAccount;
+import rocks.bottery.bot.connector.ms.model.ConversationAccount;
 
 /**
  * Connector implementation for the ms bot apis
@@ -41,17 +45,19 @@ import rocks.bottery.bot.connector.ms.model.Activity;
  */
 public class MSConnector extends ConnectorBase {
 
-	private BotClient	 client;
+	private static final String	MICROSOFT_APP_ID = "MICROSOFT_APP_ID";
 
-	private String		 address;
+	private BotClient			client;
 
-	public static String LOCAL_ADDRESS = "http://localhost";
+	private String				address;
 
-	public static String LOCAL_PORT	   = "3978";
+	public static String		LOCAL_ADDRESS	 = "http://localhost";
 
-	private Server		 server;
+	public static String		LOCAL_PORT		 = "3978";
 
-	private String		 name;
+	private Server				server;
+
+	private String				name;
 
 	public MSConnector() {
 		this("msBotFramework");
@@ -77,16 +83,19 @@ public class MSConnector extends ConnectorBase {
 
 		JAXRSServerFactoryBean sf = new JAXRSServerFactoryBean();
 		sf.setResourceClasses(MessageAPI.class);
-		sf.setResourceProvider(MessageAPI.class, new SingletonResourceProvider(new MessageAPIImpl(bot, this)));
+		sf.setResourceProvider(MessageAPI.class,
+		        new SingletonResourceProvider(new MessageAPIImpl(bot, this, bot.getBotConfig().getSetting(name + "." + MICROSOFT_APP_ID))));
 		List<Object> providers = new ArrayList<>();
 		JacksonJaxbJsonProvider provider = new JacksonJaxbJsonProvider();
 		provider.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
+		provider.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
 		providers.add(provider);
 		sf.setProviders(providers);
 		sf.setAddress(address);
 		BindingFactoryManager manager = sf.getBus().getExtension(BindingFactoryManager.class);
 		JAXRSBindingFactory factory = new JAXRSBindingFactory();
 		factory.setBus(sf.getBus());
+		sf.getBus().getInInterceptors().add(new LoggingInInterceptor());
 		manager.registerBindingFactory(JAXRSBindingFactory.JAXRS_BINDING_ID, factory);
 		server = sf.create();
 	}
@@ -121,15 +130,32 @@ public class MSConnector extends ConnectorBase {
 	}
 
 	@Override
-	public IActivity newMessageTo(IParticipant recipientId) {
-		// TODO Auto-generated method stub
-		return null;
+	public IActivity newMessageTo(IParticipant recipient) {
+		Activity activity = new Activity();
+		activity.setType("message");
+		activity.setId("A" + new SecureRandom().nextLong());
+		ChannelAccount account = toAccount(recipient);
+		activity.setRecipient(account);
+
+		MSActivity msActivity = new MSActivity(activity);
+		return msActivity;
 	}
 
 	@Override
 	public IActivity newReplyTo(IActivity toThisActivity) {
-		// TODO Auto-generated method stub
-		return null;
+		MSActivity activity = (MSActivity) newMessageTo(toThisActivity.getFrom());
+		activity.setFrom(toThisActivity.getRecipient());
+		ConversationAccount conversation = new ConversationAccount();
+		conversation.setId(toThisActivity.getConversation().getId());
+		conversation.setName(toThisActivity.getConversation().getChannel());
+		activity.getActivity().setConversation(conversation);
+		activity.getActivity().setReplyToId(toThisActivity.getId());
+		if (toThisActivity instanceof MSActivity) {
+			activity.getActivity().setServiceUrl(((MSActivity) toThisActivity).getActivity().getServiceUrl());
+			System.out.println("service url: " + activity.getActivity().getServiceUrl());
+		}
+
+		return activity;
 	}
 
 	@Override
@@ -138,4 +164,10 @@ public class MSConnector extends ConnectorBase {
 		server.destroy();
 	}
 
+	private ChannelAccount toAccount(IParticipant recipient) {
+		ChannelAccount account = new ChannelAccount();
+		account.setId(recipient.getId());
+		account.setName(recipient.getName());
+		return account;
+	}
 }
