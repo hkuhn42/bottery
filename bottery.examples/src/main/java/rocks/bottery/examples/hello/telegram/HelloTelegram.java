@@ -12,6 +12,6 @@ public class HelloTelegram {
 
 	public static void main(String[] args) {
 		BasicConfigurator.configure();
-		new EchoBot(new TelegramConnector("telegram"));
+		new TelegramConnector("telegram").listen(new EchoBot());
 	}
 }

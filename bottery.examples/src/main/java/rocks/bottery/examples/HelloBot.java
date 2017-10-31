@@ -4,7 +4,6 @@
 package rocks.bottery.examples;
 
 import rocks.bottery.bot.IActivity;
-import rocks.bottery.bot.IConnector;
 import rocks.bottery.bot.ISession;
 import rocks.bottery.bot.dialogs.Utterance;
 import rocks.bottery.bot.universal.UniversalBot;
@@ -19,8 +18,7 @@ import rocks.bottery.bot.util.Model;;
  */
 public class HelloBot extends UniversalBot {
 
-	public HelloBot(IConnector connector) {
-		super(connector);
+	public HelloBot() {
 
 		setWelcomeDialog(new Utterance() {
 			@Override
