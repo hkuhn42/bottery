@@ -12,6 +12,6 @@ public class HelloConsoleConnector {
 
 	public static void main(String[] args) {
 		BasicConfigurator.configure();
-		new HelloBot(new ConsoleConnector());
+		new ConsoleConnector().listen(new HelloBot());
 	}
 }

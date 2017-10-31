@@ -10,9 +10,8 @@ import org.apache.log4j.BasicConfigurator;
 
 import rocks.bottery.bot.Choice;
 import rocks.bottery.bot.IActivity;
-import rocks.bottery.bot.IConnector;
 import rocks.bottery.bot.ISession;
-import rocks.bottery.bot.connector.console.ConsoleConnector;
+import rocks.bottery.bot.connector.ms.MSConnector;
 import rocks.bottery.bot.dialogs.Decision;
 import rocks.bottery.bot.dialogs.IDialog;
 import rocks.bottery.bot.dialogs.Interview;
@@ -29,13 +28,9 @@ import rocks.bottery.bot.util.SessionModel;;
  */
 public class WaterfallBot extends UniversalBot {
 
-	public WaterfallBot(IConnector connector) {
-		super(connector);
-	}
-
 	public static void main(String[] args) {
 		BasicConfigurator.configure();
-		WaterfallBot bot = new WaterfallBot(new ConsoleConnector());
+		WaterfallBot bot = new WaterfallBot();
 
 		List<Choice<String>> choices = new ArrayList<>();
 		choices.add(new Choice<String>("Java", "Java"));
@@ -94,6 +89,7 @@ public class WaterfallBot extends UniversalBot {
 
 		}));
 
+		new MSConnector().listen(bot);
 	}
 
 }

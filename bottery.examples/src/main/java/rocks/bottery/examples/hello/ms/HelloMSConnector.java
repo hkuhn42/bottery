@@ -12,6 +12,6 @@ public class HelloMSConnector {
 
 	public static void main(String[] args) {
 		BasicConfigurator.configure();
-		new HelloBot(new MSConnector());
+		new MSConnector().listen(new HelloBot());
 	}
 }
