@@ -1,17 +1,14 @@
 /**
- *    Copyright (C) 2016-2017 Harald Kuhn
+ * Copyright (C) 2016-2017 Harald Kuhn
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  */
 /**
  * 
@@ -23,11 +20,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
+import rocks.bottery.bot.interceptors.InterceptorBase;
+
 /**
  * @author Harald Kuhn
  *
  */
-public class InMemoryActivityArchive implements IActivityArchive {
+public class InMemoryActivityArchive extends InterceptorBase implements IActivityArchive {
 
 	private Map<String, List<IActivity>> conversations;
 
@@ -48,6 +49,8 @@ public class InMemoryActivityArchive implements IActivityArchive {
 			conversations.put(session.getId(), activities);
 		}
 		activities.add(activity);
+		Logger.getLogger(InMemoryActivityArchive.class).info("archived " + activity.getId() + " " + activity.getType() + " " + activity.getText());
+		nextInChain.handle(session, activity);
 	}
 
 	/*
@@ -70,4 +73,15 @@ public class InMemoryActivityArchive implements IActivityArchive {
 		return conversations.get(id);
 	}
 
+	@Override
+	public IActivity getActivityById(String id) {
+		for (List<IActivity> conv : conversations.values()) {
+			for (IActivity activity : conv) {
+				if (id.equalsIgnoreCase(activity.getId())) {
+					return activity;
+				}
+			}
+		}
+		return null;
+	}
 }

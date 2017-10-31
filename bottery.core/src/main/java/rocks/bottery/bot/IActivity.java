@@ -133,4 +133,5 @@ public interface IActivity {
 	 * 
 	 */
 	public List<Choice<?>> getChoices();
+
 }

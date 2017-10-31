@@ -1,5 +1,7 @@
 package rocks.bottery.bot.connector.console;
 
+import java.util.Random;
+
 import rocks.bottery.bot.ActivityType;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IConnector;
@@ -23,8 +25,9 @@ public abstract class ConnectorBase implements IConnector {
 		conversation.setId(String.valueOf(this.hashCode()));
 		conversation.setChannel(getChannel());
 		activity.setConversation(conversation);
-
 		activity.setFrom(getConnectorAccount());
+
+		activity.setId(String.valueOf("c" + new Random().nextLong()));
 
 		activity.setRecipient(new GenericParticipant());
 		activity.getRecipient().setId(recipient.getId());

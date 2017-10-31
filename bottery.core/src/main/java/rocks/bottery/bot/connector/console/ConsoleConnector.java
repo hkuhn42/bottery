@@ -45,18 +45,15 @@ public class ConsoleConnector extends ExecutorConnectorBase {
 				IActivity activity = newMessageTo(new GenericParticipant("shell", "shell"));
 				activity.setText(text);
 
-				handler.receive(activity);
+				handler.receive(activity, ConsoleConnector.this);
 				listen(handler);
 			}
 		});
-		// t.start();
-
 	}
 
 	@Override
 	public void send(final IActivity response) {
 		executor.submit(new Runnable() {
-			// Thread t = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
@@ -75,7 +72,6 @@ public class ConsoleConnector extends ExecutorConnectorBase {
 			}
 
 		});
-		// t.start();
 	}
 
 	@Override

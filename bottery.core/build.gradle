@@ -1,4 +1,4 @@
-version = '0.51'
+version = '0.52'
 
 
 
@@ -7,10 +7,10 @@ dependencies {
 
     compile 'org.apache.httpcomponents:httpclient:4.5.3'
     compile 'commons-beanutils:commons-beanutils:1.9.3'
-    
+    // i18n
     compile 'io.rincl:rincl:0.7.1'
     compile 'io.rincl:rincl-resourcebundle:0.7.1'
-    
+    // text templates
     compile 'com.github.spullara.mustache.java:compiler:0.9.2'
 
     

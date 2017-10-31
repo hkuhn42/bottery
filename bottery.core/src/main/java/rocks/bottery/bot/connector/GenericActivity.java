@@ -25,6 +25,7 @@ import rocks.bottery.bot.IAttachment;
 import rocks.bottery.bot.IConversation;
 import rocks.bottery.bot.IIntent;
 import rocks.bottery.bot.IParticipant;
+import rocks.bottery.bot.ISession;
 
 /**
  * @author Harald Kuhn
@@ -53,6 +54,8 @@ public class GenericActivity implements Serializable, IActivity {
 	private IIntent<?>		  intent;
 
 	private List<Choice<?>>	  choices;
+
+	private ISession		  session;
 
 	/*
 	 * (non-Javadoc)

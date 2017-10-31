@@ -30,7 +30,6 @@ import rocks.bottery.bot.dialogs.IDialog;
 public class UniversalSession extends ContextBase implements ISession {
 
 	private IBot	   bot;
-	private boolean	   typing;
 	private IDialog	   dialog;
 	private IConnector connector;
 	private String	   id;

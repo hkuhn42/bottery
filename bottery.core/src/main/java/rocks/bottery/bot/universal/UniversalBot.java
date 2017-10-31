@@ -29,6 +29,7 @@ import rocks.bottery.bot.IConnector;
 import rocks.bottery.bot.IHandler;
 import rocks.bottery.bot.ISession;
 import rocks.bottery.bot.dialogs.IDialog;
+import rocks.bottery.bot.interceptors.DuplicateMessageFilter;
 import rocks.bottery.bot.interceptors.IInterceptor;
 import rocks.bottery.bot.recognizers.IRecognizer;
 
@@ -47,28 +48,31 @@ public class UniversalBot extends ContextBase implements IBot, Rincled {
 
 	private Map<IRecognizer, IDialog> dialogs;
 
-	private IConnector				  connector;
-
 	private IBotConfig				  botConfig;
 
 	private Stack<IHandler>			  inInterceptorChain;
 	private Stack<IHandler>			  outInterceptorChain;
 
-	public UniversalBot(IConnector connector) {
-		this(connector, new UniversalBotConfig());
+	public UniversalBot() {
+		this(new UniversalBotConfig());
 	}
 
-	public UniversalBot(IConnector connector, IBotConfig botConfig) {
+	public UniversalBot(IBotConfig botConfig) {
 		this.botConfig = botConfig;
-		this.connector = connector;
 		this.dialogs = new HashMap<>();
 		this.globalCommands = new HashMap<>();
 
 		inInterceptorChain = new Stack<>();
 		inInterceptorChain.push(this); // the bot is the final in handler
 		if (botConfig.getArchive() != null) {
+			botConfig.getArchive().chain(inInterceptorChain.peek());
 			inInterceptorChain.push(botConfig.getArchive());
 		}
+
+		if (true) {// fixme: add to config
+			inInterceptorChain.push(new DuplicateMessageFilter(botConfig.getArchive()));
+		}
+
 		if (!botConfig.getInInterceptors().isEmpty()) {
 			for (IInterceptor interceptor : botConfig.getInInterceptors()) {
 				interceptor.chain(inInterceptorChain.peek());
@@ -89,11 +93,10 @@ public class UniversalBot extends ContextBase implements IBot, Rincled {
 			}
 		}
 
-		this.connector.listen(this);
 	}
 
 	@Override
-	public void receive(IActivity activity) {
+	public void receive(IActivity activity, IConnector connector) {
 		String convId = activity.getConversation().getId();
 		ISession session = botConfig.getSessionStore().find(convId);
 		logger.debug("receive activity of  type " + activity.getType() + " " + activity.getText());
@@ -102,11 +105,13 @@ public class UniversalBot extends ContextBase implements IBot, Rincled {
 			session = new UniversalSession(convId, this, connector);
 			botConfig.getSessionStore().add(convId, session);
 		}
-		handle(session, activity);
+		inInterceptorChain.peek().handle(session, activity);
+		// handle(session, activity);
 	}
 
 	@Override
 	public void handle(ISession session, IActivity activity) {
+
 		if (ActivityType.MESSAGE == activity.getType()) {
 			IDialog dialog = findDialog(session, activity);
 			((UniversalSession) session).setActiveDialog(dialog);
@@ -144,12 +149,6 @@ public class UniversalBot extends ContextBase implements IBot, Rincled {
 
 	public void addGlobalCommand(IRecognizer recognizer, IDialog dialog) {
 		globalCommands.put(recognizer, dialog);
-	}
-
-	@Override
-	public void send(IActivity activity) {
-		logger.debug("send from " + activity.getFrom().getName() + " to " + activity.getRecipient().getName());
-		connector.send(activity);
 	}
 
 	public void setWelcomeDialog(IDialog welcomeDialog) {
