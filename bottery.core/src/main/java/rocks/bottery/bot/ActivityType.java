@@ -28,6 +28,11 @@ public enum ActivityType implements Serializable {
 	/**
 	 * a message with text, attachements etc.
 	 */
-	MESSAGE
+	MESSAGE,
+
+	/**
+	 * a new contact
+	 */
+	NEW_CONTACT
 
 }

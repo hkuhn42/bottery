@@ -111,8 +111,8 @@ public class UniversalBot extends ContextBase implements IBot, Rincled {
 
 	@Override
 	public void handle(ISession session, IActivity activity) {
-
-		if (ActivityType.MESSAGE == activity.getType()) {
+		System.out.println(activity.getType());
+		if (ActivityType.MESSAGE == activity.getType() || ActivityType.NEW_CONTACT == activity.getType()) {
 			IDialog dialog = findDialog(session, activity);
 			((UniversalSession) session).setActiveDialog(dialog);
 			dialog.handle(session, activity);

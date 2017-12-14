@@ -44,4 +44,9 @@ public abstract class ConnectorBase implements IConnector {
 
 	protected abstract String getChannel();
 
+	@Override
+	public void shutdown() {
+
+	}
+
 }

@@ -100,6 +100,9 @@ public class MSActivity extends GenericActivity implements IActivity {
 		if ("message".equalsIgnoreCase(type)) {
 			return ActivityType.MESSAGE;
 		}
+		else if ("contactRelationUpdate".equalsIgnoreCase(type) && "add".equalsIgnoreCase(activity.getAction())) {
+			return ActivityType.NEW_CONTACT;
+		}
 		else if ("typing".equalsIgnoreCase(type)) {
 			return ActivityType.OTHER;
 		}
