@@ -27,6 +27,14 @@ import rocks.bottery.bot.util.IModel;
 import rocks.bottery.bot.util.ISessionModel;
 
 /**
+ * A simple question
+ * 
+ * It has a simple two state design initially giving the question and then expecting an answer which is stored via a
+ * session model. The questions text is retrieved from a model via getText. The answer will be converted to the
+ * answerModesl Data type and can be validated by a custom validator.
+ * 
+ * It acts similar to a field in a form with a label and an input.
+ * 
  * @author Harald Kuhn
  *
  */
@@ -43,14 +51,25 @@ public abstract class Question<T> extends DialogBase {
 	 */
 	private String			 answerIntentKey;
 
+	// the key used to store the state of this question in the session
+	private String			 instanceStateKey;
+
+	/**
+	 * Creates a new Question
+	 * 
+	 * @param anwerModel
+	 *            the model to store the answer in
+	 */
 	public Question(ISessionModel<T> anwerModel) {
 		this.answerModel = anwerModel;
+		instanceStateKey = String.valueOf(this.hashCode());
 	}
 
 	/**
 	 * use only for subclassing when {@link #answered(Object, ISession)} is overwritten
 	 */
 	protected Question() {
+		instanceStateKey = String.valueOf(this.hashCode());
 	}
 
 	/*
@@ -62,9 +81,15 @@ public abstract class Question<T> extends DialogBase {
 	public void handle(ISession session, IActivity activity) {
 		T answer = null;
 		// check wether we have asked for this session
-		Object alreadyAsked = session.getAttribute(String.valueOf(this.hashCode()));
-		logger.debug("asked code =  " + alreadyAsked);
-		if (alreadyAsked != null) {
+		Object alreadyAsked = session.getAttribute(instanceStateKey);
+		logger.debug("asked:  " + instanceStateKey + "  = " + alreadyAsked);
+		if (alreadyAsked == null) {
+			// and remember in the stream
+			session.setAttribute(instanceStateKey, "asked");
+			// if not call super (utterance will output the question)
+			super.handle(session, activity);
+		}
+		else {
 			String text = activity.getText();
 			try {
 				answer = findAnswer(text, activity, session);
@@ -74,15 +99,16 @@ public abstract class Question<T> extends DialogBase {
 			}
 
 			if (answer != null) {
+				IModel<String> confirmTextModel = getConfirmText();
+				if (confirmTextModel != null) {
+					IActivity confirm = session.getConnector().newReplyTo(activity);
+					confirm.setText(confirmTextModel.getObject());
+					session.send(confirm);
+				}
 				answered(answer, activity, session);
 				return;
 			}
-		}
-		else {
-			// if not call super (utterance will output the question)
-			super.handle(session, activity);
-			// and remember in the stream
-			session.setAttribute(String.valueOf(this.hashCode()), "asked");
+
 		}
 	}
 
@@ -94,8 +120,9 @@ public abstract class Question<T> extends DialogBase {
 	 * @param session
 	 */
 	protected void answered(T answer, IActivity answerActivity, ISession session) {
-		session.removeAttribut("asked");
+		session.removeAttribut(instanceStateKey);
 		answerModel.setObject(answer, session);
+		// send the current text on to the next dialog to "trigger" it
 		session.activeDialogFinished(answerActivity);
 	}
 
@@ -137,10 +164,20 @@ public abstract class Question<T> extends DialogBase {
 		return answerValidator;
 	}
 
+	/**
+	 * Set a customm answer validator
+	 * 
+	 * @param answerValidator
+	 */
 	public void setAnswerValidator(IValidator<T> answerValidator) {
 		this.answerValidator = answerValidator;
 	}
 
+	/**
+	 * Get the confirm text
+	 * 
+	 * @return
+	 */
 	public IModel<String> getConfirmText() {
 		return confirmText;
 	}

@@ -25,7 +25,10 @@ import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.ISession;
 
 /**
- * Simple waterfall dialog subdialogs are processes in sequence
+ * Simple waterfall dialog which consists of a number of subdialogs which are processes in sequence
+ * 
+ * The inverview keeps track of the index of the current subdialog and sets the next one as activeDialog each time the
+ * previous one calls finished
  * 
  * @author Harald Kuhn
  */
@@ -76,6 +79,8 @@ public class Interview implements IDialog {
 		}
 		else if (instanceState >= dialogs.size()) {
 			instanceState = new Integer(0);
+			// finish?
+			session.activeDialogFinished();
 		}
 		IDialog activeDialog = dialogs.get(instanceState.intValue());
 		session.setActiveDialog(activeDialog);

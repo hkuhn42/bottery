@@ -26,6 +26,8 @@ import rocks.bottery.bot.util.ISessionModel;
 import rocks.bottery.bot.util.Model;
 
 /**
+ * A decision is a {@link Question} with a coice of possible answers
+ * 
  * @author Harald Kuhn
  *
  */
