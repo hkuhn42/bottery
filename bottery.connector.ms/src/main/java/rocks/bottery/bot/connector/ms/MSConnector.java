@@ -76,15 +76,21 @@ public class MSConnector extends ConnectorBase {
 	public void listen(IBot bot) {
 
 		this.client = new BotClient(name, bot.getBotConfig());
+		MessageAPIImpl messageApi = new MessageAPIImpl(bot, this, bot.getBotConfig().getSetting(name + "." + MICROSOFT_APP_ID));
 		this.address = bot.getBotConfig().getSetting(name + ".serverAddress");
+		publish(messageApi);
+	}
+
+	protected void publish(MessageAPIImpl messageApi) {
+
 		if (address == null) {
 			address = LOCAL_ADDRESS + ":" + LOCAL_PORT;
 		}
 
 		JAXRSServerFactoryBean sf = new JAXRSServerFactoryBean();
 		sf.setResourceClasses(MessageAPI.class);
-		sf.setResourceProvider(MessageAPI.class,
-		        new SingletonResourceProvider(new MessageAPIImpl(bot, this, bot.getBotConfig().getSetting(name + "." + MICROSOFT_APP_ID))));
+
+		sf.setResourceProvider(MessageAPI.class, new SingletonResourceProvider(messageApi));
 		List<Object> providers = new ArrayList<>();
 		JacksonJaxbJsonProvider provider = new JacksonJaxbJsonProvider();
 		provider.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
@@ -152,7 +158,6 @@ public class MSConnector extends ConnectorBase {
 		activity.getActivity().setReplyToId(toThisActivity.getId());
 		if (toThisActivity instanceof MSActivity) {
 			activity.getActivity().setServiceUrl(((MSActivity) toThisActivity).getActivity().getServiceUrl());
-			System.out.println("service url: " + activity.getActivity().getServiceUrl());
 		}
 
 		return activity;

@@ -15,6 +15,8 @@ package rocks.bottery.bot;
 import java.io.Serializable;
 
 /**
+ * Not all types are supported by all connectors
+ * 
  * @author Harald Kuhn
  *
  */
@@ -33,6 +35,13 @@ public enum ActivityType implements Serializable {
 	/**
 	 * a new contact
 	 */
-	NEW_CONTACT
+	NEW_CONTACT,
+
+	/**
+	 * start a new conversation / chat
+	 * 
+	 * only Bot 2 Bot
+	 */
+	START,
 
 }
