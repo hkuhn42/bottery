@@ -33,7 +33,7 @@ public class DiscordConnector extends ConnectorBase {
 	@Override
 	public void register(IBot bot) {
 		this.bot = bot;
-		client = createClient("Mzk0OTIzNjg1NDc3MzUxNDI3.DSLZIQ.L2ss8RFsAZhgDhodcp9nfxSRD3Y", true);
+		client = createClient(bot.getBotConfig().getSetting("discord.token"), true);
 		EventDispatcher dispatcher = client.getDispatcher();
 		dispatcher.registerListener(this);
 	}
