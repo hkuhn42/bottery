@@ -8,13 +8,24 @@ implementations and examples in a later release.
 
 This is still in alpha state so expect api changes
 
+## Changelog
+
+# 0.6
+- Added connector registry and notifications
+- Added connector registry to access connectors by channel
+- Added notifiers to trigger activities (e.g. by time etc)
+- New discord connector
+
 ## Features
 - basic framework
 - i18n support with rincl
 - text template support with mustache
 - console connector for testing
 - telegram connector
+- discord connector
 - microsoft bot framework connector
+- Bot2Bot Connector for in unit tests
+- Notifiers to trigger activities (e.g. by time)
 
 
 ## Getting started
@@ -52,4 +63,4 @@ The original implementation was part of an effort to bring voice and text assist
 Some of the concepts for voice made it into the eclipse smarthome core and the rest eventually evolved into this framework.
 
 ## Name
-The name is a combination of the words bot, battery and potter
+The name is a combination of the words bot, battery and potter, make of it what you want :)
