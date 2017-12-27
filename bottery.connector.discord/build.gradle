@@ -1,0 +1,14 @@
+version = '0.6'
+
+repositories {
+  jcenter() //This prevents issues with transitive dependencies
+  maven {
+    url  "https://jitpack.io"
+  }
+}
+
+dependencies {
+    compile project(':bottery.core')
+    
+    compile "com.github.austinv11:Discord4J:2.9.3"
+}
