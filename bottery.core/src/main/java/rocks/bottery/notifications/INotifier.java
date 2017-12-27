@@ -10,29 +10,21 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/**
- * 
- */
-package rocks.bottery.bot.dialogs;
+package rocks.bottery.notifications;
 
 import rocks.bottery.bot.IActivity;
-import rocks.bottery.bot.IParticipant;
-import rocks.bottery.bot.ISession;
-import rocks.bottery.connector.IConnector;
+import rocks.bottery.messaging.IMessagingContext;
 
 /**
+ * Can be used to send activities to recipients based on arbital triggers (anything but a recent message)
+ * 
+ * E.g. Timers or Events
+ * 
  * @author Harald Kuhn
  *
  */
-public class HandoffDialog implements IDialog {
+public interface INotifier {
 
-	private IConnector	 connector;
-	private IParticipant target;
-
-	@Override
-	public void handle(ISession session, IActivity request) {
-		IActivity answer = connector.newReplyTo(request);
-		session.send(answer);
-	}
+	public IActivity send(ITrigger trigger, IMessagingContext context);
 
 }

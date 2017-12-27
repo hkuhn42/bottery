@@ -8,8 +8,8 @@ import java.util.Stack;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IBot;
 import rocks.bottery.bot.IParticipant;
-import rocks.bottery.bot.connector.GenericParticipant;
-import rocks.bottery.bot.connector.console.ConnectorBase;
+import rocks.bottery.connector.GenericParticipant;
+import rocks.bottery.connector.console.ConnectorBase;
 
 /**
  * @author Harald Kuhn
@@ -31,7 +31,7 @@ public class TestConnector extends ConnectorBase {
 	 * @see rocks.bottery.bot.IConnector#listen(rocks.bottery.bot.IBot)
 	 */
 	@Override
-	public void listen(IBot bot) {
+	public void register(IBot bot) {
 		this.bot = bot;
 		bot.receive(testActivities.pop(), this);
 	}
@@ -71,7 +71,7 @@ public class TestConnector extends ConnectorBase {
 	 * @see rocks.bottery.bot.connector.console.ConnectorBase#getChannel()
 	 */
 	@Override
-	protected String getChannel() {
+	public String getChannel() {
 		return "test";
 	}
 

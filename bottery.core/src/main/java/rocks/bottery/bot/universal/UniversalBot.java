@@ -25,13 +25,13 @@ import rocks.bottery.bot.ContextBase;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IBot;
 import rocks.bottery.bot.IBotConfig;
-import rocks.bottery.bot.IConnector;
 import rocks.bottery.bot.IHandler;
 import rocks.bottery.bot.ISession;
 import rocks.bottery.bot.dialogs.IDialog;
 import rocks.bottery.bot.interceptors.DuplicateMessageFilter;
 import rocks.bottery.bot.interceptors.IInterceptor;
 import rocks.bottery.bot.recognizers.IRecognizer;
+import rocks.bottery.connector.IConnector;
 
 /**
  * General purpose bot implementation
@@ -99,19 +99,23 @@ public class UniversalBot extends ContextBase implements IBot, Rincled {
 	public void receive(IActivity activity, IConnector connector) {
 		String convId = activity.getConversation().getId();
 		ISession session = botConfig.getSessionStore().find(convId);
-		logger.debug("receive activity of  type " + activity.getType() + " " + activity.getText());
+		logger.debug("receive activity of  type " + activity.getType() + " " + activity.getText() + " " + activity.getConversation().getId());
 		if (session == null) {
-			logger.debug("new session");
-			session = new UniversalSession(convId, this, connector);
-			botConfig.getSessionStore().add(convId, session);
+			session = createSession(connector, convId);
 		}
 		inInterceptorChain.peek().handle(session, activity);
 		// handle(session, activity);
 	}
 
+	protected ISession createSession(IConnector connector, String convId) {
+		logger.debug("new session");
+		ISession session = new UniversalSession(convId, this, connector);
+		botConfig.getSessionStore().add(convId, session);
+		return session;
+	}
+
 	@Override
 	public void handle(ISession session, IActivity activity) {
-		System.out.println(activity.getType());
 		if (ActivityType.MESSAGE == activity.getType() || ActivityType.NEW_CONTACT == activity.getType()) {
 			IDialog dialog = findDialog(session, activity);
 			((UniversalSession) session).setActiveDialog(dialog);

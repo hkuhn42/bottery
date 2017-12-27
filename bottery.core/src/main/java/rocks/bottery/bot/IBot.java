@@ -13,6 +13,7 @@
 package rocks.bottery.bot;
 
 import io.rincl.Rincled;
+import rocks.bottery.connector.IConnector;
 
 /**
  * Defines a generic bot

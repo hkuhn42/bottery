@@ -14,6 +14,7 @@ package rocks.bottery.bot;
 
 import io.rincl.Rincled;
 import rocks.bottery.bot.dialogs.IDialog;
+import rocks.bottery.connector.IConnector;
 
 /**
  * A bot session A session is generally created for one chat or thread (depending on the implementation) with one or
@@ -44,7 +45,14 @@ public interface ISession extends IContext, Rincled {
 	 */
 	public IBot getBot();
 
+	/**
+	 * @deprecated use connector registry to find connector for channel
+	 * @return
+	 */
+	@Deprecated
 	public IConnector getConnector();
+
+	public String getChannel();
 
 	public void setActiveDialog(IDialog dialog);
 

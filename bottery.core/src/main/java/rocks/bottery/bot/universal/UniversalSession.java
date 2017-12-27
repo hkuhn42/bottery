@@ -18,9 +18,9 @@ package rocks.bottery.bot.universal;
 import rocks.bottery.bot.ContextBase;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IBot;
-import rocks.bottery.bot.IConnector;
 import rocks.bottery.bot.ISession;
 import rocks.bottery.bot.dialogs.IDialog;
+import rocks.bottery.connector.IConnector;
 
 /**
  * Remembers the conversation.
@@ -94,4 +94,10 @@ public class UniversalSession extends ContextBase implements ISession {
 	public String getId() {
 		return id;
 	}
+
+	@Override
+	public String getChannel() {
+		return connector.getChannel();
+	}
+
 }

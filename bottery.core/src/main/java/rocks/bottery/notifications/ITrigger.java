@@ -10,29 +10,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+package rocks.bottery.notifications;
+
 /**
+ * Marker interface for notifier triggers
  * 
- */
-package rocks.bottery.bot.dialogs;
-
-import rocks.bottery.bot.IActivity;
-import rocks.bottery.bot.IParticipant;
-import rocks.bottery.bot.ISession;
-import rocks.bottery.connector.IConnector;
-
-/**
  * @author Harald Kuhn
- *
  */
-public class HandoffDialog implements IDialog {
-
-	private IConnector	 connector;
-	private IParticipant target;
-
-	@Override
-	public void handle(ISession session, IActivity request) {
-		IActivity answer = connector.newReplyTo(request);
-		session.send(answer);
-	}
+public interface ITrigger {
 
 }

@@ -20,7 +20,7 @@ package rocks.bottery.bot.util;
 
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.ISession;
-import rocks.bottery.bot.connector.GenericActivity;
+import rocks.bottery.connector.GenericActivity;
 
 /**
  * Utiltiy for creating activities to prompt text to the conversation
