@@ -15,27 +15,20 @@
  */
 package rocks.bottery.connector;
 
+import com.pengrad.telegrambot.model.User;
+
 import rocks.bottery.bot.IParticipant;
 
 /**
  * @author Harald Kuhn
  *
  */
-public class GenericParticipant implements IParticipant {
+public class TelegramParticipant implements IParticipant {
 
-	private String id;
-	private String name;
-	private String channel;
+	private User user;
 
-	public GenericParticipant() {
-		super();
-	}
-
-	public GenericParticipant(String id, String name, String channel) {
-		this();
-		this.id = id;
-		this.name = name;
-		this.channel = channel;
+	public TelegramParticipant(User user) {
+		this.user = user;
 	}
 
 	/*
@@ -45,7 +38,7 @@ public class GenericParticipant implements IParticipant {
 	 */
 	@Override
 	public String getId() {
-		return id;
+		return String.valueOf(user.id());
 	}
 
 	/*
@@ -55,7 +48,7 @@ public class GenericParticipant implements IParticipant {
 	 */
 	@Override
 	public void setId(String id) {
-		this.id = id;
+		throw new UnsupportedOperationException();
 	}
 
 	/*
@@ -65,7 +58,7 @@ public class GenericParticipant implements IParticipant {
 	 */
 	@Override
 	public String getName() {
-		return name;
+		return user.firstName() + " " + user.lastName();
 	}
 
 	/*
@@ -75,15 +68,11 @@ public class GenericParticipant implements IParticipant {
 	 */
 	@Override
 	public void setName(String name) {
-		this.name = name;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public String getChannel() {
-		return "discord";
-	}
-
-	public void setChannel(String channel) {
-		this.channel = channel;
+		return "telegram";
 	}
 }

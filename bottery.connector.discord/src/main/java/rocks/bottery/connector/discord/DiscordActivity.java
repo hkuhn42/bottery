@@ -105,7 +105,7 @@ public class DiscordActivity implements IActivity {
 	 */
 	@Override
 	public IParticipant getFrom() {
-		return new DiscordIParticipant(message.getAuthor());
+		return new DiscordParticipant(message.getAuthor());
 	}
 
 	/*

@@ -73,4 +73,9 @@ public class MSParticipant implements IParticipant {
 		account.setName(name);
 	}
 
+	@Override
+	public String getChannel() {
+		return "ms";
+	}
+
 }

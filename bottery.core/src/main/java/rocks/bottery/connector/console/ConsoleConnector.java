@@ -42,7 +42,7 @@ public class ConsoleConnector extends ExecutorConnectorBase {
 			public void listen(final IBot handler) {
 				String text = scanner.nextLine();
 
-				IActivity activity = newMessageTo(new GenericParticipant("shell", "shell"));
+				IActivity activity = newMessageTo(new GenericParticipant("shell", "shell", "shell"));
 				activity.setText(text);
 
 				handler.receive(activity, ConsoleConnector.this);
@@ -76,7 +76,7 @@ public class ConsoleConnector extends ExecutorConnectorBase {
 
 	@Override
 	public IParticipant getConnectorAccount() {
-		return new GenericParticipant("shell", "shell");
+		return new GenericParticipant("shell", "shell", "shell");
 	}
 
 	@Override

@@ -52,7 +52,7 @@ public class Bot2BotConnector extends ConnectorBase {
 	@Override
 	public void register(IBot mainBot) {
 		this.mainBot = mainBot;
-		IActivity newMessageTo = newMessageTo(new GenericParticipant("bot", "bot"));
+		IActivity newMessageTo = newMessageTo(new GenericParticipant("bot", "bot", "bot2bot"));
 		newMessageTo.setType(ActivityType.MESSAGE);
 		newMessageTo.setText("Hi");
 		mainBot.receive(newMessageTo, this);
@@ -73,7 +73,7 @@ public class Bot2BotConnector extends ConnectorBase {
 
 	@Override
 	public IParticipant getConnectorAccount() {
-		return new GenericParticipant("dummy", "dummy");
+		return new GenericParticipant("dummy", "dummy", "bot2bot");
 	}
 
 	@Override
