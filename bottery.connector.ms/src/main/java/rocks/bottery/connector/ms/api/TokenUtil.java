@@ -14,7 +14,7 @@ package rocks.bottery.connector.ms.api;
 
 import java.sql.Timestamp;
 
-import rocks.bottery.bot.IBotConfig;
+import rocks.bottery.messaging.IMessagingConfig;
 
 public class TokenUtil {
 
@@ -31,10 +31,10 @@ public class TokenUtil {
 	private static final String	SCOPE				   = "https://api.botframework.com/.default";
 	private static final String	GRANT				   = "client_credentials";
 
-	private IBotConfig			config;
+	private IMessagingConfig	config;
 	private String				name;
 
-	private TokenUtil(String name, IBotConfig config) {
+	private TokenUtil(String name, IMessagingConfig config) {
 		this.config = config;
 		this.name = name;
 	}
@@ -55,7 +55,7 @@ public class TokenUtil {
 		return null;
 	}
 
-	public static TokenUtil getInstance(String name, IBotConfig config) {
+	public static TokenUtil getInstance(String name, IMessagingConfig config) {
 		if (instance == null) {
 			instance = new TokenUtil(name, config);
 		}

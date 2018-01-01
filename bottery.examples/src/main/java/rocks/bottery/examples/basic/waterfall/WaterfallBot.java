@@ -11,7 +11,6 @@ import org.apache.log4j.BasicConfigurator;
 import rocks.bottery.bot.Choice;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.ISession;
-import rocks.bottery.bot.connector.ms.MSConnector;
 import rocks.bottery.bot.dialogs.Decision;
 import rocks.bottery.bot.dialogs.IDialog;
 import rocks.bottery.bot.dialogs.Interview;
@@ -20,7 +19,9 @@ import rocks.bottery.bot.dialogs.Utterance;
 import rocks.bottery.bot.universal.UniversalBot;
 import rocks.bottery.bot.util.IModel;
 import rocks.bottery.bot.util.Model;
-import rocks.bottery.bot.util.SessionModel;;
+import rocks.bottery.bot.util.SessionModel;
+import rocks.bottery.connector.IConnector;
+import rocks.bottery.connector.console.ConsoleConnector;;
 
 /**
  * @author Harald Kuhn
@@ -32,6 +33,15 @@ public class WaterfallBot extends UniversalBot {
 		BasicConfigurator.configure();
 		WaterfallBot bot = new WaterfallBot();
 
+		bot.initDialogs();
+		// new ConsoleConnector().register(bot);
+		// new MSConnector().register(bot);
+		IConnector discordConnector = new ConsoleConnector();
+		discordConnector.init(bot.getBotConfig());
+		discordConnector.register(bot);
+	}
+
+	protected void initDialogs() {
 		List<Choice<String>> choices = new ArrayList<>();
 		choices.add(new Choice<String>("Java", "Java"));
 		choices.add(new Choice<String>("Groovy", "Groovy"));
@@ -39,7 +49,7 @@ public class WaterfallBot extends UniversalBot {
 
 		// String[] choices = new String[] { "Java", "Groovy", "Scala" };
 
-		bot.setWelcomeDialog(new Interview(new IDialog[] {
+		setWelcomeDialog(new Interview(new IDialog[] {
 
 		        new Question<String>(new SessionModel<>("name")) {
 			        @Override
@@ -88,8 +98,6 @@ public class WaterfallBot extends UniversalBot {
 		        }
 
 		}));
-
-		new MSConnector().listen(bot);
 	}
 
 }

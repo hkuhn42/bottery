@@ -10,9 +10,7 @@ import org.apache.log4j.BasicConfigurator;
 
 import rocks.bottery.bot.Choice;
 import rocks.bottery.bot.IActivity;
-import rocks.bottery.bot.IConnector;
 import rocks.bottery.bot.ISession;
-import rocks.bottery.bot.connector.console.ConsoleConnector;
 import rocks.bottery.bot.dialogs.Decision;
 import rocks.bottery.bot.dialogs.IDialog;
 import rocks.bottery.bot.dialogs.IValidator;
@@ -22,7 +20,8 @@ import rocks.bottery.bot.dialogs.Utterance;
 import rocks.bottery.bot.universal.UniversalBot;
 import rocks.bottery.bot.util.IModel;
 import rocks.bottery.bot.util.Model;
-import rocks.bottery.bot.util.SessionPropertyModel;;
+import rocks.bottery.bot.util.SessionPropertyModel;
+import rocks.bottery.connector.console.ConsoleConnector;;
 
 /**
  * @author Harald Kuhn
@@ -30,9 +29,7 @@ import rocks.bottery.bot.util.SessionPropertyModel;;
  */
 public class InterviewBot extends UniversalBot {
 
-	public InterviewBot(IConnector connector) {
-		super(connector);
-
+	public InterviewBot() {
 		List<Choice<String>> choices = new ArrayList<>();
 		choices.add(new Choice<String>("Java", "Java"));
 		choices.add(new Choice<String>("Groovy", "Groovy"));
@@ -73,7 +70,12 @@ public class InterviewBot extends UniversalBot {
 			        @Override
 			        public void handle(ISession session, IActivity activity) {
 				        super.handle(session, activity);
-				        System.out.println(session.getAttribute("statsBean"));
+				        List<IActivity> activities = session.getBot().getBotConfig().getArchive()
+				                .getActivitiesByConversation(activity.getConversation().getId());
+				        for (IActivity a : activities) {
+					        System.out.println(a.getFrom() + " " + a.getText());
+				        }
+				        session.invalidate();
 			        }
 
 			        @Override
@@ -83,12 +85,15 @@ public class InterviewBot extends UniversalBot {
 		        }
 
 		}));
-
 	}
 
 	public static void main(String[] args) {
 		BasicConfigurator.configure();
-		new InterviewBot(new ConsoleConnector());
+		ConsoleConnector consoleConnector = new ConsoleConnector();
+
+		InterviewBot handler = new InterviewBot();
+		consoleConnector.init(handler.getBotConfig());
+		consoleConnector.register(handler);
 
 	}
 

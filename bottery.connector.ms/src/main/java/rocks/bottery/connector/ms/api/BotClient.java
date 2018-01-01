@@ -25,8 +25,8 @@ import org.apache.cxf.transport.http.HTTPConduit;
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import org.codehaus.jackson.map.SerializationConfig;
 
-import rocks.bottery.bot.IBotConfig;
 import rocks.bottery.bot.connector.ms.model.Activity;
+import rocks.bottery.messaging.IMessagingConfig;
 
 /**
  * Bot API Client
@@ -36,12 +36,12 @@ import rocks.bottery.bot.connector.ms.model.Activity;
  */
 public class BotClient {
 
-	private static String serverURL	= "https://login.microsoftonline.com/d6d49420-f39b-4df7-a1dc-d59a935871db/oauth2/v2.0/token";
+	private static String	 serverURL = "https://login.microsoftonline.com/d6d49420-f39b-4df7-a1dc-d59a935871db/oauth2/v2.0/token";
 
-	private IBotConfig	  config;
-	private String		  name;
+	private IMessagingConfig config;
+	private String			 name;
 
-	public BotClient(String name, IBotConfig config) {
+	public BotClient(String name, IMessagingConfig config) {
 		this.config = config;
 		this.name = name;
 	}

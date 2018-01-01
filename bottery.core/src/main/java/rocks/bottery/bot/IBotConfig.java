@@ -17,6 +17,7 @@ import java.util.List;
 import rocks.bottery.bot.i18n.ILocalizer;
 import rocks.bottery.bot.interceptors.IInterceptor;
 import rocks.bottery.bot.recognizers.IRecognizer;
+import rocks.bottery.messaging.IMessagingConfig;
 
 /**
  * Bot global context (shared between all bots)
@@ -24,13 +25,11 @@ import rocks.bottery.bot.recognizers.IRecognizer;
  * @author Harald Kuhn
  *
  */
-public interface IBotConfig {
+public interface IBotConfig extends IMessagingConfig {
 
 	ILocalizer getLocalizer();
 
 	IRecognizer getRecognizer();
-
-	ICrypt getCrypt();
 
 	IVariableResolver getResolver();
 
@@ -41,8 +40,6 @@ public interface IBotConfig {
 	void setLocalizer(ILocalizer localizer);
 
 	void setRecognizer(IRecognizer recognizer);
-
-	void setCrypt(ICrypt crypt);
 
 	void setResolver(IVariableResolver resolver);
 
@@ -66,13 +63,5 @@ public interface IBotConfig {
 	 * @return the List of out interceptors
 	 */
 	List<IInterceptor> getOutInterceptors();
-
-	/**
-	 * get a string setting
-	 * 
-	 * @param name
-	 * @return
-	 */
-	public String getSetting(String name);
 
 }

@@ -46,10 +46,9 @@ import com.pengrad.telegrambot.response.SendResponse;
 import rocks.bottery.bot.AttachmentType;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IAttachment;
-import rocks.bottery.bot.IBot;
 import rocks.bottery.bot.IParticipant;
-import rocks.bottery.connector.GenericAttachment;
 import rocks.bottery.connector.console.ConnectorBase;
+import rocks.bottery.messaging.IReceiver;
 
 /**
  * @author Harald Kuhn
@@ -78,8 +77,8 @@ public class TelegramConnector extends ConnectorBase {
 	 * @see org.sylvani.bot.IConnector#listen(org.sylvani.bot.IBot)
 	 */
 	@Override
-	public void register(IBot bot) {
-		String key = bot.getBotConfig().getSetting(name + ".key");
+	public void register(IReceiver receiver) {
+		String key = config.getSetting(name + ".key");
 		telegramBot = TelegramBotAdapter.build(key);
 
 		GetUpdates getUpdates = new GetUpdates().limit(100).offset(0).timeout(0);
@@ -96,7 +95,7 @@ public class TelegramConnector extends ConnectorBase {
 				if (updates != null) {
 					for (Update update : updates) {
 						logger.debug("received " + update);
-						bot.receive(createActivity(update), TelegramConnector.this);
+						receiver.receive(createActivity(update), TelegramConnector.this);
 					}
 				}
 
@@ -108,7 +107,7 @@ public class TelegramConnector extends ConnectorBase {
 						if (updates != null) {
 							for (Update update : updates) {
 								logger.debug("received " + update);
-								bot.receive(createActivity(update), TelegramConnector.this);
+								receiver.receive(createActivity(update), TelegramConnector.this);
 							}
 						}
 						return UpdatesListener.CONFIRMED_UPDATES_ALL;

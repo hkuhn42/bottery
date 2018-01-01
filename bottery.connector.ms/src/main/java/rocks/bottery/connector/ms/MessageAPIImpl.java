@@ -14,11 +14,11 @@ package rocks.bottery.connector.ms;
 
 import javax.ws.rs.core.Response;
 
-import rocks.bottery.bot.IBot;
 import rocks.bottery.bot.connector.ms.model.Activity;
 import rocks.bottery.connector.IConnector;
 import rocks.bottery.connector.ms.api.Api2BotTokenVerifier;
 import rocks.bottery.connector.ms.api.MessageAPI;
+import rocks.bottery.messaging.IReceiver;
 
 /**
  * Implementation of MessageAPI
@@ -27,11 +27,11 @@ import rocks.bottery.connector.ms.api.MessageAPI;
  */
 public class MessageAPIImpl implements MessageAPI {
 
-	private IBot				 bot;
+	private IReceiver				 bot;
 	private IConnector			 connector;
 	private Api2BotTokenVerifier verifier;
 
-	public MessageAPIImpl(IBot bot, IConnector connector, String appId) {
+	public MessageAPIImpl(IReceiver bot, IConnector connector, String appId) {
 		this.bot = bot;
 		this.connector = connector;
 		this.verifier = new Api2BotTokenVerifier(appId);

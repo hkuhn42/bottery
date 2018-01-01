@@ -9,6 +9,7 @@ import rocks.bottery.connector.GenericActivity;
 import rocks.bottery.connector.GenericConversation;
 import rocks.bottery.connector.GenericParticipant;
 import rocks.bottery.connector.IConnector;
+import rocks.bottery.messaging.IMessagingConfig;
 
 /**
  * 
@@ -16,6 +17,13 @@ import rocks.bottery.connector.IConnector;
  *
  */
 public abstract class ConnectorBase implements IConnector {
+
+	protected IMessagingConfig config;
+
+	@Override
+	public void init(IMessagingConfig config) {
+		this.config = config;
+	}
 
 	@Override
 	public IActivity newMessageTo(IParticipant recipient) {

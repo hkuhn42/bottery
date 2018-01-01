@@ -14,10 +14,10 @@ package rocks.bottery.connector.bot2bot;
 
 import rocks.bottery.bot.ActivityType;
 import rocks.bottery.bot.IActivity;
-import rocks.bottery.bot.IBot;
 import rocks.bottery.bot.IParticipant;
 import rocks.bottery.connector.GenericParticipant;
 import rocks.bottery.connector.console.ConnectorBase;
+import rocks.bottery.messaging.IReceiver;
 
 /**
  * This connector allows to let two Bots chat with each other.
@@ -38,19 +38,19 @@ import rocks.bottery.connector.console.ConnectorBase;
  */
 public class Bot2BotConnector extends ConnectorBase {
 
-	private IBot		 otherBot;
+	private IReceiver		 otherBot;
 
-	private IBot		 mainBot;
+	private IReceiver		 mainBot;
 
 	private SubConnector subConnector;
 
-	public Bot2BotConnector(IBot otherBot) {
+	public Bot2BotConnector(IReceiver otherBot) {
 		this.otherBot = otherBot;
 		subConnector = new SubConnector();
 	}
 
 	@Override
-	public void register(IBot mainBot) {
+	public void register(IReceiver mainBot) {
 		this.mainBot = mainBot;
 		IActivity newMessageTo = newMessageTo(new GenericParticipant("bot", "bot", "bot2bot"));
 		newMessageTo.setType(ActivityType.MESSAGE);
@@ -84,7 +84,7 @@ public class Bot2BotConnector extends ConnectorBase {
 	class SubConnector extends ConnectorBase {
 
 		@Override
-		public void register(IBot handler) {
+		public void register(IReceiver handler) {
 
 		}
 

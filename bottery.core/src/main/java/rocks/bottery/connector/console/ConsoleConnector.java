@@ -15,9 +15,9 @@ package rocks.bottery.connector.console;
 import java.util.Scanner;
 
 import rocks.bottery.bot.IActivity;
-import rocks.bottery.bot.IBot;
 import rocks.bottery.bot.IParticipant;
 import rocks.bottery.connector.GenericParticipant;
+import rocks.bottery.messaging.IReceiver;
 
 /**
  * Connector for development which routes console input and output to and from the bots
@@ -28,7 +28,7 @@ import rocks.bottery.connector.GenericParticipant;
 public class ConsoleConnector extends ExecutorConnectorBase {
 
 	@Override
-	public void register(final IBot handler) {
+	public void register(final IReceiver handler) {
 		// Thread t = new Thread(new Runnable() {
 		executor.submit(new Runnable() {
 
@@ -39,7 +39,7 @@ public class ConsoleConnector extends ExecutorConnectorBase {
 				listen(handler);
 			}
 
-			public void listen(final IBot handler) {
+			public void listen(final IReceiver handler) {
 				String text = scanner.nextLine();
 
 				IActivity activity = newMessageTo(new GenericParticipant("shell", "shell", "shell"));

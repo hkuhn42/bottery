@@ -29,7 +29,6 @@ import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import org.codehaus.jackson.map.SerializationConfig;
 
 import rocks.bottery.bot.IActivity;
-import rocks.bottery.bot.IBot;
 import rocks.bottery.bot.IParticipant;
 import rocks.bottery.bot.connector.ms.model.Activity;
 import rocks.bottery.bot.connector.ms.model.ChannelAccount;
@@ -37,6 +36,7 @@ import rocks.bottery.bot.connector.ms.model.ConversationAccount;
 import rocks.bottery.connector.console.ConnectorBase;
 import rocks.bottery.connector.ms.api.BotClient;
 import rocks.bottery.connector.ms.api.MessageAPI;
+import rocks.bottery.messaging.IReceiver;
 
 /**
  * Connector implementation for the ms bot apis
@@ -73,11 +73,11 @@ public class MSConnector extends ConnectorBase {
 	 * @see org.sylvani.bot.IConnector#listen(org.sylvani.bot.IBot)
 	 */
 	@Override
-	public void register(IBot bot) {
+	public void register(IReceiver receiver) {
 
-		this.client = new BotClient(name, bot.getBotConfig());
-		MessageAPIImpl messageApi = new MessageAPIImpl(bot, this, bot.getBotConfig().getSetting(name + "." + MICROSOFT_APP_ID));
-		this.address = bot.getBotConfig().getSetting(name + ".serverAddress");
+		this.client = new BotClient(name, config);
+		MessageAPIImpl messageApi = new MessageAPIImpl(receiver, this, config.getSetting(name + "." + MICROSOFT_APP_ID));
+		this.address = config.getSetting(name + ".serverAddress");
 		publish(messageApi);
 	}
 

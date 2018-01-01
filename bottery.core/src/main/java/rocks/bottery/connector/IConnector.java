@@ -13,8 +13,9 @@
 package rocks.bottery.connector;
 
 import rocks.bottery.bot.IActivity;
-import rocks.bottery.bot.IBot;
 import rocks.bottery.bot.IParticipant;
+import rocks.bottery.messaging.IMessagingConfig;
+import rocks.bottery.messaging.IReceiver;
 
 /**
  * Defines a connector to a message api or message endpoint
@@ -26,13 +27,15 @@ import rocks.bottery.bot.IParticipant;
  */
 public interface IConnector {
 
+	public void init(IMessagingConfig config);
+
 	/**
 	 * Register the bot on the connector. If multiple bots are connected, all are called it a activity (message , status
 	 * change etc) is received.
 	 * 
 	 * @param handler
 	 */
-	public void register(IBot bot);
+	public void register(IReceiver receiver);
 
 	/**
 	 * shutdown (stop listen)

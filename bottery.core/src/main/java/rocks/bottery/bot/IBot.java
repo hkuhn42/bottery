@@ -14,6 +14,7 @@ package rocks.bottery.bot;
 
 import io.rincl.Rincled;
 import rocks.bottery.connector.IConnector;
+import rocks.bottery.messaging.IReceiver;
 
 /**
  * Defines a generic bot
@@ -28,21 +29,7 @@ import rocks.bottery.connector.IConnector;
  * 
  * @author Harald Kuhn
  */
-public interface IBot extends IContext, IHandler, Rincled {
-
-	/**
-	 * Called for received activities
-	 * 
-	 * - tries to determine session or creates a new one
-	 * 
-	 * - delegates to
-	 * 
-	 * @param activity
-	 *            the activity to handle
-	 * @param connector
-	 *            the connector the activity is from (and answers should be send to)
-	 */
-	public void receive(IActivity activity, IConnector connector);
+public interface IBot extends IContext, IHandler, Rincled, IReceiver {
 
 	public void invalidate(ISession session);
 

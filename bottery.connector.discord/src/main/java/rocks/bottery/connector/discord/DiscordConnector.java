@@ -3,9 +3,9 @@ package rocks.bottery.connector.discord;
 import org.apache.log4j.BasicConfigurator;
 
 import rocks.bottery.bot.IActivity;
-import rocks.bottery.bot.IBot;
 import rocks.bottery.bot.IParticipant;
 import rocks.bottery.connector.console.ConnectorBase;
+import rocks.bottery.messaging.IReceiver;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventDispatcher;
@@ -28,12 +28,12 @@ import sx.blah.discord.util.RequestBuffer;
 public class DiscordConnector extends ConnectorBase {
 
 	private IDiscordClient client;
-	private IBot		   bot;
+	private IReceiver	   bot;
 
 	@Override
-	public void register(IBot bot) {
-		this.bot = bot;
-		client = createClient(bot.getBotConfig().getSetting("discord.token"), true);
+	public void register(IReceiver receiver) {
+		this.bot = receiver;
+		client = createClient(config.getSetting("discord.token"), true);
 		EventDispatcher dispatcher = client.getDispatcher();
 		dispatcher.registerListener(this);
 	}
