@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016-2017 Harald Kuhn
+ * Copyright (C) 2016-2018 Harald Kuhn
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,21 +13,48 @@
 package rocks.bottery.bot;
 
 /**
- * defines a participant i a chat
+ * Represents a person or bot participating in a chat
  * 
  * @author Harald Kuhn
  */
 public interface IParticipant {
 
+	/**
+	 * Get id
+	 * 
+	 * @return
+	 */
 	public String getId();
+
+	/**
+	 * Get address
+	 * 
+	 * @return
+	 */
+	public String getAddress();
 
 	public void setId(String id);
 
+	/**
+	 * Get name
+	 * 
+	 * @return
+	 */
 	public String getName();
 
 	public void setName(String name);
 
-	// TODO add channel for routing
-
+	/**
+	 * get the channel
+	 * 
+	 * @return
+	 */
 	public String getChannel();
+
+	/**
+	 * Get access to the connector (backend participant object)
+	 * 
+	 * @return
+	 */
+	public Object getConnectorParticipant();
 }

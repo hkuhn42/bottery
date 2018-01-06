@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016-2017 Harald Kuhn
+ * Copyright (C) 2016-2018 Harald Kuhn
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -20,6 +20,10 @@ import com.pengrad.telegrambot.model.User;
 import rocks.bottery.bot.IParticipant;
 
 /**
+ * Participant for the telegram connector
+ * 
+ * {@link #getConnectorParticipant()} gives access to the com.pengrad.telegrambot.model.User
+ * 
  * @author Harald Kuhn
  *
  */
@@ -39,6 +43,11 @@ public class TelegramParticipant implements IParticipant {
 	@Override
 	public String getId() {
 		return String.valueOf(user.id());
+	}
+
+	@Override
+	public String getAddress() {
+		return user.username();
 	}
 
 	/*
@@ -74,5 +83,10 @@ public class TelegramParticipant implements IParticipant {
 	@Override
 	public String getChannel() {
 		return "telegram";
+	}
+
+	@Override
+	public Object getConnectorParticipant() {
+		return user;
 	}
 }
