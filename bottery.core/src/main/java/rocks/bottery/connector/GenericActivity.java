@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016-2017 Harald Kuhn
+ * Copyright (C) 2016-2018 Harald Kuhn
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -50,7 +50,7 @@ public class GenericActivity implements Serializable, IActivity {
 
 	private List<IAttachment> attachements;
 
-	private IIntent<?>		  intent;
+	private IIntent			  intent;
 
 	private List<Choice<?>>	  choices;
 
@@ -190,12 +190,12 @@ public class GenericActivity implements Serializable, IActivity {
 	}
 
 	@Override
-	public IIntent<?> getIntent() {
+	public IIntent getIntent() {
 		return intent;
 	}
 
 	@Override
-	public void setIntent(IIntent<?> intent) {
+	public void setIntent(IIntent intent) {
 		this.intent = intent;
 	}
 

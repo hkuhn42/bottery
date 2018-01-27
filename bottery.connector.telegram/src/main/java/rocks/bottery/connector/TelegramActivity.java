@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016-2017 Harald Kuhn
+ * Copyright (C) 2016-2018 Harald Kuhn
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -9,9 +9,6 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- */
-/**
- * 
  */
 package rocks.bottery.connector;
 
@@ -34,9 +31,11 @@ import rocks.bottery.bot.IParticipant;
  */
 public class TelegramActivity extends GenericActivity implements IActivity {
 
+	private static final long serialVersionUID = 1L;
+
 	private Update			  update;
 	private List<IAttachment> attachement;
-	private IIntent<?>		  intent;
+	private IIntent			  intent;
 
 	TelegramActivity(Update update) {
 		this.update = update;
@@ -236,12 +235,12 @@ public class TelegramActivity extends GenericActivity implements IActivity {
 	}
 
 	@Override
-	public IIntent<?> getIntent() {
+	public IIntent getIntent() {
 		return intent;
 	}
 
 	@Override
-	public void setIntent(IIntent<?> intent) {
+	public void setIntent(IIntent intent) {
 		this.intent = intent;
 	}
 
