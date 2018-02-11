@@ -119,9 +119,9 @@ public interface IActivity {
 	 * 
 	 * @return
 	 */
-	public IIntent<?> getIntent();
+	public IIntent getIntent();
 
-	public void setIntent(IIntent<?> intent);
+	public void setIntent(IIntent intent);
 
 	/**
 	 * a list of choices to be presented to the user the actual presentation is dependent of the technological

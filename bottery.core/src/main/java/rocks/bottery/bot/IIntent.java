@@ -22,8 +22,16 @@ import java.io.Serializable;
  * 
  * @author Harald Kuhn
  */
-public interface IIntent<T> extends IContext, Serializable {
+public interface IIntent extends IContext, Serializable {
 
-	T getIntent();
+	/**
+	 * get the name of the intent
+	 */
+	String getIntentName();
+
+	/**
+	 * get the underlying intent object (api specific)
+	 */
+	Object getRecognizerIntent();
 
 }
