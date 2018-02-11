@@ -32,6 +32,8 @@ import rocks.bottery.bot.interceptors.DuplicateMessageFilter;
 import rocks.bottery.bot.interceptors.IInterceptor;
 import rocks.bottery.bot.recognizers.IRecognizer;
 import rocks.bottery.connector.IConnector;
+import rocks.bottery.messaging.IMessagingContext;
+import rocks.bottery.messaging.MessagingContext;
 
 /**
  * General purpose bot implementation
@@ -49,12 +51,14 @@ public class UniversalBot extends ContextBase implements IBot, Rincled {
 	private Map<IRecognizer, IDialog> dialogs;
 
 	private IBotConfig				  botConfig;
+	private IMessagingContext		  messagingContext;
 
 	private Stack<IHandler>			  inInterceptorChain;
 	private Stack<IHandler>			  outInterceptorChain;
 
 	public UniversalBot() {
 		this(new UniversalBotConfig());
+		messagingContext = new MessagingContext();
 	}
 
 	public UniversalBot(IBotConfig botConfig) {
@@ -137,6 +141,7 @@ public class UniversalBot extends ContextBase implements IBot, Rincled {
 		}
 
 		for (IRecognizer recognizer : dialogs.keySet()) {
+			logger.debug("trying recognizer: " + recognizer);
 			if (recognizer.recognize(session, activity) > 0) {
 				IDialog dialog = dialogs.get(recognizer);
 				logger.debug("delegating message to " + dialog.getClass().getSimpleName());
@@ -167,6 +172,11 @@ public class UniversalBot extends ContextBase implements IBot, Rincled {
 	@Override
 	public void invalidate(ISession session) {
 		botConfig.getSessionStore().remove(session);
+	}
+
+	@Override
+	public IMessagingContext getMessagingContext() {
+		return messagingContext;
 	}
 
 }

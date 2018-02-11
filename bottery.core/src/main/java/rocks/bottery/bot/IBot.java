@@ -14,6 +14,7 @@ package rocks.bottery.bot;
 
 import io.rincl.Rincled;
 import rocks.bottery.connector.IConnector;
+import rocks.bottery.messaging.IMessagingContext;
 import rocks.bottery.messaging.IReceiver;
 
 /**
@@ -39,4 +40,11 @@ public interface IBot extends IContext, IHandler, Rincled, IReceiver {
 	 * @return
 	 */
 	public IBotConfig getBotConfig();
+
+	/**
+	 * get the messaging context
+	 * 
+	 * @return
+	 */
+	public IMessagingContext getMessagingContext();
 }
