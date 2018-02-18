@@ -12,7 +12,6 @@
  */
 package rocks.bottery.notifications;
 
-import rocks.bottery.bot.IActivity;
 import rocks.bottery.messaging.IMessagingContext;
 
 /**
@@ -25,6 +24,6 @@ import rocks.bottery.messaging.IMessagingContext;
  */
 public interface INotifier {
 
-	public IActivity send(ITrigger trigger, IMessagingContext context);
+	public void notify(ITrigger trigger, IMessagingContext context);
 
 }

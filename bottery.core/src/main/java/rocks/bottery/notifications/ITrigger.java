@@ -12,6 +12,8 @@
  */
 package rocks.bottery.notifications;
 
+import rocks.bottery.messaging.IMessagingContext;
+
 /**
  * Marker interface for notifier triggers
  * 
@@ -19,4 +21,12 @@ package rocks.bottery.notifications;
  */
 public interface ITrigger {
 
+	/**
+	 * insturcts the trigger to start this notifier
+	 * 
+	 * @param notifier
+	 */
+	public void register(INotifier notifier);
+
+	public void start(IMessagingContext context);
 }
