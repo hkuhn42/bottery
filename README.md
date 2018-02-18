@@ -1,14 +1,21 @@
 # Bottery
 A Java based framework for chatbots
 
-The goal of this framework is to provide a framework for writing chat service neutral bots without the need of a cloud 
-environment. Currently the projects tries to provide basic plumbing like i18n, message storage and configuration as well
-as a framework for simple scripted bots. The api already allows for using nlp and machine learning but will provide 
-implementations and examples in a later release.
+The goal of this framework is to provide a api for writing vendor neutral chat (and voice) bots. Support for massaging 
+frameworks and intent recognition are provided by plugins. The goal is to provide implementations for all major frameworks
+and apis to allow writing cross vendor and platform neutral bots. 
+Currently the projects tries to provide basic plumbing like i18n, message storage and 
+configuration as well as a framework for simple scripted bots.   
 
 This is still in alpha state so expect api changes
 
 ## Changelog
+
+
+# 0.6.1
+- New LUIS recognizer
+- Refactoring of notifiers
+- Basic  notifier based on executor framework
 
 # 0.6
 - Added connector registry and notifications
@@ -16,16 +23,18 @@ This is still in alpha state so expect api changes
 - Added notifiers to trigger activities (e.g. by time etc)
 - New discord connector
 
+
 ## Features
-- basic framework
+- basic framework supports pluggable "cross vendor" bots
 - i18n support with rincl
 - text template support with mustache
 - console connector for testing
+- microsoft bot framework connector
 - telegram connector
 - discord connector
-- microsoft bot framework connector
 - Bot2Bot Connector for in unit tests
-- Notifiers to trigger activities (e.g. by time)
+- notifiers to trigger activities (e.g. by time or after another thread finished)
+- microsoft luis intent recognizer
 
 
 ## Getting started
