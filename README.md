@@ -42,25 +42,30 @@ This is still in alpha state so expect api changes
 There is a number of examples in the examples package however a very basic echo bot on the console takes no more than:
 
 ```java
-public EchoBot() {
-    super(new ConsoleConnector());
-
-    setWelcomeDialog(new Utterance() {
-        @Override
-        public IModel<String> getText(IActivity request, ISession session) {
-            return new Model<String>(request.getText());
-        }
-    });
+    // create a UniversalBot
+    UniversalBot bot = new UniversalBot();
+    // set the welcome dialog 
+    bot.setWelcomeDialog(new Utterance() {
+            // use the text of the incoming activity as the answer for the response
+            public IModel<String> getText(IActivity request, ISession session) {
+                return new Model<String>(request.getText());
+            }
+        });
+    }
+    // connect the bot to the console
+    new ConsoleConnector().register(bot);
 }
 ```
 
 ## Core Concepts
 The basic concepts of the framework are 
 - Bot which acts as the application and controller
-- Connectors which handle receiving and sending of "messages"
-- Activitis which represent messages, status updates etc.
-- Dialogs which are parts of a conversation and are responsible for interpreting the users intent and creating answers
 - Session which holds all user related information
+- Connectors which handle receiving and sending of "messages"
+- Activities which represent messages, status updates etc.
+- Recognizers which extract the intent from the text of activities
+- Dialogs which are parts of a conversation and are responsible for interpreting the users intent and creating answers
+- Notifiers which are used to create Activities based on Triggers like a time or the completion of an async process 
 
 All components except the session are designed to be stateless so instances can be resused among a number of chat sessions. All data related to the individual chat must be stored in the session.
 
