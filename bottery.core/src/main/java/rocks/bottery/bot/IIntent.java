@@ -30,8 +30,14 @@ public interface IIntent extends IContext, Serializable {
 	String getIntentName();
 
 	/**
+	 * get a suggestion for a response to the user based in the detected intent, may be null
+	 * 
+	 * @return response suggestion or null if this intent does not contain a respose suggestion
+	 */
+	public String getResponseSuggestion();
+
+	/**
 	 * get the underlying intent object (api specific)
 	 */
 	Object getRecognizerIntent();
-
 }

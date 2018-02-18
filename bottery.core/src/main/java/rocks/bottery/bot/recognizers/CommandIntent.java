@@ -41,4 +41,9 @@ public class CommandIntent extends ContextBase implements IIntent, Serializable 
 	public Object getRecognizerIntent() {
 		return intent;
 	}
+
+	@Override
+	public String getResponseSuggestion() {
+		return null;
+	}
 }
