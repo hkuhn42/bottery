@@ -1,4 +1,6 @@
 # Bottery
+
+[![Join the chat at https://gitter.im/bottery-test/Lobby](https://badges.gitter.im/bottery-test/Lobby.svg)](https://gitter.im/bottery-test/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 A Java based framework for chatbots
 
 The goal of this framework is to provide a api for writing vendor neutral chat (and voice) bots. Support for massaging 
