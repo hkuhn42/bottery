@@ -1,0 +1,9 @@
+version = '0.6'
+
+dependencies {
+    compile project(':bottery.core')
+    
+	
+    compile group: 'com.google.cloud', name: 'google-cloud-dialogflow', version: '0.29.0-alpha'
+    
+}
