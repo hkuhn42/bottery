@@ -12,8 +12,11 @@
  */
 package rocks.bottery.bot.recognizers;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import rocks.bottery.bot.IBotConfig;
 
 /**
  * Base class for recognizers
@@ -60,6 +63,11 @@ public abstract class RecognizerBase implements IRecognizer {
 
 	public void setIntentMapping(Map<String, String> intentMapping) {
 		this.intentMapping = intentMapping;
+	}
+
+	@Override
+	public void init(IBotConfig config) throws IOException {
+		// nothing to setup
 	}
 
 }

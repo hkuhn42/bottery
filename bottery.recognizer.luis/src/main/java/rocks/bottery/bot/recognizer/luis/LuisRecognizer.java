@@ -29,6 +29,7 @@ import org.codehaus.jackson.map.SerializationConfig;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IBotConfig;
 import rocks.bottery.bot.ISession;
+import rocks.bottery.bot.recognizers.IIntent;
 import rocks.bottery.bot.recognizers.IRecognizer;
 import rocks.bottery.bot.recognizers.RecognizerBase;
 
@@ -92,28 +93,26 @@ public class LuisRecognizer extends RecognizerBase implements IRecognizer {
 	}
 
 	@Override
-	public double recognize(ISession session, IActivity activity) {
+	public IIntent recognize(ISession session, IActivity activity) {
 		try {
 			LuisApi proxy = initConversationRestProxy(serverURL);
 			IBotConfig botConfig = session.getBot().getBotConfig();
 			LuisResponse intent = proxy.query(botConfig.getSetting("luis.appId"), botConfig.getSetting("luis.subscriptionKey"), activity.getText());
 			Logger.getLogger(LuisRecognizer.class).debug(intent + "received");
-			int score = 0;
+
 			// if greedy is set or an intent recognized -> handle
 			if (greedy || !NOTHING_RECOGIZED_INTENT.equalsIgnoreCase(intent.getTopScoringIntent().getIntent())) {
-				// score = 1 -> api does only provide one match
-				score = 1;
 				// get intent name
 				String intentName = intent.getTopScoringIntent().getIntent();
 				intentName = mapIntentName(intentName);
 				// set intent
-				activity.setIntent(new LuisIntent(intentName, intent));
+				return new LuisIntent(intentName, intent);
 			}
-			return score;
+			return null;
 		}
 		catch (Exception e) { // FIXME: improve exception handling
 			e.printStackTrace();
-			return -1;
+			return null;
 		}
 	}
 }

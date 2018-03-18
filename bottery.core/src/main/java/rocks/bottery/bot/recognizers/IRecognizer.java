@@ -12,7 +12,10 @@
  */
 package rocks.bottery.bot.recognizers;
 
+import java.io.IOException;
+
 import rocks.bottery.bot.IActivity;
+import rocks.bottery.bot.IBotConfig;
 import rocks.bottery.bot.ISession;
 
 /**
@@ -24,10 +27,18 @@ import rocks.bottery.bot.ISession;
 public interface IRecognizer {
 
 	/**
+	 * init the recognizer
+	 * 
+	 * @param config
+	 * @throws IOException
+	 */
+	public void init(IBotConfig config) throws IOException;
+
+	/**
 	 * 
 	 * @param activity
 	 * @return
 	 */
-	public double recognize(ISession session, IActivity activity);
+	public IIntent recognize(ISession session, IActivity activity);
 
 }

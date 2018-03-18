@@ -2,7 +2,7 @@ package rocks.bottery.examples.console;
 
 import org.apache.log4j.BasicConfigurator;
 
-import rocks.bottery.bot.connector.console.ConsoleConnector;
+import rocks.bottery.connector.console.ConsoleConnector;
 import rocks.bottery.examples.HelloBot;;
 
 /**
@@ -12,6 +12,6 @@ public class HelloConsoleConnector {
 
 	public static void main(String[] args) {
 		BasicConfigurator.configure();
-		new ConsoleConnector().listen(new HelloBot());
+		new ConsoleConnector().register(new HelloBot());
 	}
 }

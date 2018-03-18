@@ -2,7 +2,7 @@ package rocks.bottery.examples.hello.ms;
 
 import org.apache.log4j.BasicConfigurator;
 
-import rocks.bottery.bot.connector.ms.MSConnector;
+import rocks.bottery.connector.ms.MSConnector;
 import rocks.bottery.examples.HelloBot;;
 
 /**
@@ -12,6 +12,6 @@ public class HelloMSConnector {
 
 	public static void main(String[] args) {
 		BasicConfigurator.configure();
-		new MSConnector().listen(new HelloBot());
+		new MSConnector().register(new HelloBot());
 	}
 }

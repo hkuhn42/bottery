@@ -91,9 +91,9 @@ public class InterviewBot extends UniversalBot {
 		BasicConfigurator.configure();
 		ConsoleConnector consoleConnector = new ConsoleConnector();
 
-		InterviewBot handler = new InterviewBot();
-		consoleConnector.init(handler.getBotConfig());
-		consoleConnector.register(handler);
+		InterviewBot bot = new InterviewBot();
+		consoleConnector.init(bot.getBotConfig());
+		consoleConnector.register(bot);
 
 	}
 

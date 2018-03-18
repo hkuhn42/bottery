@@ -41,20 +41,18 @@ public class CommandRecognizer extends RecognizerBase {
 	 * @see org.sylvani.bot.recognize.IRecognizer#recognize(org.sylvani.bot.ISession, org.sylvani.bot.IActivity)
 	 */
 	@Override
-	public double recognize(ISession session, IActivity activity) {
+	public IIntent recognize(ISession session, IActivity activity) {
 
 		String text = activity.getText();
 		for (String string : pattern) {
 			if (text.contains(string)) {
-				String command = mapIntentName(string);
-				activity.setIntent(new CommandIntent(command));
-				return 1;
+				return new CommandIntent(mapIntentName(string));
 			}
 		}
 		if (greedy) {
-			activity.setIntent(new CommandIntent(NO_INTENT));
+			return new CommandIntent(NO_INTENT);
 		}
-		return 0;
+		return null;
 	}
 
 }

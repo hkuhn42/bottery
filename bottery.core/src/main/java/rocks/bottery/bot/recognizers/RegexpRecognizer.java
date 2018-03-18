@@ -35,13 +35,12 @@ public class RegexpRecognizer extends RecognizerBase {
 	 * @see org.sylvani.bot.IRecognizer#match(org.sylvani.bot.connector.ms.model. Activity)
 	 */
 	@Override
-	public double recognize(ISession session, IActivity activity) {
+	public IIntent recognize(ISession session, IActivity activity) {
 		if (activity.getText() != null && activity.getText().matches(getPattern())) {
 			String command = mapIntentName(pattern);
-			activity.setIntent(new CommandIntent(command));
-			return 1.0;
+			return new CommandIntent(command);
 		}
-		return 0.0;
+		return null;
 	}
 
 	public String getPattern() {

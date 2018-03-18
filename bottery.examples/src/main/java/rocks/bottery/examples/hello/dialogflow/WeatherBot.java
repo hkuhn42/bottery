@@ -32,7 +32,9 @@ public class WeatherBot extends UniversalBot {
 		// map the luis intents to intents used in the dialogs (keeps them portable)
 		// recognizer.getIntentMapping().put("builtin.intent.alarm.delete_alarm", "deleteAlarm");
 		// add a dialog which only responds with ok if it knows the intent or a short help text
-		addDialog(recognizer, new Utterance() {
+		getBotConfig().getRecognizers().add(recognizer);
+
+		addDialog("weather", new Utterance() {
 			@Override
 			public IModel<String> getText(IActivity request, ISession session) {
 				if (request.getIntent() != null) {

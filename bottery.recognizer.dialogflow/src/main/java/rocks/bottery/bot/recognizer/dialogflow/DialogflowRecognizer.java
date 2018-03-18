@@ -24,6 +24,7 @@ import com.google.cloud.dialogflow.v2beta1.TextInput.Builder;
 
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.ISession;
+import rocks.bottery.bot.recognizers.IIntent;
 import rocks.bottery.bot.recognizers.RecognizerBase;
 
 /**
@@ -48,7 +49,7 @@ public class DialogflowRecognizer extends RecognizerBase {
 	 * @see rocks.bottery.bot.recognizers.IRecognizer#recognize(rocks.bottery.bot.ISession, rocks.bottery.bot.IActivity)
 	 */
 	@Override
-	public double recognize(ISession session, IActivity activity) {
+	public IIntent recognize(ISession session, IActivity activity) {
 
 		try (SessionsClient sessionsClient = SessionsClient.create()) {
 			// Set the session name using the sessionId (UUID) and projectID (my-project-id)
@@ -66,9 +67,7 @@ public class DialogflowRecognizer extends RecognizerBase {
 			QueryResult queryResult = response.getQueryResult();
 			String intentName = mapIntentName(queryResult.getIntent().getDisplayName());
 
-			DialogflowIntent intent = new DialogflowIntent(intentName, queryResult);
-			activity.setIntent(intent);
-			return queryResult.getIntentDetectionConfidence();
+			return new DialogflowIntent(intentName, queryResult);
 		}
 		catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -79,7 +78,7 @@ public class DialogflowRecognizer extends RecognizerBase {
 			e.printStackTrace();
 		}
 
-		return 0;
+		return null;
 	}
 
 }
