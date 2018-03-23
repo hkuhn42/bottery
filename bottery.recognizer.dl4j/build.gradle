@@ -1,0 +1,12 @@
+version = '0.6'
+
+dependencies {
+    compile project(':bottery.core')
+    // download
+    compile 'org.jsoup:jsoup:1.11.2'
+    // dl4j
+    compile group: 'org.nd4j', name: 'nd4j-native-platform', version: '0.8.0'
+    compile group: 'org.deeplearning4j', name: 'deeplearning4j-core', version: '0.8.0'
+    compile group: 'org.deeplearning4j', name: 'deeplearning4j-nlp', version: '0.8.0'
+    
+}
