@@ -30,12 +30,12 @@ import org.codehaus.jackson.map.SerializationConfig;
 
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IParticipant;
-import rocks.bottery.bot.connector.ms.model.Activity;
-import rocks.bottery.bot.connector.ms.model.ChannelAccount;
-import rocks.bottery.bot.connector.ms.model.ConversationAccount;
 import rocks.bottery.connector.console.ConnectorBase;
 import rocks.bottery.connector.ms.api.BotClient;
 import rocks.bottery.connector.ms.api.MessageAPI;
+import rocks.bottery.connector.ms.model.Activity;
+import rocks.bottery.connector.ms.model.ChannelAccount;
+import rocks.bottery.connector.ms.model.ConversationAccount;
 import rocks.bottery.messaging.IReceiver;
 
 /**

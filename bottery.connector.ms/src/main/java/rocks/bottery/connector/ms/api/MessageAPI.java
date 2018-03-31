@@ -21,7 +21,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
-import rocks.bottery.bot.connector.ms.model.Activity;
+import rocks.bottery.connector.ms.model.Activity;
 
 @Path("/api/messages")
 /**

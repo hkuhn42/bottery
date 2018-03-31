@@ -10,7 +10,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-package rocks.bottery.bot.connector.ms.model;
+package rocks.bottery.connector.ms.model;
 
 import java.util.HashMap;
 import java.util.Map;

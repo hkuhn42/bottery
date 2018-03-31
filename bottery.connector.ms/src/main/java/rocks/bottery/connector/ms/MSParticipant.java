@@ -13,7 +13,7 @@
 package rocks.bottery.connector.ms;
 
 import rocks.bottery.bot.IParticipant;
-import rocks.bottery.bot.connector.ms.model.ChannelAccount;
+import rocks.bottery.connector.ms.model.ChannelAccount;
 
 /**
  * The participant for the msConnector

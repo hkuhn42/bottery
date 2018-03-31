@@ -25,7 +25,7 @@ import org.apache.cxf.transport.http.HTTPConduit;
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import org.codehaus.jackson.map.SerializationConfig;
 
-import rocks.bottery.bot.connector.ms.model.Activity;
+import rocks.bottery.connector.ms.model.Activity;
 import rocks.bottery.messaging.IMessagingConfig;
 
 /**

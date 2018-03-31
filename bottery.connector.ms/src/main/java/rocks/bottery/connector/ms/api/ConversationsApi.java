@@ -25,9 +25,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import rocks.bottery.bot.connector.ms.model.Activity;
-import rocks.bottery.bot.connector.ms.model.AttachmentData;
-import rocks.bottery.bot.connector.ms.model.ConversationParameters;
+import rocks.bottery.connector.ms.model.Activity;
+import rocks.bottery.connector.ms.model.AttachmentData;
+import rocks.bottery.connector.ms.model.ConversationParameters;
 
 /**
  * MS Conversation api genrated from swagger file

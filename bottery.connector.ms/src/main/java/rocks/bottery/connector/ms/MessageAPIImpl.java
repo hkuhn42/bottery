@@ -14,10 +14,10 @@ package rocks.bottery.connector.ms;
 
 import javax.ws.rs.core.Response;
 
-import rocks.bottery.bot.connector.ms.model.Activity;
 import rocks.bottery.connector.IConnector;
 import rocks.bottery.connector.ms.api.Api2BotTokenVerifier;
 import rocks.bottery.connector.ms.api.MessageAPI;
+import rocks.bottery.connector.ms.model.Activity;
 import rocks.bottery.messaging.IReceiver;
 
 /**

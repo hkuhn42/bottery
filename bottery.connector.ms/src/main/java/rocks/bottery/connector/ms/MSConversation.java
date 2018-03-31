@@ -16,7 +16,7 @@
 package rocks.bottery.connector.ms;
 
 import rocks.bottery.bot.IConversation;
-import rocks.bottery.bot.connector.ms.model.ConversationAccount;
+import rocks.bottery.connector.ms.model.ConversationAccount;
 
 /**
  * @author Harald Kuhn

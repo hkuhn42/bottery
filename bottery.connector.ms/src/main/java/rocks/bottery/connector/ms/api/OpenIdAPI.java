@@ -21,7 +21,7 @@ import javax.ws.rs.Produces;
 
 import org.apache.cxf.message.Message;
 
-import rocks.bottery.bot.connector.ms.model.OpenIdConfig;
+import rocks.bottery.connector.ms.model.OpenIdConfig;
 
 /**
  * Proxy api for microsofts openID service for the botFramework

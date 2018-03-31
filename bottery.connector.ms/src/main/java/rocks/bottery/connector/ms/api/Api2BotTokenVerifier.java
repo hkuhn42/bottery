@@ -27,7 +27,7 @@ import org.jose4j.keys.resolvers.HttpsJwksVerificationKeyResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import rocks.bottery.bot.connector.ms.model.OpenIdConfig;
+import rocks.bottery.connector.ms.model.OpenIdConfig;
 
 /**
  * Verifies the jose tokens
