@@ -21,8 +21,8 @@ import rocks.bottery.bot.Choice;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IAttachment;
 import rocks.bottery.bot.IConversation;
-import rocks.bottery.bot.IIntent;
 import rocks.bottery.bot.IParticipant;
+import rocks.bottery.bot.recognizers.IIntent;
 import sx.blah.discord.handle.obj.IMessage;
 
 /**
