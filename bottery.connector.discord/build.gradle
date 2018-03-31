@@ -1,4 +1,4 @@
-version = '0.6'
+version = '0.7'
 
 repositories {
   jcenter() //This prevents issues with transitive dependencies
@@ -9,6 +9,8 @@ repositories {
 
 dependencies {
     compile project(':bottery.core')
+    
+    compile 'log4j:log4j:1.2.17'
     
     compile "com.github.austinv11:Discord4J:2.9.3"
 }

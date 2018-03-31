@@ -1,6 +1,6 @@
 package rocks.bottery.connector.discord;
 
-import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IParticipant;
@@ -16,7 +16,7 @@ import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.RequestBuffer;
 
 /**
- * synchrounous connecctor to amazon alexa
+ * Connector for discord
  *
  * Call after replacing <appid> with your appid
  *
@@ -28,11 +28,11 @@ import sx.blah.discord.util.RequestBuffer;
 public class DiscordConnector extends ConnectorBase {
 
 	private IDiscordClient client;
-	private IReceiver	   bot;
+	private IReceiver	   receiver;
 
 	@Override
 	public void register(IReceiver receiver) {
-		this.bot = receiver;
+		this.receiver = receiver;
 		client = createClient(config.getSetting("discord.token"), true);
 		EventDispatcher dispatcher = client.getDispatcher();
 		dispatcher.registerListener(this);
@@ -47,8 +47,7 @@ public class DiscordConnector extends ConnectorBase {
 				channel.sendMessage(activity.getText());
 			}
 			catch (DiscordException e) {
-				System.err.println("Message could not be sent with error: ");
-				e.printStackTrace();
+				Logger.getLogger(DiscordConnector.class).error("Message could not be sent with error: ", e);
 			}
 		});
 	}
@@ -77,20 +76,14 @@ public class DiscordConnector extends ConnectorBase {
 			}
 		}
 		catch (DiscordException e) { // This is thrown if there was a problem building the client
-			e.printStackTrace();
+			Logger.getLogger(DiscordConnector.class).error("could not create discord client", e);
 			return null;
 		}
 	}
 
-	public static void main(String[] args) {
-		BasicConfigurator.configure();
-		DiscordConnector connector = new DiscordConnector();
-		connector.register(null);
-	}
-
 	@EventSubscriber
 	public void onMessageReceived(MessageReceivedEvent event) {
-		bot.receive(new DiscordActivity(event.getMessage()), this);
+		receiver.receive(new DiscordActivity(event.getMessage()), this);
 	}
 
 	@Override
