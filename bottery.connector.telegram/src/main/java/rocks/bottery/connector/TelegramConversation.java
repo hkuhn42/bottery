@@ -20,6 +20,8 @@ import com.pengrad.telegrambot.model.Chat;
 import rocks.bottery.bot.IConversation;
 
 /**
+ * A telegram conversation (or chat)
+ * 
  * @author Harald Kuhn
  *
  */
@@ -48,8 +50,7 @@ public class TelegramConversation implements IConversation {
 	 */
 	@Override
 	public String getChannel() {
-		// TODO Auto-generated method stub
-		return null;
+		return "telegram";
 	}
 
 	/*
@@ -59,7 +60,6 @@ public class TelegramConversation implements IConversation {
 	 */
 	@Override
 	public String getConnectorId() {
-		// TODO Auto-generated method stub
 		return TelegramConnector.class.getName();
 	}
 

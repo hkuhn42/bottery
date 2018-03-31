@@ -51,10 +51,11 @@ import rocks.bottery.connector.console.ConnectorBase;
 import rocks.bottery.messaging.IReceiver;
 
 /**
+ * Connector for telegram
+ * 
+ * https://github.com/pengrad/java-telegram-bot-api#creating-your-bot
+ * 
  * @author Harald Kuhn
- *
- *         https://github.com/pengrad/java-telegram-bot-api#creating-your-bot
- *
  */
 public class TelegramConnector extends ConnectorBase {
 
