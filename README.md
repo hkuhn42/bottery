@@ -17,14 +17,14 @@ on and off) again. So i started to create an abstraction layer.
 
 | Chat Service                                     | connector |
 |--------------------------------------------------|----|
-| GroupMe                                          | [ms](bottery/bottery.connector.ms/README.md) |
+| GroupMe                                          | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
 | Facebook Messenger                               | ms |
 | Kik                                              | ms |
 | Skype                                            | ms |
 | Skype for Business                               | ms |
 | Microsoft Teams                                  | ms |
 | Slack                                            | ms |
-| Telegram                                         | telegram, ms |´
+| Telegram                                         | telegram, ms |Â´
 | Twilio                                           | ms |
 | text/SMS                                         | ms |
 | email                                            | ms |
