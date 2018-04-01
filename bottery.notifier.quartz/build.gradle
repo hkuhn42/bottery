@@ -1,0 +1,9 @@
+version = '0.6'
+
+dependencies {
+    compile project(':bottery.core')
+    
+
+    compile group: 'org.quartz-scheduler', name: 'quartz', version: '2.2.1'
+    
+}
