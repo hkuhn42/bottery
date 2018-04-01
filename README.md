@@ -17,7 +17,7 @@ on and off) again. So i started to create an abstraction layer.
 
 | Chat Service                                     | connector |
 |--------------------------------------------------|----|
-| GroupMe                                          | [ms](bottery/connector/ms/README.md) |
+| GroupMe                                          | [ms](bottery/bottery.connector.ms/README.md) |
 | Facebook Messenger                               | ms |
 | Kik                                              | ms |
 | Skype                                            | ms |
