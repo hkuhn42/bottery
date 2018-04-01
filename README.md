@@ -1,16 +1,66 @@
 # Bottery
 A Java based framework for chatbots
 
-The goal of this framework is to provide a api for writing vendor neutral chat (and voice) bots. Support for massaging 
-frameworks and intent recognition are provided by plugins. The goal is to provide implementations for all major frameworks
-and apis to allow writing cross vendor and platform neutral bots. 
-Currently the projects tries to provide basic plumbing like i18n, message storage and 
-configuration as well as a framework for simple scripted bots.   
+The goal of this framework is to provide an api for writing vendor neutral conversational (chat and voice) systems and bots. 
+Support for massaging  frameworks and intent recognition are provided by plugins. The goal is to provide implementations for all 
+major frameworks and apis to allow writing cross vendor and platform neutral bots. 
 
-This is still in alpha state so expect api changes
+This is still in alpha state so expect api changes.
+
+## Motivation
+
+I looked into chatbots and ai for quite some time (among other reasons for some ideas i had for openhab see sylvani) and 
+i realized that whatever api or framework i used,  i always ended up writing the evaluation business logic (turn my hue 
+on and off) again. So i started to create an abstraction layer.   
+
+## Support Matrix
+
+| Chat Service                                     | connector |
+|--------------------------------------------------|----|
+| GroupMe                                          | [ms](bottery/connector/ms/README.md) |
+| Facebook Messenger                               | ms |
+| Kik                                              | ms |
+| Skype                                            | ms |
+| Skype for Business                               | ms |
+| Microsoft Teams                                  | ms |
+| Slack                                            | ms |
+| Telegram                                         | telegram, ms |´
+| Twilio                                           | ms |
+| text/SMS                                         | ms |
+| email                                            | ms |
+| discord                                          | discord |
+| gitter                                           | gitter |
+
+ 
+
+## Planned for 0.8
+- Add Unit tests (still  trying to figure out how to test the cloud based connectors)
+- A common example for all recognizers (one example implemented for all recognizers)
+- More documentation
+- Support rich ui like cards and buttons where feasible
+- Evaluate other message systems
+  - twitter (there is a prototype but i am still not sure wether this is even a good idea)
+  - imessage business chat (there is a rough sketch but without apple approval is does not make sense)
+  - briar (may be to early to support) 
+  - hipchat (would need access to a server - could use https://github.com/viascom/hipchat-api)
+  - google assistant (could use https://github.com/frogermcs/Google-Actions-Java-SDK)
+  - eclipse smarthome audio api together with microsoft oxford
+ 
 
 ## Changelog
 
+# 0.7 (alpha)
+- WitAI Recognizer
+- Deeplearining4J QnA Recognizer
+- Deeplearining4J Recognizer base classes
+- Recognizer API Refactoring 
+- General cleanup
+- Experimental Alexa Connector
+
+# 0.6.2
+- New Dialogflow recognizer
+- New Gitter connector
+- New Notifiers based quartz framework
 
 # 0.6.1
 - New LUIS recognizer
