@@ -5,7 +5,10 @@ The goal of this framework is to provide an api for writing vendor neutral conve
 Support for massaging  frameworks and intent recognition are provided by plugins. The goal is to provide implementations for all 
 major frameworks and apis to allow writing cross vendor and platform neutral bots. 
 
-This is still in alpha state so expect api changes.
+This project still in alpha state so expect api changes.
+
+## License
+Bottery is licensed under the [Apache License v2](LICENSE)
 
 
 ## Features
@@ -16,7 +19,7 @@ This is still in alpha state so expect api changes.
 - microsoft bot framework connector
 - telegram connector
 - discord connector
-- Bot2Bot Connector for in unit tests
+- Bot2Bot Connector for unit tests
 - notifiers to trigger activities (e.g. by time or after another thread finished)
 - microsoft luis intent recognizer
 
@@ -24,27 +27,29 @@ This is still in alpha state so expect api changes.
 
 ## Support Matrix
 
-| Chat Service                                     | connector |
-|--------------------------------------------------|----|
-| GroupMe                                          | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| Facebook Messenger                               | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| Kik                                              | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| Skype                                            | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| Skype for Business                               | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| Microsoft Teams                                  | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| Slack                                            | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| Telegram                                         | [telegram](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.telegram), [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |´
-| Twilio                                           | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| text/SMS                                         | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| email                                            | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| discord                                          | [discord](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.discord) |
-| gitter                                           | [gitter](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.gitter) |
+| Chat Service            | connector | 
+|-------------------------|----|
+| GroupMe                 | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
+| Facebook Messenger      | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
+| Kik                     | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
+| Skype                   | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
+| Skype for Business      | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
+| Microsoft Teams         | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
+| Slack                   | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
+| Telegram                | [telegram](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.telegram)|
+| Twilio                  | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
+| text/SMS                | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
+| email                   | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
+| discord                 | [discord](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.discord) |
+| gitter                  | [gitter](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.gitter) |
 
-| Intent recognition                               | recognizer |
-|--------------------------------------------------|----|
-| command in text                                  | [CommandRecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.core/rocks/bottery/bot/recognizers) |
-| regexp commands in text                          | [RegexpRecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.core/rocks/bottery/bot/recognizers) |
-| Microsoft LUIS                                   | [LuisRecognizer][ms](https://github.com/hkuhn42/bottery/tree/master/bottery.recognizer.luis) | 
+| Intent recognition by  | Recognizer |
+|------------------------|------------|
+| Commands in text       | [CommandRecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.core/rocks/bottery/bot/recognizers) |
+| Regexp commands in text| [RegexpRecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.core/rocks/bottery/bot/recognizers) |
+| Microsoft LUIS         | [LuisRecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.recognizer.luis) |
+| Dialogflow             | [LuisRecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.recognizer.luis) |
+| Deeplearning4J (QnA)   | [DialogflowRecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.recognizer.dialogflow) | 
 
 ## Planned for 0.8
 - Add Unit tests (still  trying to figure out how to test the cloud based connectors)
