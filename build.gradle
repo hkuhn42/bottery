@@ -9,16 +9,21 @@ allprojects {
     
     license {
         header rootProject.file('HEADER')
-        ext.year = '2016-2017'
+        ext.year = '2016-2018'
         ext.name = 'Harald Kuhn'
     }   
     repositories {
         jcenter()
+        // for discord
+        maven {
+            url  "https://jitpack.io"
+        }
     }
     
     dependencies {
         compile 'org.slf4j:slf4j-api:1.7.21'
         compile 'org.slf4j:slf4j-log4j12:1.7.21'
+        compile 'log4j:log4j:1.2.17'
         testCompile 'junit:junit:4.12'
     }
 }
@@ -28,5 +33,3 @@ subprojects {
         baseName = "rocks.$project.name"
     }
 }
-
-
