@@ -7,31 +7,44 @@ major frameworks and apis to allow writing cross vendor and platform neutral bot
 
 This is still in alpha state so expect api changes.
 
-## Motivation
 
-I looked into chatbots and ai for quite some time (among other reasons for some ideas i had for openhab see sylvani) and 
-i realized that whatever api or framework i used,  i always ended up writing the evaluation business logic (turn my hue 
-on and off) again. So i started to create an abstraction layer.   
+## Features
+- basic framework supports pluggable "cross vendor" bots
+- i18n support with rincl
+- text template support with mustache
+- console connector for testing
+- microsoft bot framework connector
+- telegram connector
+- discord connector
+- Bot2Bot Connector for in unit tests
+- notifiers to trigger activities (e.g. by time or after another thread finished)
+- microsoft luis intent recognizer
+
+
 
 ## Support Matrix
 
 | Chat Service                                     | connector |
 |--------------------------------------------------|----|
 | GroupMe                                          | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| Facebook Messenger                               | ms |
-| Kik                                              | ms |
-| Skype                                            | ms |
-| Skype for Business                               | ms |
-| Microsoft Teams                                  | ms |
-| Slack                                            | ms |
-| Telegram                                         | telegram, ms |´
-| Twilio                                           | ms |
-| text/SMS                                         | ms |
-| email                                            | ms |
-| discord                                          | discord |
-| gitter                                           | gitter |
+| Facebook Messenger                               | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
+| Kik                                              | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
+| Skype                                            | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
+| Skype for Business                               | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
+| Microsoft Teams                                  | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
+| Slack                                            | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
+| Telegram                                         | [telegram](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.telegram), [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |´
+| Twilio                                           | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
+| text/SMS                                         | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
+| email                                            | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
+| discord                                          | [discord](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.discord) |
+| gitter                                           | [gitter](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.gitter) |
 
- 
+| Intent recognition                               | recognizer |
+|--------------------------------------------------|----|
+| command in text                                  | [CommandRecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.core/rocks/bottery/bot/recognizers) |
+| regexp commands in text                          | [RegexpRecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.core/rocks/bottery/bot/recognizers) |
+| Microsoft LUIS                                   | [LuisRecognizer][ms](https://github.com/hkuhn42/bottery/tree/master/bottery.recognizer.luis) | 
 
 ## Planned for 0.8
 - Add Unit tests (still  trying to figure out how to test the cloud based connectors)
@@ -46,6 +59,26 @@ on and off) again. So i started to create an abstraction layer.
   - google assistant (could use https://github.com/frogermcs/Google-Actions-Java-SDK)
   - eclipse smarthome audio api together with microsoft oxford
  
+
+## Getting started
+
+There is a number of examples in the examples package however a very basic echo bot on the console takes no more than:
+
+```java
+    // create a UniversalBot
+    UniversalBot bot = new UniversalBot();
+    // set the welcome dialog 
+    bot.setWelcomeDialog(new Utterance() {
+            // use the text of the incoming activity as the answer for the response
+            public IModel<String> getText(IActivity request, ISession session) {
+                return new Model<String>(request.getText());
+            }
+        });
+    }
+    // connect the bot to the console
+    new ConsoleConnector().register(bot);
+}
+```
 
 ## Changelog
 
@@ -74,38 +107,7 @@ on and off) again. So i started to create an abstraction layer.
 - New discord connector
 
 
-## Features
-- basic framework supports pluggable "cross vendor" bots
-- i18n support with rincl
-- text template support with mustache
-- console connector for testing
-- microsoft bot framework connector
-- telegram connector
-- discord connector
-- Bot2Bot Connector for in unit tests
-- notifiers to trigger activities (e.g. by time or after another thread finished)
-- microsoft luis intent recognizer
 
-
-## Getting started
-
-There is a number of examples in the examples package however a very basic echo bot on the console takes no more than:
-
-```java
-    // create a UniversalBot
-    UniversalBot bot = new UniversalBot();
-    // set the welcome dialog 
-    bot.setWelcomeDialog(new Utterance() {
-            // use the text of the incoming activity as the answer for the response
-            public IModel<String> getText(IActivity request, ISession session) {
-                return new Model<String>(request.getText());
-            }
-        });
-    }
-    // connect the bot to the console
-    new ConsoleConnector().register(bot);
-}
-```
 
 ## Core Concepts
 The basic concepts of the framework are 
@@ -122,9 +124,16 @@ All components except the session are designed to be stateless so instances can 
 
 Bottery borrows some of its concepts from the apache wicket web framework. 
 
+## Motivation
+
+I looked into chatbots and ai for quite some time (among other reasons for some ideas i had for openhab see sylvani) and 
+i realized that whatever api or framework i used,  i always ended up writing the evaluation business logic (turn my hue 
+on and off) again. So i started to create an abstraction layer.   
+
 ## History
 The original implementation was part of an effort to bring voice and text assistants to openhab and eclipse smarthome.
 Some of the concepts for voice made it into the eclipse smarthome core and the rest eventually evolved into this framework.
 
 ## Name
 The name is a combination of the words bot, battery and potter, make of it what you want :)
+
