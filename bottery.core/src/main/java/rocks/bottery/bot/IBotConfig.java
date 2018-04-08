@@ -20,31 +20,80 @@ import rocks.bottery.bot.recognizers.IRecognizer;
 import rocks.bottery.messaging.IMessagingConfig;
 
 /**
- * Bot global context (shared between all bots)
+ * Bot global config and context (shared between all bots)
  * 
  * @author Harald Kuhn
- *
  */
 public interface IBotConfig extends IMessagingConfig {
 
+	/**
+	 * get the active localizer
+	 * 
+	 * @return
+	 */
 	ILocalizer getLocalizer();
 
-	IRecognizer getRecognizer();
+	/**
+	 * get all recognizers
+	 * 
+	 * @return
+	 */
+	List<IRecognizer> getRecognizers();
 
+	/**
+	 * get the active variable resolver
+	 * 
+	 * @return
+	 */
 	IVariableResolver getResolver();
 
+	/**
+	 * get the session store
+	 * 
+	 * @return
+	 */
 	ISessionStore getSessionStore();
 
+	/**
+	 * get the activity archive
+	 * 
+	 * @return
+	 */
 	IActivityArchive getArchive();
 
+	/**
+	 * set the localizer
+	 * 
+	 * @param localizer
+	 */
 	void setLocalizer(ILocalizer localizer);
 
-	void setRecognizer(IRecognizer recognizer);
+	/**
+	 * set the recognizers
+	 * 
+	 * @param recognizer
+	 */
+	void setRecognizers(List<IRecognizer> recognizer);
 
+	/**
+	 * set the variable resolver
+	 * 
+	 * @param resolver
+	 */
 	void setResolver(IVariableResolver resolver);
 
+	/**
+	 * set the session store
+	 * 
+	 * @param sessionStore
+	 */
 	void setSessionStore(ISessionStore sessionStore);
 
+	/**
+	 * set the activity archive
+	 * 
+	 * @param archive
+	 */
 	void setArchive(IActivityArchive archive);
 	// add dev config
 
