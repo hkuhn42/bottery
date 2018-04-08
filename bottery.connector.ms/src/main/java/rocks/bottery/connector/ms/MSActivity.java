@@ -57,12 +57,6 @@ public class MSActivity extends GenericActivity implements IActivity {
 		return activity.getId();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sylvani.bot.IActivity#setId(java.lang.String)
-	 */
-	@Override
 	public void setId(String id) {
 		activity.setId(id);
 	}
@@ -77,12 +71,6 @@ public class MSActivity extends GenericActivity implements IActivity {
 		return activity.getTopicName();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sylvani.bot.IActivity#setTopic(java.lang.String)
-	 */
-	@Override
 	public void setTopic(String topic) {
 		activity.setTopicName(topic);
 	}
@@ -107,12 +95,6 @@ public class MSActivity extends GenericActivity implements IActivity {
 		return ActivityType.OTHER;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sylvani.bot.IActivity#setType(org.sylvani.bot.ActivityType)
-	 */
-	@Override
 	public void setType(ActivityType type) {
 		switch (type) {
 			case MESSAGE:
@@ -133,12 +115,6 @@ public class MSActivity extends GenericActivity implements IActivity {
 		return new MSParticipant(activity.getFrom());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sylvani.bot.IActivity#setFrom(org.sylvani.bot.IParticipant)
-	 */
-	@Override
 	public void setFrom(IParticipant from) {
 		if (from instanceof MSParticipant) {
 			activity.setFrom(((MSParticipant) from).getChannelAccount());
@@ -161,12 +137,6 @@ public class MSActivity extends GenericActivity implements IActivity {
 		return new MSParticipant(activity.getRecipient());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sylvani.bot.IActivity#setRecipients(java.util.List)
-	 */
-	@Override
 	public void setRecipient(IParticipant recipient) {
 		activity.setRecipient(((MSParticipant) recipient).getChannelAccount());
 	}
@@ -176,7 +146,6 @@ public class MSActivity extends GenericActivity implements IActivity {
 		return activity.getText();
 	}
 
-	@Override
 	public void setText(String text) {
 		activity.setText(text);
 	}
@@ -186,13 +155,6 @@ public class MSActivity extends GenericActivity implements IActivity {
 		return new MSConversation(activity.getConversation(), activity.getChannelId());
 	}
 
-	@Override
-	public void setConversation(IConversation conversation) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void setAttachments(List<IAttachment> attachments) {
 		List<Attachment> msAttachments = new ArrayList<>();
 		for (IAttachment attachment : attachments) {
@@ -227,12 +189,7 @@ public class MSActivity extends GenericActivity implements IActivity {
 	}
 
 	@Override
-	public void setChoices(List<Choice<?>> choices) {
-
-	}
-
-	@Override
 	public List<Choice<?>> getChoices() {
-		return null;
+		return new ArrayList<>();
 	}
 }

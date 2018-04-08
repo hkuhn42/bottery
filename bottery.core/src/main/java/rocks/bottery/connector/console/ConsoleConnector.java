@@ -16,6 +16,7 @@ import java.util.Scanner;
 
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IParticipant;
+import rocks.bottery.connector.GenericActivity;
 import rocks.bottery.connector.GenericParticipant;
 import rocks.bottery.messaging.IReceiver;
 
@@ -42,7 +43,7 @@ public class ConsoleConnector extends ExecutorConnectorBase {
 			public void listen(final IReceiver handler) {
 				String text = scanner.nextLine();
 
-				IActivity activity = newMessageTo(new GenericParticipant("shell", "shell", "shell"));
+				GenericActivity activity = newMessageTo(new GenericParticipant("shell", "shell", "shell"));
 				activity.setText(text);
 
 				handler.receive(activity, ConsoleConnector.this);

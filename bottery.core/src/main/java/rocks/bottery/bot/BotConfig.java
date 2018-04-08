@@ -1,17 +1,14 @@
 /**
- *    Copyright (C) 2016-2017 Harald Kuhn
+ * Copyright (C) 2016-2017 Harald Kuhn
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  */
 package rocks.bottery.bot;
 
@@ -24,15 +21,17 @@ import rocks.bottery.bot.interceptors.IInterceptor;
 import rocks.bottery.bot.recognizers.IRecognizer;
 
 /**
+ * Default bot config. If a settings starts with "Crypt " (note the blanc) it is considered to be encrypted with the
+ * active ICrypt implementation and will be decrypted by getSetting before beeing returned
+ * 
  * @author Harald Kuhn
- *
  */
 public class BotConfig implements IBotConfig {
 
 	protected Properties		 properties;
 
 	protected ILocalizer		 localizer;
-	protected IRecognizer		 recognizer;
+	protected List<IRecognizer>	 recognizers;
 	protected ICrypt			 crypt;
 
 	protected IVariableResolver	 resolver;
@@ -46,6 +45,7 @@ public class BotConfig implements IBotConfig {
 	public BotConfig() {
 		inInterceptors = new ArrayList<>();
 		outInterceptors = new ArrayList<>();
+		recognizers = new ArrayList<>();
 		properties = new Properties();
 	}
 
@@ -55,8 +55,8 @@ public class BotConfig implements IBotConfig {
 	}
 
 	@Override
-	public IRecognizer getRecognizer() {
-		return recognizer;
+	public List<IRecognizer> getRecognizers() {
+		return recognizers;
 	}
 
 	@Override
@@ -65,8 +65,8 @@ public class BotConfig implements IBotConfig {
 	}
 
 	@Override
-	public void setRecognizer(IRecognizer recognizer) {
-		this.recognizer = recognizer;
+	public void setRecognizers(List<IRecognizer> recognizers) {
+		this.recognizers = recognizers;
 
 	}
 
@@ -127,5 +127,9 @@ public class BotConfig implements IBotConfig {
 	@Override
 	public void setArchive(IActivityArchive archive) {
 		this.archive = archive;
+	}
+
+	public void setSetting(String setting, String value) {
+		properties.setProperty(setting, value);
 	}
 }

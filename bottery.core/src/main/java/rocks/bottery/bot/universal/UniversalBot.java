@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016-2017 Harald Kuhn
+ * Copyright (C) 2016-2018 Harald Kuhn
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,7 +12,10 @@
  */
 package rocks.bottery.bot.universal;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -30,31 +33,34 @@ import rocks.bottery.bot.ISession;
 import rocks.bottery.bot.dialogs.IDialog;
 import rocks.bottery.bot.interceptors.DuplicateMessageFilter;
 import rocks.bottery.bot.interceptors.IInterceptor;
+import rocks.bottery.bot.recognizers.IIntent;
 import rocks.bottery.bot.recognizers.IRecognizer;
 import rocks.bottery.connector.IConnector;
 import rocks.bottery.messaging.IMessagingContext;
 import rocks.bottery.messaging.MessagingContext;
 
 /**
- * General purpose bot implementation
+ * General purpose bot implementation. This should be sufficient for most needs.The actual behavior of bots is defined
+ * by {@link IDialog} implementations and {@link IRecognizer}.
+ * 
  * 
  * @author Harald Kuhn
  */
 public class UniversalBot extends ContextBase implements IBot, Rincled {
 
-	private Logger					  logger = LoggerFactory.getLogger(UniversalBot.class);
+	private Logger				 logger	= LoggerFactory.getLogger(UniversalBot.class);
 
-	private IDialog					  welcomeDialog;
+	private IDialog				 welcomeDialog;
 
-	private Map<IRecognizer, IDialog> globalCommands;
+	private Map<String, IDialog> globalCommands;
 
-	private Map<IRecognizer, IDialog> dialogs;
+	private Map<String, IDialog> dialogs;
 
-	private IBotConfig				  botConfig;
-	private IMessagingContext		  messagingContext;
+	private IBotConfig			 botConfig;
+	private IMessagingContext	 messagingContext;
 
-	private Stack<IHandler>			  inInterceptorChain;
-	private Stack<IHandler>			  outInterceptorChain;
+	private Stack<IHandler>		 inInterceptorChain;
+	private Stack<IHandler>		 outInterceptorChain;
 
 	public UniversalBot() {
 		this(new UniversalBotConfig());
@@ -128,40 +134,74 @@ public class UniversalBot extends ContextBase implements IBot, Rincled {
 	}
 
 	private IDialog findDialog(ISession session, IActivity activity) {
-		for (IRecognizer recognizer : globalCommands.keySet()) {
-			if (recognizer.recognize(session, activity) > 0) {
-				IDialog dialog = globalCommands.get(recognizer);
-				logger.debug("delegating message to global " + dialog.getClass().getName());
-				return dialog;
+		List<IIntent> possibleIntents = new ArrayList<>();
+		for (IRecognizer recognizer : getBotConfig().getRecognizers()) {
+			IIntent intent = recognizer.recognize(session, activity);
+			if (intent != null) {
+				possibleIntents.add(intent);
 			}
 		}
+		// fixme: sort on confidene
+		if (possibleIntents.size() > 0) {
+			activity.setIntent(possibleIntents.get(0));
+		}
+
+		// check for global commands
+		for (IIntent intent : possibleIntents) {
+			if (intent.getConfidence() == 1) {
+				IDialog dialog = globalCommands.get(intent.getIntentName());
+				if (dialog != null) {
+					activity.setIntent(intent);
+					logger.debug("delegating message to global " + dialog.getClass().getName());
+					return dialog;
+				}
+
+			}
+		}
+		// check if active dialog
 		if (session.getActiveDialog() != null) {
 			logger.debug("delegating message to active " + session.getActiveDialog().getClass().getName());
 			return session.getActiveDialog();
 		}
 
-		for (IRecognizer recognizer : dialogs.keySet()) {
-			logger.debug("trying recognizer: " + recognizer);
-			if (recognizer.recognize(session, activity) > 0) {
-				IDialog dialog = dialogs.get(recognizer);
-				logger.debug("delegating message to " + dialog.getClass().getSimpleName());
-				return dialog;
+		// check for regular dialogs
+		for (IIntent intent : possibleIntents) {
+			if (intent.getConfidence() == 1) {
+				IDialog dialog = dialogs.get(intent.getIntentName());
+				if (dialog != null) {
+					activity.setIntent(intent);
+					logger.debug("delegating message to global " + dialog.getClass().getName());
+					return dialog;
+				}
 			}
 		}
+
+		// return welcome
 		logger.debug("coult not find match, delegating to welcome");
 		return welcomeDialog;
 	}
 
-	public void addDialog(IRecognizer recognizer, IDialog dialog) {
-		dialogs.put(recognizer, dialog);
+	public void addDialog(String intent, IDialog dialog) {
+		dialogs.put(intent, dialog);
 	}
 
-	public void addGlobalCommand(IRecognizer recognizer, IDialog dialog) {
-		globalCommands.put(recognizer, dialog);
+	public void addGlobalCommand(String intent, IDialog dialog) {
+		globalCommands.put(intent, dialog);
 	}
 
 	public void setWelcomeDialog(IDialog welcomeDialog) {
 		this.welcomeDialog = welcomeDialog;
+	}
+
+	/**
+	 * shortcut for recognizer init and add recognizer to config
+	 * 
+	 * @param recognizer
+	 * @throws IOException
+	 */
+	public void addRecognizer(IRecognizer recognizer) throws IOException {
+		recognizer.init(getBotConfig());
+		getBotConfig().getRecognizers().add(recognizer);
 	}
 
 	@Override

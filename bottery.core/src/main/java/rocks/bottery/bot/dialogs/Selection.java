@@ -22,6 +22,7 @@ import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.ISession;
 import rocks.bottery.bot.util.Data;
 import rocks.bottery.bot.util.ISessionModel;
+import rocks.bottery.connector.GenericActivity;
 
 /**
  * Selection of choices
@@ -59,7 +60,7 @@ public abstract class Selection<T> extends Question<T> {
 	}
 
 	@Override
-	protected void fillActivity(IActivity request, IActivity response, ISession session) {
+	protected void fillActivity(IActivity request, GenericActivity response, ISession session) {
 		// FIXME: add 1. 2. 3. etc to list and also use for answer resolving
 		super.fillActivity(response, response, session);
 		response.setText(response.getText() + "\n" + Data.join(", ", choices));

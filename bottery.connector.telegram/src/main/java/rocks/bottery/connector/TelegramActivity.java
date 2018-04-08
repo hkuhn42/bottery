@@ -23,20 +23,18 @@ import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IAttachment;
 import rocks.bottery.bot.IConversation;
 import rocks.bottery.bot.IParticipant;
-import rocks.bottery.bot.recognizers.IIntent;
 
 /**
  * Activity implementation for Telegram
  * 
  * @author Harald Kuhn
  */
-public class TelegramActivity extends GenericActivity implements IActivity {
+public class TelegramActivity extends ActivityBase implements IActivity {
 
 	private static final long serialVersionUID = 1L;
 
 	private Update			  update;
 	private List<IAttachment> attachement;
-	private IIntent			  intent;
 
 	TelegramActivity(Update update) {
 		this.update = update;
@@ -58,16 +56,6 @@ public class TelegramActivity extends GenericActivity implements IActivity {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sylvani.bot.IActivity#setId(java.lang.String)
-	 */
-	@Override
-	public void setId(String id) {
-		throw new UnsupportedOperationException("id cannot be changed");
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.sylvani.bot.IActivity#getTopic()
 	 */
 	@Override
@@ -76,16 +64,6 @@ public class TelegramActivity extends GenericActivity implements IActivity {
 			return update.message().text();
 		}
 		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sylvani.bot.IActivity#setTopic(java.lang.String)
-	 */
-	@Override
-	public void setTopic(String topic) {
-		throw new UnsupportedOperationException("topic cannot be changed");
 	}
 
 	/*
@@ -104,16 +82,6 @@ public class TelegramActivity extends GenericActivity implements IActivity {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sylvani.bot.IActivity#setType(org.sylvani.bot.ActivityType)
-	 */
-	@Override
-	public void setType(ActivityType type) {
-		throw new UnsupportedOperationException();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.sylvani.bot.IActivity#getFrom()
 	 */
 	@Override
@@ -124,31 +92,11 @@ public class TelegramActivity extends GenericActivity implements IActivity {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sylvani.bot.IActivity#setFrom(org.sylvani.bot.IParticipant)
-	 */
-	@Override
-	public void setFrom(IParticipant from) {
-		throw new UnsupportedOperationException("from cannot be changed");
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.sylvani.bot.IActivity#getRecipient()
 	 */
 	@Override
 	public IParticipant getRecipient() {
 		return new GenericParticipant("bot", "bot", "telegram");
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sylvani.bot.IActivity#setRecipient(org.sylvani.bot.IParticipant)
-	 */
-	@Override
-	public void setRecipient(IParticipant recipient) {
-		throw new UnsupportedOperationException("recipient cannot be changed");
 	}
 
 	/*
@@ -167,16 +115,6 @@ public class TelegramActivity extends GenericActivity implements IActivity {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sylvani.bot.IActivity#setText(java.lang.String)
-	 */
-	@Override
-	public void setText(String text) {
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.sylvani.bot.IActivity#getConversation()
 	 */
 	@Override
@@ -186,26 +124,6 @@ public class TelegramActivity extends GenericActivity implements IActivity {
 		}
 		return null;
 
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sylvani.bot.IActivity#setConversation(org.sylvani.bot.IConversation)
-	 */
-	@Override
-	public void setConversation(IConversation conversation) {
-		throw new UnsupportedOperationException();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sylvani.bot.IActivity#setAttachments(java.util.List)
-	 */
-	@Override
-	public void setAttachments(List<IAttachment> attachement) {
-		throw new UnsupportedOperationException();
 	}
 
 	/*
@@ -236,22 +154,8 @@ public class TelegramActivity extends GenericActivity implements IActivity {
 	}
 
 	@Override
-	public IIntent getIntent() {
-		return intent;
-	}
-
-	@Override
-	public void setIntent(IIntent intent) {
-		this.intent = intent;
-	}
-
-	@Override
-	public void setChoices(List<Choice<?>> choices) {
-	}
-
-	@Override
 	public List<Choice<?>> getChoices() {
-		return null;
+		return new ArrayList<>();
 	}
 
 }

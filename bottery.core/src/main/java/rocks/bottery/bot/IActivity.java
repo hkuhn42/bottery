@@ -14,6 +14,8 @@ package rocks.bottery.bot;
 
 import java.util.List;
 
+import rocks.bottery.bot.recognizers.IIntent;
+
 /**
  * Defines an activity in a chat
  * 
@@ -38,25 +40,11 @@ public interface IActivity {
 	String getId();
 
 	/**
-	 * set the ID
-	 * 
-	 * @param id
-	 */
-	void setId(String id);
-
-	/**
 	 * get the Topic of the activity or null if no topic is present or supported
 	 * 
 	 * @return topic string or null
 	 */
 	String getTopic();
-
-	/**
-	 * set the Topic of the activity or null if no topic is present or supported
-	 * 
-	 * @return
-	 */
-	void setTopic(String topic);
 
 	/**
 	 * the type of the activity
@@ -65,8 +53,6 @@ public interface IActivity {
 	 */
 	ActivityType getType();
 
-	void setType(ActivityType type);
-
 	/**
 	 * the sending participant
 	 * 
@@ -74,11 +60,7 @@ public interface IActivity {
 	 */
 	IParticipant getFrom();
 
-	void setFrom(IParticipant from);
-
 	IParticipant getRecipient();
-
-	void setRecipient(IParticipant recipient);
 
 	/**
 	 * the text of the activity or null if none is present
@@ -87,23 +69,12 @@ public interface IActivity {
 	 */
 	public String getText();
 
-	public void setText(String text);
-
 	/**
 	 * the conversation (aka the chat or session of the connector)
 	 * 
 	 * @return
 	 */
 	public IConversation getConversation();
-
-	public void setConversation(IConversation conversation);
-
-	/**
-	 * a list of attachements or null if none are available
-	 * 
-	 * @param attachement
-	 */
-	public void setAttachments(List<IAttachment> attachement);
 
 	public List<IAttachment> getAttachments();
 
@@ -125,12 +96,8 @@ public interface IActivity {
 
 	/**
 	 * a list of choices to be presented to the user the actual presentation is dependent of the technological
-	 * possiblities of the connector
-	 */
-	public void setChoices(List<Choice<?>> choices);
-
-	/**
 	 * 
+	 * @return possiblities for a choice
 	 */
 	public List<Choice<?>> getChoices();
 

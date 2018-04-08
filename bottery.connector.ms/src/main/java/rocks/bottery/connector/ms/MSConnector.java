@@ -30,6 +30,7 @@ import org.codehaus.jackson.map.SerializationConfig;
 
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IParticipant;
+import rocks.bottery.connector.GenericActivity;
 import rocks.bottery.connector.console.ConnectorBase;
 import rocks.bottery.connector.ms.api.BotClient;
 import rocks.bottery.connector.ms.api.MessageAPI;
@@ -136,7 +137,7 @@ public class MSConnector extends ConnectorBase {
 	}
 
 	@Override
-	public IActivity newMessageTo(IParticipant recipient) {
+	public GenericActivity newMessageTo(IParticipant recipient) {
 		Activity activity = new Activity();
 		activity.setType("message");
 		activity.setId("A" + new SecureRandom().nextLong());
@@ -148,7 +149,7 @@ public class MSConnector extends ConnectorBase {
 	}
 
 	@Override
-	public IActivity newReplyTo(IActivity toThisActivity) {
+	public GenericActivity newReplyTo(IActivity toThisActivity) {
 		MSActivity activity = (MSActivity) newMessageTo(toThisActivity.getFrom());
 		activity.setFrom(toThisActivity.getRecipient());
 		ConversationAccount conversation = new ConversationAccount();

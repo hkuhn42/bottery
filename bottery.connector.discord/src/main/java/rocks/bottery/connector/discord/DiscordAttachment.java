@@ -11,12 +11,14 @@ import rocks.bottery.bot.IAttachment;
 import sx.blah.discord.handle.obj.IMessage.Attachment;
 
 /**
+ * Attachment definition for discord
+ * 
  * @author Harald Kuhn
- *
  */
 public class DiscordAttachment implements IAttachment {
 
-	private Attachment attachment;
+	private static final long serialVersionUID = 1L;
+	private Attachment		  attachment;
 
 	public DiscordAttachment(Attachment attachment) {
 		this.attachment = attachment;

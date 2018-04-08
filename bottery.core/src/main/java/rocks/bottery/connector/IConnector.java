@@ -62,7 +62,7 @@ public interface IConnector {
 	 * @param recipientId
 	 * @return
 	 */
-	public IActivity newMessageTo(IParticipant recipientId);
+	public ActivityBase newMessageTo(IParticipant recipientId);
 
 	/**
 	 * prepare an answer to the given Activity (e.g. User, Bot, Group)
@@ -73,7 +73,7 @@ public interface IConnector {
 	 *            the IActivity to answer to
 	 * @return the answer IActivity
 	 */
-	public IActivity newReplyTo(IActivity toThisActivity);
+	public GenericActivity newReplyTo(IActivity toThisActivity);
 
 	/**
 	 * returns the unique channel for this connector

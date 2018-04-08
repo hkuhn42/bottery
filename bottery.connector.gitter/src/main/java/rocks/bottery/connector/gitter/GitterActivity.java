@@ -12,21 +12,23 @@
  */
 package rocks.bottery.connector.gitter;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import rocks.bottery.bot.ActivityType;
+import rocks.bottery.bot.Choice;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IAttachment;
 import rocks.bottery.bot.IConversation;
 import rocks.bottery.bot.IParticipant;
-import rocks.bottery.connector.GenericActivity;
+import rocks.bottery.connector.ActivityBase;
 
 /**
  * @author Harald Kuhn
  *
  */
-public class GitterActivity extends GenericActivity implements IActivity {
+public class GitterActivity extends ActivityBase implements IActivity {
 
 	private static final long  serialVersionUID	= 1L;
 
@@ -53,32 +55,11 @@ public class GitterActivity extends GenericActivity implements IActivity {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see rocks.bottery.bot.IActivity#setId(java.lang.String)
-	 */
-	@Override
-	public void setId(String id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see rocks.bottery.bot.IActivity#getTopic()
 	 */
 	@Override
 	public String getTopic() {
 		return message.getText();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see rocks.bottery.bot.IActivity#setTopic(java.lang.String)
-	 */
-	@Override
-	public void setTopic(String topic) {
-
 	}
 
 	/*
@@ -94,32 +75,11 @@ public class GitterActivity extends GenericActivity implements IActivity {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see rocks.bottery.bot.IActivity#setType(rocks.bottery.bot.ActivityType)
-	 */
-	@Override
-	public void setType(ActivityType type) {
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see rocks.bottery.bot.IActivity#getFrom()
 	 */
 	@Override
 	public IParticipant getFrom() {
 		return new GitterParticipant(message.getFromUser());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see rocks.bottery.bot.IActivity#setFrom(rocks.bottery.bot.IParticipant)
-	 */
-	@Override
-	public void setFrom(IParticipant from) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/*
@@ -135,17 +95,6 @@ public class GitterActivity extends GenericActivity implements IActivity {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see rocks.bottery.bot.IActivity#setRecipient(rocks.bottery.bot.IParticipant)
-	 */
-	@Override
-	public void setRecipient(IParticipant recipient) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see rocks.bottery.bot.IActivity#getText()
 	 */
 	@Override
@@ -156,40 +105,11 @@ public class GitterActivity extends GenericActivity implements IActivity {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see rocks.bottery.bot.IActivity#setText(java.lang.String)
-	 */
-	@Override
-	public void setText(String text) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see rocks.bottery.bot.IActivity#getConversation()
 	 */
 	@Override
 	public IConversation getConversation() {
 		return room;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see rocks.bottery.bot.IActivity#setConversation(rocks.bottery.bot.IConversation)
-	 */
-	@Override
-	public void setConversation(IConversation conversation) {
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see rocks.bottery.bot.IActivity#setAttachments(java.util.List)
-	 */
-	@Override
-	public void setAttachments(List<IAttachment> attachement) {
 	}
 
 	/*
@@ -210,6 +130,11 @@ public class GitterActivity extends GenericActivity implements IActivity {
 	@Override
 	public Object getConnectorActivity() {
 		return message;
+	}
+
+	@Override
+	public List<Choice<?>> getChoices() {
+		return new ArrayList<>();
 	}
 
 }

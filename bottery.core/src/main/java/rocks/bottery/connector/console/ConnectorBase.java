@@ -26,8 +26,8 @@ public abstract class ConnectorBase implements IConnector {
 	}
 
 	@Override
-	public IActivity newMessageTo(IParticipant recipient) {
-		IActivity activity = new GenericActivity();
+	public GenericActivity newMessageTo(IParticipant recipient) {
+		GenericActivity activity = new GenericActivity();
 		activity.setType(ActivityType.MESSAGE);
 		GenericConversation conversation = new GenericConversation();
 		conversation.setId(String.valueOf(this.hashCode()));
@@ -44,8 +44,8 @@ public abstract class ConnectorBase implements IConnector {
 	}
 
 	@Override
-	public IActivity newReplyTo(IActivity toThisActivity) {
-		IActivity reply = newMessageTo(toThisActivity.getFrom());
+	public GenericActivity newReplyTo(IActivity toThisActivity) {
+		GenericActivity reply = newMessageTo(toThisActivity.getFrom());
 		reply.setConversation(toThisActivity.getConversation());
 		return reply;
 	}

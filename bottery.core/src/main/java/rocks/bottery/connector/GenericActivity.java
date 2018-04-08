@@ -10,9 +10,6 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/**
- * 
- */
 package rocks.bottery.connector;
 
 import java.io.Serializable;
@@ -23,14 +20,14 @@ import rocks.bottery.bot.Choice;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IAttachment;
 import rocks.bottery.bot.IConversation;
-import rocks.bottery.bot.IIntent;
 import rocks.bottery.bot.IParticipant;
 
 /**
+ * Generic activity class, used for factory methods for answers
+ * 
  * @author Harald Kuhn
- *
  */
-public class GenericActivity implements Serializable, IActivity {
+public class GenericActivity extends ActivityBase implements Serializable, IActivity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -50,8 +47,6 @@ public class GenericActivity implements Serializable, IActivity {
 
 	private List<IAttachment> attachements;
 
-	private IIntent			  intent;
-
 	private List<Choice<?>>	  choices;
 
 	/*
@@ -64,12 +59,11 @@ public class GenericActivity implements Serializable, IActivity {
 		return id;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * set the ID
 	 * 
-	 * @see org.sylvani.bot.IActivity#setId(java.lang.String)
+	 * @param id
 	 */
-	@Override
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -84,12 +78,11 @@ public class GenericActivity implements Serializable, IActivity {
 		return topic;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * set the Topic of the activity or null if no topic is present or supported
 	 * 
-	 * @see org.sylvani.bot.IActivity#setTopic(java.lang.String)
+	 * @return
 	 */
-	@Override
 	public void setTopic(String topic) {
 		this.topic = topic;
 	}
@@ -104,12 +97,11 @@ public class GenericActivity implements Serializable, IActivity {
 		return type;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Set the type
 	 * 
-	 * @see org.sylvani.bot.IActivity#setType(org.sylvani.bot.ActivityType)
+	 * @param type
 	 */
-	@Override
 	public void setType(ActivityType type) {
 		this.type = type;
 	}
@@ -124,12 +116,11 @@ public class GenericActivity implements Serializable, IActivity {
 		return from;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * set from
 	 * 
-	 * @see org.sylvani.bot.IActivity#setFrom(org.sylvani.bot.IParticipant)
+	 * @param from
 	 */
-	@Override
 	public void setFrom(IParticipant from) {
 		this.from = from;
 	}
@@ -144,12 +135,11 @@ public class GenericActivity implements Serializable, IActivity {
 		return recipient;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * set recipient
 	 * 
-	 * @see org.sylvani.bot.IActivity#setRecipients(java.util.List)
+	 * @param recipient
 	 */
-	@Override
 	public void setRecipient(IParticipant recipient) {
 		this.recipient = recipient;
 	}
@@ -159,7 +149,11 @@ public class GenericActivity implements Serializable, IActivity {
 		return text;
 	}
 
-	@Override
+	/**
+	 * set text
+	 * 
+	 * @param text
+	 */
 	public void setText(String text) {
 		this.text = text;
 	}
@@ -169,12 +163,21 @@ public class GenericActivity implements Serializable, IActivity {
 		return conversation;
 	}
 
-	@Override
+	/**
+	 * set conversation
+	 * 
+	 * @param conversation
+	 */
 	public void setConversation(IConversation conversation) {
 		this.conversation = conversation;
 	}
 
-	@Override
+	/**
+	 * a list of attachements or null if none are available
+	 * 
+	 * @param attachement
+	 */
+
 	public void setAttachments(List<IAttachment> attachement) {
 		this.attachements = attachement;
 	}
@@ -189,17 +192,6 @@ public class GenericActivity implements Serializable, IActivity {
 		return this;
 	}
 
-	@Override
-	public IIntent getIntent() {
-		return intent;
-	}
-
-	@Override
-	public void setIntent(IIntent intent) {
-		this.intent = intent;
-	}
-
-	@Override
 	public void setChoices(List<Choice<?>> choices) {
 		this.choices = choices;
 	}

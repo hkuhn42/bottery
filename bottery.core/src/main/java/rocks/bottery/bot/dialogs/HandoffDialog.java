@@ -31,8 +31,9 @@ public class HandoffDialog implements IDialog {
 
 	@Override
 	public void handle(ISession session, IActivity request) {
-		IActivity answer = connector.newReplyTo(request);
-		session.send(answer);
+		IConnector targetConnector = session.getBot().getMessagingContext().getConnectorRegistry().get(target.getChannel());
+		// request.setRecipient(target);
+		targetConnector.send(request);
 	}
 
 }

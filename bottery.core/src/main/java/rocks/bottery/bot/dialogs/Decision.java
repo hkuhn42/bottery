@@ -24,6 +24,7 @@ import rocks.bottery.bot.ISession;
 import rocks.bottery.bot.util.IModel;
 import rocks.bottery.bot.util.ISessionModel;
 import rocks.bottery.bot.util.Model;
+import rocks.bottery.connector.GenericActivity;
 
 /**
  * A decision is a {@link Question} with a coice of possible answers
@@ -69,7 +70,7 @@ public abstract class Decision<T> extends Question<T> {
 	// }
 
 	@Override
-	protected void fillActivity(IActivity request, IActivity response, ISession session) {
+	protected void fillActivity(IActivity request, GenericActivity response, ISession session) {
 		super.fillActivity(request, response, session);
 		List<Choice<?>> requestChoices = new ArrayList<Choice<?>>();
 		for (Choice<T> choice : choicesModel.getObject()) {

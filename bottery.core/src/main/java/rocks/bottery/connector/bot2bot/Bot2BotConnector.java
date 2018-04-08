@@ -15,6 +15,7 @@ package rocks.bottery.connector.bot2bot;
 import rocks.bottery.bot.ActivityType;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IParticipant;
+import rocks.bottery.connector.GenericActivity;
 import rocks.bottery.connector.GenericParticipant;
 import rocks.bottery.connector.console.ConnectorBase;
 import rocks.bottery.messaging.IReceiver;
@@ -38,9 +39,9 @@ import rocks.bottery.messaging.IReceiver;
  */
 public class Bot2BotConnector extends ConnectorBase {
 
-	private IReceiver		 otherBot;
+	private IReceiver	 otherBot;
 
-	private IReceiver		 mainBot;
+	private IReceiver	 mainBot;
 
 	private SubConnector subConnector;
 
@@ -52,7 +53,7 @@ public class Bot2BotConnector extends ConnectorBase {
 	@Override
 	public void register(IReceiver mainBot) {
 		this.mainBot = mainBot;
-		IActivity newMessageTo = newMessageTo(new GenericParticipant("bot", "bot", "bot2bot"));
+		GenericActivity newMessageTo = newMessageTo(new GenericParticipant("bot", "bot", "bot2bot"));
 		newMessageTo.setType(ActivityType.MESSAGE);
 		newMessageTo.setText("Hi");
 		mainBot.receive(newMessageTo, this);

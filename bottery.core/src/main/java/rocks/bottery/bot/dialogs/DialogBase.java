@@ -16,6 +16,7 @@ import io.rincl.Rincled;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.ISession;
 import rocks.bottery.bot.util.IModel;
+import rocks.bottery.connector.GenericActivity;
 
 /**
  * Abstract base class that handles preparatino of an answer
@@ -34,12 +35,12 @@ public abstract class DialogBase implements IDialog, Rincled {
 	 */
 	@Override
 	public void handle(ISession session, IActivity request) {
-		IActivity answer = session.getConnector().newReplyTo(request);
+		GenericActivity answer = session.getConnector().newReplyTo(request);
 		fillActivity(request, answer, session);
 		session.send(answer);
 	}
 
-	protected void fillActivity(IActivity request, IActivity response, ISession session) {
+	protected void fillActivity(IActivity request, GenericActivity response, ISession session) {
 		response.setText(getText(request, session).getObject());
 	}
 

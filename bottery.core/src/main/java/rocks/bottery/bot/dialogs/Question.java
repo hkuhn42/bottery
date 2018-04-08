@@ -25,6 +25,7 @@ import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.ISession;
 import rocks.bottery.bot.util.IModel;
 import rocks.bottery.bot.util.ISessionModel;
+import rocks.bottery.connector.GenericActivity;
 
 /**
  * A simple question
@@ -101,7 +102,7 @@ public abstract class Question<T> extends DialogBase {
 			if (answer != null) {
 				IModel<String> confirmTextModel = getConfirmText();
 				if (confirmTextModel != null) {
-					IActivity confirm = session.getConnector().newReplyTo(activity);
+					GenericActivity confirm = session.getConnector().newReplyTo(activity);
 					confirm.setText(confirmTextModel.getObject());
 					session.send(confirm);
 				}

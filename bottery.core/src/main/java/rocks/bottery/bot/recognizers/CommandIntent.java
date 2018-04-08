@@ -13,9 +13,11 @@
 package rocks.bottery.bot.recognizers;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import rocks.bottery.bot.ContextBase;
-import rocks.bottery.bot.IIntent;
 
 /**
  * Basic intent for a command word
@@ -27,9 +29,15 @@ public class CommandIntent extends ContextBase implements IIntent, Serializable 
 	private static final long serialVersionUID = 1L;
 
 	private String			  intent;
+	private String			  responseSuggestion;
 
 	public CommandIntent(String intent) {
 		this.intent = intent;
+	}
+
+	public CommandIntent(String intent, String responseSuggestion) {
+		this.intent = intent;
+		this.responseSuggestion = responseSuggestion;
 	}
 
 	@Override
@@ -44,6 +52,31 @@ public class CommandIntent extends ContextBase implements IIntent, Serializable 
 
 	@Override
 	public String getResponseSuggestion() {
+		return responseSuggestion;
+	}
+
+	@Override
+	public double getConfidence() {
+		return 1;
+	}
+
+	@Override
+	public List<IEntity> getEntities() {
+		List<IEntity> entities = new ArrayList<>();
+		for (Map.Entry<String, Serializable> attribute : asAttributeMap().entrySet()) {
+			if (attribute.getValue() instanceof IEntity) {
+				entities.add((IEntity) attribute.getValue());
+			}
+		}
+		return entities;
+	}
+
+	@Override
+	public IEntity getEntity(String name) {
+		Serializable possibleEntity = getAttribute(name);
+		if (possibleEntity instanceof IEntity) {
+			return (IEntity) possibleEntity;
+		}
 		return null;
 	}
 }

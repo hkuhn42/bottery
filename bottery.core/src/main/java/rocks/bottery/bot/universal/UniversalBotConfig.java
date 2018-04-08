@@ -22,6 +22,8 @@ import rocks.bottery.bot.recognizers.CommandRecognizer;
 import rocks.bottery.bot.resolver.mustache.MustacheVariableResolver;
 
 /**
+ * Bot config which reads its settings from a Bot.propeties file located at the root of the classpath
+ * 
  * @author Harald Kuhn
  *
  */
@@ -36,7 +38,7 @@ public class UniversalBotConfig extends BotConfig {
 			e.printStackTrace();
 		}
 		crypt = new IKnowThisIsWrongCrypt();
-		recognizer = new CommandRecognizer();
+		getRecognizers().add(new CommandRecognizer());
 		resolver = new MustacheVariableResolver();
 		sessionStore = new InMemorySessionStore();
 		archive = new InMemoryActivityArchive();
