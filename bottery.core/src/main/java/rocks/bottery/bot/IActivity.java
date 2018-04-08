@@ -60,6 +60,11 @@ public interface IActivity {
 	 */
 	IParticipant getFrom();
 
+	/**
+	 * the receiving participant (in most cases, this would be the bot account)
+	 * 
+	 * @return
+	 */
 	IParticipant getRecipient();
 
 	/**
@@ -76,6 +81,11 @@ public interface IActivity {
 	 */
 	public IConversation getConversation();
 
+	/**
+	 * Get a list of attachments, can be empty, should not return null
+	 * 
+	 * @return
+	 */
 	public List<IAttachment> getAttachments();
 
 	/**
@@ -92,6 +102,11 @@ public interface IActivity {
 	 */
 	public IIntent getIntent();
 
+	/**
+	 * set the intent of this activity, normally this is called by the bot with an intent provided by the recognizer
+	 * 
+	 * @param intent
+	 */
 	public void setIntent(IIntent intent);
 
 	/**
