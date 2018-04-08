@@ -17,8 +17,8 @@ import java.util.Map;
 import com.google.cloud.dialogflow.v2beta1.QueryResult;
 import com.google.protobuf.Value;
 
-import rocks.bottery.bot.IIntent;
 import rocks.bottery.bot.recognizers.CommandIntent;
+import rocks.bottery.bot.recognizers.IIntent;
 
 /**
  * An {@link IIntent} implementation for Dialogflow
@@ -50,5 +50,10 @@ public class DialogflowIntent extends CommandIntent {
 	@Override
 	public String getResponseSuggestion() {
 		return queryResult.getFulfillmentText();
+	}
+
+	@Override
+	public double getConfidence() {
+		return queryResult.getIntentDetectionConfidence();
 	}
 }
