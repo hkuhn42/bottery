@@ -1,4 +1,4 @@
-version = '0.52'
+version = '0.7'
 
 apply plugin: 'scala'
 
@@ -6,11 +6,22 @@ dependencies {
     compile project(':bottery.core')
     compile project(':bottery.connector.telegram')
     compile project(':bottery.connector.ms')
-    compile project(':bottery.connector.twitter')
+    //compile project(':bottery.connector.twitter')
+    compile project(':bottery.connector.discord')
+    //compile project(':bottery.connector.alexa')
+    compile project(':bottery.connector.gitter')
+    compile project(':bottery.recognizer.luis')
+    compile project(':bottery.recognizer.dialogflow')
+    compile project(':bottery.recognizer.dl4j')
     
-    compile 'org.apache.cxf:cxf-rt-transports-http-jetty:3.1.11'
+
     
 	compile 'log4j:log4j:1.2.17'
 	
-	
+    //  ms connector
+    compile 'org.apache.cxf:cxf-rt-transports-http-jetty:3.1.11'
+
+    // alexa connector
+    compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '9.4.8.v20171121'
+    	
 }
