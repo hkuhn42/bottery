@@ -27,13 +27,21 @@ import rocks.bottery.messaging.IReceiver;
  */
 public interface IConnector {
 
+	/**
+	 * Initialize this connector with the given config If a connector is registered to an bot, this method is
+	 * automatically called
+	 * 
+	 * @param config
+	 *            the IMessagingConfig instance to use
+	 */
 	public void init(IMessagingConfig config);
 
 	/**
 	 * Register the bot on the connector. If multiple bots are connected, all are called it a activity (message , status
 	 * change etc) is received.
 	 * 
-	 * @param handler
+	 * @param receiver
+	 *            the IReceiver to register
 	 */
 	public void register(IReceiver receiver);
 
@@ -45,14 +53,15 @@ public interface IConnector {
 	/**
 	 * Send an activity to the api or endpoint
 	 * 
-	 * @param data
+	 * @param activitythe
+	 *            IActivity to send via this connector
 	 */
 	public void send(IActivity activity);
 
 	/**
 	 * the participant (account) for the account currently used by this connector
 	 * 
-	 * @return
+	 * @return the IParticipant representing the account of this connector with the underlying message system
 	 */
 	public IParticipant getConnectorAccount();
 
@@ -60,7 +69,8 @@ public interface IConnector {
 	 * prepare a message to the given Participant (e.g. User, Bot, Group)
 	 * 
 	 * @param recipientId
-	 * @return
+	 *            the IParticipant to receive this message
+	 * @return a pre initialized ActivityBase instance
 	 */
 	public ActivityBase newMessageTo(IParticipant recipientId);
 
@@ -71,14 +81,14 @@ public interface IConnector {
 	 * 
 	 * @param toThisActivity
 	 *            the IActivity to answer to
-	 * @return the answer IActivity
+	 * @return the answer a pre initialized ActivityBase instance
 	 */
 	public GenericActivity newReplyTo(IActivity toThisActivity);
 
 	/**
 	 * returns the unique channel for this connector
 	 * 
-	 * @return
+	 * @return the channel identifier
 	 */
 	public String getChannel();
 }

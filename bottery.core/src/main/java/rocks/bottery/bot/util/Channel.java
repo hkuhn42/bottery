@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016-2017 Harald Kuhn
+ * Copyright (C) 2016-2018 Harald Kuhn
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -10,16 +10,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/**
- * 
- */
 package rocks.bottery.bot.util;
 
 /**
- * Enum for channels
+ * Enum representing the channels and some of their capabilities
  * 
  * @author Harald Kuhn
- *
  */
 public enum Channel {
 
@@ -43,7 +39,11 @@ public enum Channel {
 
 	DIRECTLINE("directline"),
 
-	CONSOLE("console");
+	CONSOLE("console"),
+
+	DISCORD("discord"),
+
+	GITTER("gitter");
 
 	private String id;
 
@@ -61,9 +61,7 @@ public enum Channel {
 	}
 
 	/**
-	 * 
-	 * case channels.facebook: return (buttonCnt <= 10); case channels.kik: return (buttonCnt <= 20); case
-	 * channels.slack: case channels.telegram: case channels.emulator: return (buttonCnt <= 100); default: return false;
+	 * Wether the given channel supports a keyboard
 	 */
 	public boolean supportsKeyboards(Channel channel, int buttonCnt) {
 		boolean supportsKeyboards = false;

@@ -79,9 +79,7 @@ public class GenericActivity extends ActivityBase implements Serializable, IActi
 	}
 
 	/**
-	 * set the Topic of the activity or null if no topic is present or supported
-	 * 
-	 * @return
+	 * Set the Topic of the activity or null if no topic is present or supported
 	 */
 	public void setTopic(String topic) {
 		this.topic = topic;

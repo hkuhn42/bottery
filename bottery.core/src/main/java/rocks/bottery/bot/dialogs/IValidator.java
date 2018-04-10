@@ -18,8 +18,6 @@ import rocks.bottery.bot.ISession;
  * Used to validate answers
  * 
  * @author Harald Kuhn
- *
- * @param <T>
  */
 public interface IValidator<T> {
 
@@ -27,9 +25,12 @@ public interface IValidator<T> {
 	 * validate an answer by either the converted answer or the "raw" text
 	 * 
 	 * @param answer
-	 * @param text
+	 *            of type T
+	 * @param answerText
+	 *            the text of the Answer
 	 * @param session
-	 * @return
+	 *            the session
+	 * @return a ValidationResult
 	 */
 	public ValidationResult validate(T answer, String answerText, ISession session);
 

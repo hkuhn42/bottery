@@ -67,7 +67,7 @@ public abstract class Question<T> extends DialogBase {
 	}
 
 	/**
-	 * use only for subclassing when {@link #answered(Object, ISession)} is overwritten
+	 * use only for subclassing when {@link #answered(Object, IActivity, ISession)} is overwritten
 	 */
 	protected Question() {
 		instanceStateKey = String.valueOf(this.hashCode());

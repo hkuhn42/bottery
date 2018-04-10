@@ -1,17 +1,14 @@
 /**
- *    Copyright (C) 2016-2017 Harald Kuhn
+ * Copyright (C) 2016-2017 Harald Kuhn
  *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  */
 package rocks.bottery.bot.crypto;
 
@@ -48,12 +45,30 @@ public class AESHelper {
 
 	private static transient SecretKeySpec key;
 
+	/**
+	 * Decrypt a string encrypted with this util
+	 * 
+	 * @param value
+	 *            the encrypted value
+	 * @return the decrypted value
+	 * @throws Exception
+	 *             if something went wrong :)
+	 */
 	static String decrypt(String value) throws Exception {
 		byte[] input = Base64.getDecoder().decode(value);
 		byte[] result = doChiper(ALIAS, KEYSTORE, input, Cipher.DECRYPT_MODE);
 		return new String(result, ENCODING);
 	}
 
+	/**
+	 * Encrypt a string
+	 * 
+	 * @param value
+	 *            the string to encrypt
+	 * @return the encrypted value
+	 * @throws Exception
+	 *             if something went wrong :)
+	 */
 	static String encrypt(String value) throws Exception {
 		byte[] input = value.getBytes(ENCODING);
 		byte[] result = doChiper(ALIAS, KEYSTORE, input, Cipher.ENCRYPT_MODE);
@@ -94,12 +109,6 @@ public class AESHelper {
 		return key;
 	}
 
-	/**
-	 * fixme: move to unit test
-	 * 
-	 * @param args
-	 * @throws Exception
-	 */
 	public static void main(String[] args) throws Exception {
 		String encrypted = AESHelper.encrypt(args[0]);
 		System.out.println(encrypted);
