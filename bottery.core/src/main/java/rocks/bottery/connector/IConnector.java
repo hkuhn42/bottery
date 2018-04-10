@@ -53,7 +53,7 @@ public interface IConnector {
 	/**
 	 * Send an activity to the api or endpoint
 	 * 
-	 * @param activitythe
+	 * @param activity
 	 *            IActivity to send via this connector
 	 */
 	public void send(IActivity activity);
