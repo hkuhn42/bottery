@@ -24,12 +24,15 @@ import rocks.bottery.connector.GenericActivity;
 import sx.blah.discord.handle.obj.IMessage;
 
 /**
+ * Activity impl. for Discord
+ * 
  * @author Harald Kuhn
- *
  */
 public class DiscordActivity extends GenericActivity {
 
-	private IMessage message;
+	private static final long serialVersionUID = 1L;
+
+	private IMessage		  message;
 
 	public DiscordActivity(IMessage message) {
 		this.message = message;
