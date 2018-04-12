@@ -21,7 +21,7 @@
 | Commands in text       | [CommandRecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.core/rocks/bottery/bot/recognizers) |
 | Regexp commands in text| [RegexpRecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.core/rocks/bottery/bot/recognizers) |
 | Microsoft LUIS         | [LuisRecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.recognizer.luis) |
-| Dialogflow             | [LuisRecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.recognizer.luis) |
-| Deeplearning4J (QnA)   | [DialogflowRecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.recognizer.dialogflow) | 
+| Dialogflow             | [DialogflowRecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.recognizer.dialogflow) |
+| Deeplearning4J (QnA)   | [QNARecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.recognizer.dl4j) | 
 
  
