@@ -1,5 +1,5 @@
 # Bottery
-A Java based framework for chatbots
+A Java based framework for chatbots [![Build Status](https://travis-ci.org/hkuhn42/bottery.svg?branch=master)](https://travis-ci.org/hkuhn42/bottery)
 
 The goal of this framework is to provide an api for writing vendor neutral conversational (chat and voice) systems and bots. 
 Support for massaging  frameworks and intent recognition are provided by plugins. The goal is to provide implementations for all 
@@ -19,51 +19,16 @@ Bottery is licensed under the [Apache License v2](LICENSE)
 - microsoft bot framework connector
 - telegram connector
 - discord connector
+- gitter connector
 - Bot2Bot Connector for unit tests
 - notifiers to trigger activities (e.g. by time or after another thread finished)
 - microsoft luis intent recognizer
+- dialogflow recognizer
+- deeplearning4j recognizers
 
+See the [support matrix](https://github.com/hkuhn42/bottery/tree/master/docs/SupportMatrix.md) for more details 
 
-
-## Support Matrix
-
-| Chat Service            | connector | 
-|-------------------------|----|
-| GroupMe                 | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| Facebook Messenger      | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| Kik                     | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| Skype                   | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| Skype for Business      | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| Microsoft Teams         | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| Slack                   | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| Telegram                | [telegram](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.telegram)|
-| Twilio                  | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| text/SMS                | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| email                   | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
-| discord                 | [discord](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.discord) |
-| gitter                  | [gitter](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.gitter) |
-
-| Intent recognition by  | Recognizer |
-|------------------------|------------|
-| Commands in text       | [CommandRecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.core/rocks/bottery/bot/recognizers) |
-| Regexp commands in text| [RegexpRecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.core/rocks/bottery/bot/recognizers) |
-| Microsoft LUIS         | [LuisRecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.recognizer.luis) |
-| Dialogflow             | [LuisRecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.recognizer.luis) |
-| Deeplearning4J (QnA)   | [DialogflowRecognizer](https://github.com/hkuhn42/bottery/tree/master/bottery.recognizer.dialogflow) | 
-
-## Planned for 0.8
-- Add Unit tests (still  trying to figure out how to test the cloud based connectors)
-- A common example for all recognizers (one example implemented for all recognizers)
-- More documentation
-- Support rich ui like cards and buttons where feasible
-- Evaluate other message systems
-  - twitter (there is a prototype but i am still not sure wether this is even a good idea)
-  - imessage business chat (there is a rough sketch but without apple approval is does not make sense)
-  - briar (may be to early to support) 
-  - hipchat (would need access to a server - could use https://github.com/viascom/hipchat-api)
-  - google assistant (could use https://github.com/frogermcs/Google-Actions-Java-SDK)
-  - eclipse smarthome audio api together with microsoft oxford
- 
+There is also a basic [changelog](https://github.com/hkuhn42/bottery/tree/master/docs/Changelog.md) and a list of [planned changes and features](https://github.com/hkuhn42/bottery/tree/master/docs/Planned.md) for more details
 
 ## Getting started
 
@@ -85,33 +50,7 @@ There is a number of examples in the examples package however a very basic echo 
 }
 ```
 
-## Changelog
-
-# 0.7 (alpha)
-- WitAI Recognizer
-- Deeplearining4J QnA Recognizer
-- Deeplearining4J Recognizer base classes
-- Recognizer API Refactoring 
-- General cleanup
-- Experimental Alexa Connector
-
-# 0.6.2
-- New Dialogflow recognizer
-- New Gitter connector
-- New Notifiers based quartz framework
-
-# 0.6.1
-- New LUIS recognizer
-- Refactoring of notifiers
-- Basic  notifier based on executor framework
-
-# 0.6
-- Added connector registry and notifications
-- Added connector registry to access connectors by channel
-- Added notifiers to trigger activities (e.g. by time etc)
-- New discord connector
-
-
+There are more examples in a seperate subproject bottery.examples
 
 
 ## Core Concepts

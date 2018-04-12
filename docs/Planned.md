@@ -1,0 +1,20 @@
+## Planned for 0.8 and later
+- Add Unit tests (still  trying to figure out how to test the cloud based connectors)
+- Create a common example for all recognizers (one example implemented for all recognizers)
+- Add more documentation
+  - Evaluate ways to create a website
+  - Populate the website http://bottery.rocks/
+  - Add howtos for registering with the services for the connectors and recognizers
+  - Descibe concepts and features  
+- Support rich ui like cards and buttons where feasible
+  - Check which features are available for which systems
+  - Create an API for describing cabalilities
+  - Implement these features
+- Evaluate other message systems
+  - twitter (there is a prototype but i am still not sure wether this is even a good idea)
+  - imessage business chat (there is a rough sketch but without apple approval is does not make sense)
+  - briar (may be to early to support) 
+  - hipchat (would need access to a server - could use https://github.com/viascom/hipchat-api)
+  - google assistant (could use https://github.com/frogermcs/Google-Actions-Java-SDK)
+  - eclipse smarthome audio api together with microsoft oxford
+- Publish jars to a repository for easier usage  
