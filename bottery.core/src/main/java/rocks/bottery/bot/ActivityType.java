@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016-2017 Harald Kuhn
+ * Copyright (C) 2016-2018 Harald Kuhn
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,6 +15,7 @@ package rocks.bottery.bot;
 import java.io.Serializable;
 
 /**
+ * Enum which defines ActivityTypes
  * Not all types are supported by all connectors
  * 
  * @author Harald Kuhn
@@ -40,7 +41,7 @@ public enum ActivityType implements Serializable {
 	/**
 	 * start a new conversation / chat
 	 * 
-	 * only Bot 2 Bot
+	 * only used by  Bot2BotConnector for now
 	 */
 	START,
 

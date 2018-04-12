@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016-2017 Harald Kuhn
+ * Copyright (C) 2016-2018 Harald Kuhn
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -16,6 +16,11 @@ import java.io.Serializable;
 
 import rocks.bottery.bot.IConversation;
 
+/**
+ * Generic implementation of the {@link IConversation}
+ * 
+ * @author Harald Kuhn
+ */
 public class GenericConversation implements IConversation, Serializable {
 
 	private static final long serialVersionUID = 1L;

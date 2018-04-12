@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016-2017 Harald Kuhn
+ * Copyright (C) 2016-2018 Harald Kuhn
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -24,7 +24,6 @@ import rocks.bottery.messaging.IReceiver;
  * Connector for development which routes console input and output to and from the bots
  * 
  * @author Harald Kuhn
- *
  */
 public class ConsoleConnector extends ExecutorConnectorBase {
 
@@ -77,7 +76,7 @@ public class ConsoleConnector extends ExecutorConnectorBase {
 
 	@Override
 	public IParticipant getConnectorAccount() {
-		return new GenericParticipant("shell", "shell", "shell");
+		return new GenericParticipant("shell", "shell", "console");
 	}
 
 	@Override

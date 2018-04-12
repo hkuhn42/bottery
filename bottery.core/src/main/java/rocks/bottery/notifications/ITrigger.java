@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016-2017 Harald Kuhn
+ * Copyright (C) 2016-2018 Harald Kuhn
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,18 +15,25 @@ package rocks.bottery.notifications;
 import rocks.bottery.messaging.IMessagingContext;
 
 /**
- * Marker interface for notifier triggers
+ * Interface for notifier triggers. A trigger
  * 
  * @author Harald Kuhn
  */
 public interface ITrigger {
 
 	/**
-	 * insturcts the trigger to start this notifier
+	 * Insturcts the trigger to call this notifier when the trigger "fires"
 	 * 
 	 * @param notifier
+	 *            the notifier to register
 	 */
 	public void register(INotifier notifier);
 
+	/**
+	 * Starts this trigger for the given IMessagingContext
+	 * 
+	 * @param context
+	 *            the messaging context to be used by the notifiers
+	 */
 	public void start(IMessagingContext context);
 }

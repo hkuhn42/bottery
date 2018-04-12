@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016-2017 Harald Kuhn
+ * Copyright (C) 2016-2018 Harald Kuhn
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,6 +15,11 @@ package rocks.bottery.messaging;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.connector.IConnector;
 
+/**
+ * Definition of a messaging receiver. Can be registered with an connector to receive calls for messages received
+ * 
+ * @author Harald Kuhn
+ */
 public interface IReceiver {
 
 	/**

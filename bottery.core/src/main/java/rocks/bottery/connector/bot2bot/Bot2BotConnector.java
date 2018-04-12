@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016-2017 Harald Kuhn
+ * Copyright (C) 2016-2018 Harald Kuhn
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,6 +12,8 @@
  */
 package rocks.bottery.connector.bot2bot;
 
+import org.apache.log4j.Logger;
+
 import rocks.bottery.bot.ActivityType;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IParticipant;
@@ -23,9 +25,9 @@ import rocks.bottery.messaging.IReceiver;
 /**
  * This connector allows to let two Bots chat with each other.
  * 
- * The most obvious reason for this is to test a bot with anaother bot.
+ * The most obvious reason for this is to test a bot with another bot.
  * 
- * The connector is created with the second bot as a constructor.. The first or primary bot is created normally and
+ * The connector is created with the second bot as a constructor param. The first or primary bot is created normally and
  * attached to the connector via the listen method
  * 
  * E.g. (shortest possible varaint)
@@ -33,7 +35,6 @@ import rocks.bottery.messaging.IReceiver;
  * <pre>
  * new Bot2BotConnector(new TestBot()).listen(new BotToTest());
  * </pre>
- * 
  *
  * @author Harald Kuhn
  */
@@ -45,6 +46,12 @@ public class Bot2BotConnector extends ConnectorBase {
 
 	private SubConnector subConnector;
 
+	/**
+	 * Initiate a new Bot2BotConnector with the secondary bot (normally the TestBot)
+	 * 
+	 * @param otherBot
+	 *            the secondary or test bot
+	 */
 	public Bot2BotConnector(IReceiver otherBot) {
 		this.otherBot = otherBot;
 		subConnector = new SubConnector();
@@ -68,7 +75,7 @@ public class Bot2BotConnector extends ConnectorBase {
 
 	@Override
 	public void send(IActivity activity) {
-		System.out.println("> " + activity.getText());
+		Logger.getLogger(Bot2BotConnector.class).debug("> " + activity.getText());
 		otherBot.receive(activity, subConnector);
 	}
 
@@ -91,7 +98,7 @@ public class Bot2BotConnector extends ConnectorBase {
 
 		@Override
 		public void send(IActivity activity) {
-			System.out.println("< " + activity.getText());
+			Logger.getLogger(Bot2BotConnector.class).debug("< " + activity.getText());
 			mainBot.receive(activity, Bot2BotConnector.this);
 		}
 
