@@ -33,7 +33,7 @@ public class LuisIntent extends CommandIntent {
 
 		for (Entity entity : response.getEntities()) {
 			// FIXME: map types
-			setAttribute(entity.getType(), entity.getEntity());
+			setAttribute(entity.getType(), new rocks.bottery.bot.recognizers.Entity(entity.getType(), entity.getEntity()));
 		}
 	}
 

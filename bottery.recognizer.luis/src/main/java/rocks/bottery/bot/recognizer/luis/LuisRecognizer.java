@@ -12,6 +12,7 @@
  */
 package rocks.bottery.bot.recognizer.luis;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,7 @@ import rocks.bottery.bot.recognizers.RecognizerBase;
  * Recognizer which uses the Microsoft Luis API to recognize intents
  * 
  * Can be configured as greedy (signals match for all results of api) or not greedy (dos not match for
- * {@value #NOTHING_RECOGIZED_INTENT}
+ * {@value #NOTHING_RECOGNIZED_INTENT}
  * 
  * Supports mapping luis intents to bot intents (makes dialogs more portable)
  * 
@@ -45,7 +46,7 @@ import rocks.bottery.bot.recognizers.RecognizerBase;
  */
 public class LuisRecognizer extends RecognizerBase implements IRecognizer {
 
-	private static String serverURL = "https://api.projectoxford.ai/luis/v2.0";
+	public static final String SERVER_URL = "https://api.projectoxford.ai/luis/v2.0";
 
 	public LuisRecognizer() {
 		this.greedy = true;
@@ -55,20 +56,7 @@ public class LuisRecognizer extends RecognizerBase implements IRecognizer {
 		this.greedy = greedy;
 	}
 
-	public static String NOTHING_RECOGIZED_INTENT = "builtin.intent.none";
-
-	// public static void main(String[] args) {
-	// LuisApi proxy = initConversationRestProxy(serverURL);
-	// String appId = System.getProperty("appId");
-	// String property = System.getProperty("subKey");
-	// System.out.println(appId + " " + property);
-	//
-	// LuisResponse intent = proxy.query(appId, property, "delete peters special alarm at 23:00");
-	// System.out.println(intent.getTopScoringIntent().getIntent());
-	// for (Entity entity : intent.getEntities()) {
-	// System.out.println(entity.getEntity() + " " + entity.getType());
-	// }
-	// }
+	public static String NOTHING_RECOGNIZED_INTENT = "builtin.intent.none";
 
 	protected static LuisApi initConversationRestProxy(String url) {
 		List<Object> providers = new ArrayList<>();
@@ -92,16 +80,25 @@ public class LuisRecognizer extends RecognizerBase implements IRecognizer {
 		conduit.setTlsClientParameters(params);
 	}
 
+	private LuisApi	proxy;
+	private String	appId;
+	private String	subscriptionKey;
+
+	@Override
+	public void init(IBotConfig config) throws IOException {
+		proxy = initConversationRestProxy(SERVER_URL);
+		appId = config.getSetting("luis.appId");
+		subscriptionKey = config.getSetting("luis.subscriptionKey");
+	}
+
 	@Override
 	public IIntent recognize(ISession session, IActivity activity) {
 		try {
-			LuisApi proxy = initConversationRestProxy(serverURL);
-			IBotConfig botConfig = session.getBot().getBotConfig();
-			LuisResponse intent = proxy.query(botConfig.getSetting("luis.appId"), botConfig.getSetting("luis.subscriptionKey"), activity.getText());
+			LuisResponse intent = proxy.query(appId, subscriptionKey, activity.getText());
 			Logger.getLogger(LuisRecognizer.class).debug(intent + "received");
 
 			// if greedy is set or an intent recognized -> handle
-			if (greedy || !NOTHING_RECOGIZED_INTENT.equalsIgnoreCase(intent.getTopScoringIntent().getIntent())) {
+			if (greedy || !NOTHING_RECOGNIZED_INTENT.equalsIgnoreCase(intent.getTopScoringIntent().getIntent())) {
 				// get intent name
 				String intentName = intent.getTopScoringIntent().getIntent();
 				intentName = mapIntentName(intentName);

@@ -19,6 +19,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+/**
+ * JAX-RS Proxy API definition for LUIS API
+ * 
+ * @author Harald Kuhn
+ *
+ */
 @Path("/")
 public interface LuisApi {
 
