@@ -1,4 +1,4 @@
-version = '0.6'
+version = '0.7'
 
 dependencies {
     compile project(':bottery.core')
@@ -8,5 +8,7 @@ dependencies {
     compile group: 'org.nd4j', name: 'nd4j-native-platform', version: '0.8.0'
     compile group: 'org.deeplearning4j', name: 'deeplearning4j-core', version: '0.8.0'
     compile group: 'org.deeplearning4j', name: 'deeplearning4j-nlp', version: '0.8.0'
-    
+    // for training
+    compile group: 'org.deeplearning4j', name: 'deeplearning4j-ui_2.10', version: '0.8.0'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 }
