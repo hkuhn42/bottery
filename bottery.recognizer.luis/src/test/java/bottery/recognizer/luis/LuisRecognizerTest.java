@@ -36,6 +36,7 @@ public class LuisRecognizerTest extends LuisRecognizer {
 
 		if (appId == null || key == null) {
 			System.out.println("test not set up correctly, aborting");
+			return;
 		}
 
 		LuisResponse intent = proxy.query(appId, key, "delete peters special alarm at 23:00");
