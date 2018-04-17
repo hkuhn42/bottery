@@ -27,6 +27,8 @@ import rocks.bottery.messaging.IReceiver;
  */
 public class ConsoleConnector extends ExecutorConnectorBase {
 
+	private IActivity lastMessage;
+
 	@Override
 	public void register(final IReceiver handler) {
 		// Thread t = new Thread(new Runnable() {
@@ -42,7 +44,13 @@ public class ConsoleConnector extends ExecutorConnectorBase {
 			public void listen(final IReceiver handler) {
 				String text = scanner.nextLine();
 
-				GenericActivity activity = newMessageTo(new GenericParticipant("shell", "shell", "shell"));
+				GenericActivity activity = null;
+				if (lastMessage != null) {
+					activity = newReplyTo(lastMessage);
+				}
+				else {
+					activity = newMessageTo(new GenericParticipant("shell", "shell", "shell"));
+				}
 				activity.setText(text);
 
 				handler.receive(activity, ConsoleConnector.this);
@@ -53,6 +61,7 @@ public class ConsoleConnector extends ExecutorConnectorBase {
 
 	@Override
 	public void send(final IActivity response) {
+		lastMessage = response;
 		executor.submit(new Runnable() {
 
 			@Override
