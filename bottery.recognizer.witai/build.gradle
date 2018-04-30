@@ -1,0 +1,11 @@
+version = '0.7'
+
+dependencies {
+    compile project(':bottery.core')
+    
+    compile 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.9.4'
+    
+    compile 'org.apache.cxf:cxf-rt-frontend-jaxrs:3.1.11'
+    compile 'org.apache.cxf:cxf-rt-rs-client:3.1.11'
+    
+}
