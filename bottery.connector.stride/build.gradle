@@ -1,0 +1,16 @@
+version = '0.7'
+
+dependencies {
+    compile project(':bottery.core')
+    
+    compile 'log4j:log4j:1.2.17'
+	
+	compile 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.9.4'
+   
+    compile 'org.bitbucket.b_c:jose4j:0.6.3'
+
+    compile 'org.apache.cxf:cxf-rt-frontend-jaxrs:3.2.4'
+    compile 'org.apache.cxf:cxf-rt-rs-client:3.2.4'
+	   
+	runtime 'org.apache.cxf:cxf-rt-transports-http-jetty:3.2.4'
+}

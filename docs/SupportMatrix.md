@@ -15,6 +15,7 @@
 | email                   | [ms](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.ms) |
 | discord                 | [discord](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.discord) |
 | gitter                  | [gitter](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.gitter) |
+| stride                  | [stride](https://github.com/hkuhn42/bottery/tree/master/bottery.connector.stride) |
 
 | Intent recognition by  | Recognizer |
 |------------------------|------------|

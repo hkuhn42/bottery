@@ -1,0 +1,21 @@
+{
+    "baseUrl": "${baseUrl}",
+    "key": "reference",
+    "lifecycle": {
+      "installed": "/bot/installed",
+      "uninstalled": "/bot/uninstalled"
+    },
+    "modules": {
+      "chat:bot": [
+        {
+          "key": "${connectorName}",
+          "mention": {
+            "url": "/bot/mention"
+          },
+          "directMessage": {
+            "url": "/bot/directMessage"
+          }
+        }
+      ]
+    }
+}
