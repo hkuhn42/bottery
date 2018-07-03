@@ -53,7 +53,13 @@ public class ConsoleConnector extends ExecutorConnectorBase {
 				}
 				activity.setText(text);
 
-				handler.receive(activity, ConsoleConnector.this);
+				try {
+					handler.receive(activity, ConsoleConnector.this);
+				}
+				catch (Exception e) {
+					System.err.println("send failed:");
+					e.printStackTrace();
+				}
 				listen(handler);
 			}
 		});
