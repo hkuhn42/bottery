@@ -30,7 +30,12 @@ public enum ActivityType implements Serializable {
 	/**
 	 * an indicator that the user started typing
 	 */
-	TYPING,
+	TYPING_START,
+
+	/**
+	 * an indicator that the user ended typing
+	 */
+	TYPING_END,
 
 	/**
 	 * a message with text, attachements etc.
