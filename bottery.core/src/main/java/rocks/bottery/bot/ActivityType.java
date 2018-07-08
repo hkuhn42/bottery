@@ -15,8 +15,7 @@ package rocks.bottery.bot;
 import java.io.Serializable;
 
 /**
- * Enum which defines ActivityTypes
- * Not all types are supported by all connectors
+ * Enum which defines ActivityTypes Not all types are supported by all connectors
  * 
  * @author Harald Kuhn
  *
@@ -27,6 +26,11 @@ public enum ActivityType implements Serializable {
 	 * other activity like status updates
 	 */
 	OTHER,
+
+	/**
+	 * an indicator that the user started typing
+	 */
+	TYPING,
 
 	/**
 	 * a message with text, attachements etc.
@@ -41,7 +45,7 @@ public enum ActivityType implements Serializable {
 	/**
 	 * start a new conversation / chat
 	 * 
-	 * only used by  Bot2BotConnector for now
+	 * only used by Bot2BotConnector for now
 	 */
 	START,
 
