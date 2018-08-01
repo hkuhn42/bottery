@@ -28,7 +28,7 @@ import rocks.bottery.bot.util.Model;
  */
 public class RecognizerSuggestionResponder extends Utterance {
 
-	public RecognizerSuggestionResponder(String notSuggestionText) {
+	public RecognizerSuggestionResponder(IModel<String> notSuggestionText) {
 		super(notSuggestionText);
 	}
 
