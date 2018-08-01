@@ -12,8 +12,34 @@
  */
 package rocks.bottery.bot;
 
+import java.io.Serializable;
+import java.util.Map;
+
+/**
+ * Utility API for resolving variables in text
+ * 
+ * @author Harald Kuhn
+ */
 public interface IVariableResolver {
+	/**
+	 * resolve variables from the given context in the input text
+	 * 
+	 * @param text
+	 *            the input text
+	 * @param context
+	 *            the context containing the variables
+	 * @return the text with variables resolved
+	 */
+	String resolveVariables(String text, IContext context);
 
-	String resolveVariables(String text, ISession session);
-
+	/**
+	 * resolve variables from the given context in the input text
+	 * 
+	 * @param text
+	 *            the input text
+	 * @param variables
+	 *            a map containing the variables
+	 * @return the text with variables resolved
+	 */
+	String resolveVariables(String text, Map<String, Serializable> variables);
 }

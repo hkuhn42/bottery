@@ -14,6 +14,7 @@ package rocks.bottery.bot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
 
 import rocks.bottery.bot.i18n.ILocalizer;
@@ -42,11 +43,14 @@ public class BotConfig implements IBotConfig {
 	protected List<IInterceptor> inInterceptors;
 	protected List<IInterceptor> outInterceptors;
 
+	protected Locale			 defaultLocale;
+
 	public BotConfig() {
 		inInterceptors = new ArrayList<>();
 		outInterceptors = new ArrayList<>();
 		recognizers = new ArrayList<>();
 		properties = new Properties();
+		defaultLocale = Locale.getDefault();
 	}
 
 	@Override
@@ -131,5 +135,10 @@ public class BotConfig implements IBotConfig {
 
 	public void setSetting(String setting, String value) {
 		properties.setProperty(setting, value);
+	}
+
+	@Override
+	public Locale getDefaultLocale() {
+		return defaultLocale;
 	}
 }

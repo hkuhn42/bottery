@@ -14,6 +14,7 @@ package rocks.bottery.connector.console;
 
 import java.util.Scanner;
 
+import rocks.bottery.bot.ActivityType;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IParticipant;
 import rocks.bottery.connector.GenericActivity;
@@ -23,6 +24,15 @@ import rocks.bottery.messaging.IReceiver;
 /**
  * Connector for development which routes console input and output to and from the bots
  * 
+ * Support some simple commands to simulate advanced featues
+ * <table summary="list of supported commands">
+ * <tr>
+ * <td>/kill</td>
+ * <td>end connector thread ending the</td>
+ * </tr>
+ * </table>
+ * 
+ * 
  * @author Harald Kuhn
  */
 public class ConsoleConnector extends ExecutorConnectorBase {
@@ -31,33 +41,53 @@ public class ConsoleConnector extends ExecutorConnectorBase {
 
 	@Override
 	public void register(final IReceiver handler) {
-		// Thread t = new Thread(new Runnable() {
 		executor.submit(new Runnable() {
 
 			private Scanner scanner = new Scanner(System.in);
 
 			@Override
 			public void run() {
+				GenericActivity activity = newMessageTo(new GenericParticipant("bot", "bot", getChannel()));
+				activity.setType(ActivityType.START);
+				handler.receive(activity, ConsoleConnector.this);
 				listen(handler);
 			}
 
 			public void listen(final IReceiver handler) {
+				// get the text
 				String text = scanner.nextLine();
 
+				// prepare activity
 				GenericActivity activity = null;
 				if (lastMessage != null) {
 					activity = newReplyTo(lastMessage);
 				}
 				else {
-					activity = newMessageTo(new GenericParticipant("shell", "shell", "shell"));
+					activity = newMessageTo(new GenericParticipant("bot", "bot", getChannel()));
 				}
-				activity.setText(text);
+
+				// handle special commands
+				if ("/sendFile".equalsIgnoreCase(text)) {
+					// load file
+				}
+				else if ("/typing".equalsIgnoreCase(text)) {
+					// load file
+					activity.setType(ActivityType.OTHER);
+				}
+				else if ("/kill".equalsIgnoreCase(text)) {
+					executor.shutdown();
+					return;
+				}
+				else {
+					// else its a text message
+					activity.setText(text);
+				}
 
 				try {
 					handler.receive(activity, ConsoleConnector.this);
 				}
 				catch (Exception e) {
-					System.err.println("send failed:");
+					// printStackTrace is the right choice here as it writes to system.err
 					e.printStackTrace();
 				}
 				listen(handler);
@@ -91,7 +121,7 @@ public class ConsoleConnector extends ExecutorConnectorBase {
 
 	@Override
 	public IParticipant getConnectorAccount() {
-		return new GenericParticipant("shell", "shell", "console");
+		return new GenericParticipant("shell", "shell", getChannel());
 	}
 
 	@Override

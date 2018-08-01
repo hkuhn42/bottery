@@ -12,17 +12,18 @@
  */
 package rocks.bottery.bot;
 
-import io.rincl.Rincled;
+import java.util.Locale;
+
 import rocks.bottery.bot.dialogs.IDialog;
 import rocks.bottery.connector.IConnector;
 
 /**
- * A bot session A session is generally created for one chat or thread (depending on the implementation) with one or
- * more other entities (usually other bots or people
+ * A bot session. A session is generally created for one chat or thread (depending on the implementation) with one or
+ * more other entities (usually other bots or people for one connector
  * 
  * @author Harald Kuhn
  */
-public interface ISession extends IContext, Rincled {
+public interface ISession extends IContext {
 
 	/**
 	 * get this sessions id
@@ -52,10 +53,26 @@ public interface ISession extends IContext, Rincled {
 	@Deprecated
 	public IConnector getConnector();
 
+	/**
+	 * get the channel
+	 * 
+	 * @return the channel
+	 */
 	public String getChannel();
 
+	/**
+	 * set the active dialog
+	 * 
+	 * @param dialog
+	 *            the new dialog
+	 */
 	public void setActiveDialog(IDialog dialog);
 
+	/**
+	 * Get the active dialog
+	 * 
+	 * @return the current active dialog
+	 */
 	public IDialog getActiveDialog();
 
 	/**
@@ -81,11 +98,26 @@ public interface ISession extends IContext, Rincled {
 	 * String resolvedResource = session.getBot().getBotConfig().getVariableResolver().resolve(resource, session);
 	 * </pre>
 	 * 
-	 * if no resolver is configured, the resource is returned with substitution
+	 * if no resolver is configured, the resource is returned without substitution
 	 * 
 	 * @param key
-	 * @return
+	 *            the key of the resource
+	 * @return the resolved string
 	 */
 	public String getResolvedResource(String key);
 
+	/**
+	 * Get the locale of this session
+	 * 
+	 * @return the locale of this session
+	 */
+	public Locale getLocale();
+
+	/**
+	 * Set the locale of this session
+	 * 
+	 * @param locale
+	 *            the new locale
+	 */
+	public void setLocale(Locale locale);
 }

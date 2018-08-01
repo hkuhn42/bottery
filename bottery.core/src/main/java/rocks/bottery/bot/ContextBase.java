@@ -17,8 +17,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.globalmentor.collections.Maps;
-
 /**
  * General purpose context base impl.
  * 
@@ -55,7 +53,7 @@ public abstract class ContextBase implements IContext {
 
 	@Override
 	public Map<String, Serializable> asAttributeMap() {
-		return Maps.toImmutableMap(attributes);
+		return new HashMap<>(attributes);
 	}
 
 }

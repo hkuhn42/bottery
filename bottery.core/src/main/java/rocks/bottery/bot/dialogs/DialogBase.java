@@ -12,7 +12,6 @@
  */
 package rocks.bottery.bot.dialogs;
 
-import io.rincl.Rincled;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.ISession;
 import rocks.bottery.bot.util.IModel;
@@ -24,7 +23,7 @@ import rocks.bottery.connector.GenericActivity;
  * @author Harald Kuhn
  *
  */
-public abstract class DialogBase implements IDialog, Rincled {
+public abstract class DialogBase implements IDialog {
 
 	public abstract IModel<String> getText(IActivity request, ISession session);
 

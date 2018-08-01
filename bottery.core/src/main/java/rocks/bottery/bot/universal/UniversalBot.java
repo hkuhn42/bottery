@@ -16,13 +16,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.rincl.Rincled;
 import rocks.bottery.bot.ActivityType;
 import rocks.bottery.bot.ContextBase;
 import rocks.bottery.bot.IActivity;
@@ -46,7 +46,7 @@ import rocks.bottery.messaging.MessagingContext;
  * 
  * @author Harald Kuhn
  */
-public class UniversalBot extends ContextBase implements IBot, Rincled {
+public class UniversalBot extends ContextBase implements IBot {
 
 	private Logger				 logger	= LoggerFactory.getLogger(UniversalBot.class);
 
@@ -63,11 +63,15 @@ public class UniversalBot extends ContextBase implements IBot, Rincled {
 	private Stack<IHandler>		 outInterceptorChain;
 
 	public UniversalBot() {
-		this(new UniversalBotConfig());
-		messagingContext = new MessagingContext();
+		init(new UniversalBotConfig(this.getClass().getName()));
 	}
 
 	public UniversalBot(IBotConfig botConfig) {
+		init(botConfig);
+	}
+
+	protected void init(IBotConfig botConfig) {
+		messagingContext = new MessagingContext();
 		this.botConfig = botConfig;
 		this.dialogs = new HashMap<>();
 		this.globalCommands = new HashMap<>();
@@ -111,15 +115,22 @@ public class UniversalBot extends ContextBase implements IBot, Rincled {
 		ISession session = botConfig.getSessionStore().find(convId);
 		logger.debug("receive activity of  type " + activity.getType() + " " + activity.getText() + " " + activity.getConversation().getId());
 		if (session == null) {
-			session = createSession(connector, convId);
+			Locale locale = activity.getLocale();
+			if (locale == null) {
+				locale = botConfig.getDefaultLocale();
+			}
+			if (locale == null) {
+				locale = Locale.getDefault();
+			}
+			session = createSession(connector, convId, locale);
 		}
 		inInterceptorChain.peek().handle(session, activity);
 		// handle(session, activity);
 	}
 
-	protected ISession createSession(IConnector connector, String convId) {
+	protected ISession createSession(IConnector connector, String convId, Locale locale) {
 		logger.debug("new session");
-		ISession session = new UniversalSession(convId, this, connector);
+		ISession session = new UniversalSession(convId, this, connector, locale);
 		botConfig.getSessionStore().add(convId, session);
 		return session;
 	}

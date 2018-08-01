@@ -15,14 +15,16 @@
  */
 package rocks.bottery.bot.resolver.mustache;
 
+import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.Map;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 
-import rocks.bottery.bot.ISession;
+import rocks.bottery.bot.IContext;
 import rocks.bottery.bot.IVariableResolver;
 
 /**
@@ -33,18 +35,19 @@ import rocks.bottery.bot.IVariableResolver;
  */
 public class MustacheVariableResolver implements IVariableResolver {
 
-	/* (non-Javadoc)
-	 * @see org.sylvani.bot.resolver.twig.IVariableResolver#resolveVariables(java.lang.String, org.sylvani.bot.ISession)
-	 */
 	@Override
-	public String resolveVariables(String text, ISession session) {
+	public String resolveVariables(String text, IContext session) {
+		return resolveVariables(text, session.asAttributeMap());
+	}
+
+	@Override
+	public String resolveVariables(String text, Map<String, Serializable> variables) {
 
 		StringWriter writer = new StringWriter();
 		MustacheFactory mf = new DefaultMustacheFactory();
 		Mustache mustache = mf.compile(new StringReader(text), text);
-		mustache.execute(writer, session.asAttributeMap());
+		mustache.execute(writer, variables);
 		writer.flush();
 		return writer.toString();
 	}
-
 }

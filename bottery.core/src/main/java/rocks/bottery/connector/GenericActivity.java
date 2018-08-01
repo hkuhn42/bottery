@@ -14,6 +14,7 @@ package rocks.bottery.connector;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
 
 import rocks.bottery.bot.ActivityType;
 import rocks.bottery.bot.Choice;
@@ -199,4 +200,7 @@ public class GenericActivity extends ActivityBase implements Serializable, IActi
 		return choices;
 	}
 
+	public void setLocale(Locale locale) {
+		this.locale = locale;
+	}
 }

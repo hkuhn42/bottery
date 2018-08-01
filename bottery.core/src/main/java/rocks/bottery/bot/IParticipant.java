@@ -33,16 +33,12 @@ public interface IParticipant {
 	 */
 	public String getAddress();
 
-	public void setId(String id);
-
 	/**
 	 * Get name
 	 * 
 	 * @return
 	 */
 	public String getName();
-
-	public void setName(String name);
 
 	/**
 	 * get the channel
@@ -57,4 +53,5 @@ public interface IParticipant {
 	 * @return
 	 */
 	public Object getConnectorParticipant();
+
 }

@@ -13,6 +13,7 @@
 package rocks.bottery.bot;
 
 import java.util.List;
+import java.util.Locale;
 
 import rocks.bottery.bot.recognizers.IIntent;
 
@@ -116,4 +117,10 @@ public interface IActivity {
 	 */
 	public List<Choice<?>> getChoices();
 
+	/**
+	 * Returns the locale of this activity or null if none is specified by the messaging service
+	 * 
+	 * @return the locale
+	 */
+	public Locale getLocale();
 }

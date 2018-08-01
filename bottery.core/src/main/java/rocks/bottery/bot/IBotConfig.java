@@ -13,6 +13,7 @@
 package rocks.bottery.bot;
 
 import java.util.List;
+import java.util.Locale;
 
 import rocks.bottery.bot.i18n.ILocalizer;
 import rocks.bottery.bot.interceptors.IInterceptor;
@@ -112,5 +113,7 @@ public interface IBotConfig extends IMessagingConfig {
 	 * @return the List of out interceptors
 	 */
 	List<IInterceptor> getOutInterceptors();
+
+	Locale getDefaultLocale();
 
 }

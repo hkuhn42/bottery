@@ -13,6 +13,7 @@
 package rocks.bottery.connector;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.recognizers.IIntent;
@@ -26,7 +27,8 @@ public abstract class ActivityBase implements IActivity, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private IIntent			  intent;
+	protected IIntent		  intent;
+	protected Locale		  locale;
 
 	public ActivityBase() {
 		super();
@@ -40,6 +42,11 @@ public abstract class ActivityBase implements IActivity, Serializable {
 	@Override
 	public void setIntent(IIntent intent) {
 		this.intent = intent;
+	}
+
+	@Override
+	public Locale getLocale() {
+		return locale;
 	}
 
 }

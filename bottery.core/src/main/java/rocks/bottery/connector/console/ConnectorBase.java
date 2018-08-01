@@ -49,9 +49,10 @@ public abstract class ConnectorBase implements IConnector {
 
 		activity.setId(String.valueOf("c" + new Random().nextLong()));
 
-		activity.setRecipient(new GenericParticipant());
-		activity.getRecipient().setId(recipient.getId());
-		activity.getRecipient().setName(recipient.getName());
+		GenericParticipant genericRecipient = new GenericParticipant();
+		activity.setRecipient(genericRecipient);
+		genericRecipient.setId(recipient.getId());
+		genericRecipient.setName(recipient.getName());
 		return activity;
 	}
 

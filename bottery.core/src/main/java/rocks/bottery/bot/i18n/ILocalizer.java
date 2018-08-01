@@ -12,7 +12,6 @@
  */
 package rocks.bottery.bot.i18n;
 
-import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -23,18 +22,8 @@ import java.util.Locale;
  */
 public interface ILocalizer {
 
-	public abstract String getString(String context, Locale locale, String key, Object... params);
+	String getString(Locale locale, String key, Object... params);
 
-	public abstract String getString(Object context, Locale locale, String key, Object... params);
-
-	public abstract String getString(Locale locale, String key, Object... params);
-
-	public abstract String format(Locale locale, Date date, String pattern);
-
-	public abstract String formatDate(Locale locale, Date date);
-
-	public abstract String formatTime(Locale locale, Date date);
-
-	public abstract String formatDateTime(Locale locale, Date date);
+	String getString(Locale locale, String key);
 
 }

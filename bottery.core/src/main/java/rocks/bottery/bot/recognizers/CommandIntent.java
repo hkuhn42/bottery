@@ -20,7 +20,7 @@ import java.util.Map;
 import rocks.bottery.bot.ContextBase;
 
 /**
- * Basic intent for a command word
+ * Basic intent for a command word or intent name
  * 
  * @author Harald Kuhn
  */
@@ -30,6 +30,7 @@ public class CommandIntent extends ContextBase implements IIntent, Serializable 
 
 	private String			  intent;
 	private String			  responseSuggestion;
+	private boolean			  fullfillment;
 
 	public CommandIntent(String intent) {
 		this.intent = intent;
@@ -78,5 +79,13 @@ public class CommandIntent extends ContextBase implements IIntent, Serializable 
 			return (IEntity) possibleEntity;
 		}
 		return null;
+	}
+
+	public boolean isFullfillment() {
+		return fullfillment;
+	}
+
+	public void setFullfillment(boolean fullfillment) {
+		this.fullfillment = fullfillment;
 	}
 }

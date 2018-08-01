@@ -15,7 +15,7 @@ package rocks.bottery.connector;
 import rocks.bottery.bot.IParticipant;
 
 /**
- * A basic implementation independent of a connector
+ * A basic implementation independent of any connector
  * 
  * @author Harald Kuhn
  */
@@ -47,12 +47,6 @@ public class GenericParticipant implements IParticipant {
 		return id;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sylvani.bot.IParticipant#setId(java.lang.String)
-	 */
-	@Override
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -67,12 +61,6 @@ public class GenericParticipant implements IParticipant {
 		return name;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sylvani.bot.IParticipant#setName(java.lang.String)
-	 */
-	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -99,4 +87,5 @@ public class GenericParticipant implements IParticipant {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
 }

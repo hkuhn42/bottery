@@ -15,6 +15,8 @@
  */
 package rocks.bottery.bot.universal;
 
+import java.util.Locale;
+
 import rocks.bottery.bot.ContextBase;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IBot;
@@ -33,11 +35,13 @@ public class UniversalSession extends ContextBase implements ISession {
 	private IDialog	   dialog;
 	private IConnector connector;
 	private String	   id;
+	private Locale	   locale;
 
-	protected UniversalSession(String id, IBot bot, IConnector connector) {
+	protected UniversalSession(String id, IBot bot, IConnector connector, Locale locale) {
 		this.bot = bot;
 		this.connector = connector;
 		this.id = id;
+		this.locale = locale;
 	}
 
 	@Override
@@ -83,7 +87,7 @@ public class UniversalSession extends ContextBase implements ISession {
 
 	@Override
 	public String getResolvedResource(String key) {
-		String resource = getBot().getResources().getString(key);
+		String resource = getBot().getBotConfig().getLocalizer().getString(locale, key);
 		if (getBot().getBotConfig().getResolver() != null) {
 			return getBot().getBotConfig().getResolver().resolveVariables(resource, this);
 		}
@@ -98,6 +102,16 @@ public class UniversalSession extends ContextBase implements ISession {
 	@Override
 	public String getChannel() {
 		return connector.getChannel();
+	}
+
+	@Override
+	public Locale getLocale() {
+		return locale;
+	}
+
+	@Override
+	public void setLocale(Locale locale) {
+		this.locale = locale;
 	}
 
 }

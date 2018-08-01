@@ -14,10 +14,13 @@ package rocks.bottery.bot.universal;
 
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
+
 import rocks.bottery.bot.BotConfig;
 import rocks.bottery.bot.IKnowThisIsWrongCrypt;
 import rocks.bottery.bot.InMemoryActivityArchive;
 import rocks.bottery.bot.InMemorySessionStore;
+import rocks.bottery.bot.i18n.BundleLocalizer;
 import rocks.bottery.bot.recognizers.CommandRecognizer;
 import rocks.bottery.bot.resolver.mustache.MustacheVariableResolver;
 
@@ -29,19 +32,19 @@ import rocks.bottery.bot.resolver.mustache.MustacheVariableResolver;
  */
 public class UniversalBotConfig extends BotConfig {
 
-	public UniversalBotConfig() {
+	public UniversalBotConfig(String botClazz) {
 		try {
 			properties.load(getClass().getClassLoader().getResourceAsStream("Bot.properties"));
 		}
 		catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Logger.getLogger(UniversalBotConfig.class).warn("no Bot.properties found", e);
 		}
 		crypt = new IKnowThisIsWrongCrypt();
 		getRecognizers().add(new CommandRecognizer());
 		resolver = new MustacheVariableResolver();
 		sessionStore = new InMemorySessionStore();
 		archive = new InMemoryActivityArchive();
+		localizer = new BundleLocalizer(botClazz);
 	}
 
 }

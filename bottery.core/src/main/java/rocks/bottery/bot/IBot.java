@@ -12,7 +12,6 @@
  */
 package rocks.bottery.bot;
 
-import io.rincl.Rincled;
 import rocks.bottery.connector.IConnector;
 import rocks.bottery.messaging.IMessagingContext;
 import rocks.bottery.messaging.IReceiver;
@@ -30,7 +29,7 @@ import rocks.bottery.messaging.IReceiver;
  * 
  * @author Harald Kuhn
  */
-public interface IBot extends IContext, IHandler, Rincled, IReceiver {
+public interface IBot extends IContext, IHandler, IReceiver {
 
 	public void invalidate(ISession session);
 
