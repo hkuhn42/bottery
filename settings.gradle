@@ -1,12 +1,16 @@
 include 'bottery.core', 
         'bottery.connector.ms', 
         'bottery.connector.telegram', 
+        'bottery.connector.twitter',
         'bottery.connector.discord',
         'bottery.connector.gitter',
-        'bottery.recognizer.luis', 
+		'bottery.connector.stride',
         'bottery.recognizer.dialogflow',
-        'bottery.recognizer.dl4j', 
-        'bottery.notifier.quartz', 
+        'bottery.recognizer.dl4j',
+        'bottery.recognizer.lex',
+        'bottery.recognizer.luis', 
+        'bottery.recognizer.witai',		
+        'bottery.notifier.quartz',
         'bottery.examples'
 
 rootProject.name = 'rocks.bottery'
