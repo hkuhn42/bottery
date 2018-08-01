@@ -43,31 +43,11 @@ public class DiscordParticipant implements IParticipant {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see rocks.bottery.bot.IParticipant#setId(java.lang.String)
-	 */
-	@Override
-	public void setId(String id) {
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see rocks.bottery.bot.IParticipant#getName()
 	 */
 	@Override
 	public String getName() {
 		return user.getName();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see rocks.bottery.bot.IParticipant#setName(java.lang.String)
-	 */
-	@Override
-	public void setName(String name) {
-
 	}
 
 	@Override

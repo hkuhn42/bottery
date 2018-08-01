@@ -53,31 +53,11 @@ public class TelegramParticipant implements IParticipant {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sylvani.bot.IParticipant#setId(java.lang.String)
-	 */
-	@Override
-	public void setId(String id) {
-		throw new UnsupportedOperationException();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.sylvani.bot.IParticipant#getName()
 	 */
 	@Override
 	public String getName() {
 		return user.firstName() + " " + user.lastName();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sylvani.bot.IParticipant#setName(java.lang.String)
-	 */
-	@Override
-	public void setName(String name) {
-		throw new UnsupportedOperationException();
 	}
 
 	@Override

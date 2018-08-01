@@ -50,33 +50,11 @@ public class GitterParticipant implements IParticipant {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see rocks.bottery.bot.IParticipant#setId(java.lang.String)
-	 */
-	@Override
-	public void setId(String id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see rocks.bottery.bot.IParticipant#getName()
 	 */
 	@Override
 	public String getName() {
 		return gitterUser.getDisplayName();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see rocks.bottery.bot.IParticipant#setName(java.lang.String)
-	 */
-	@Override
-	public void setName(String name) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/*
