@@ -34,13 +34,24 @@ import rocks.bottery.bot.ISession;
  */
 public class Interview implements IDialog {
 
-	private static final String			  DIALOG_STATE_PREFIX = "Interview";
+	private static final String				DIALOG_STATE_PREFIX	= "Interview";
 
-	protected List<IDialog>				  dialogs;
-	private String						  instanceStateKey;
-	private String						  resultBeanName;
-	private Class<? extends Serializable> resultBeanClazz;
+	protected List<IDialog>					dialogs;
+	protected String						instanceStateKey;
+	protected String						resultBeanName;
+	protected Class<? extends Serializable>	resultBeanClazz;
 
+	/**
+	 * Instantiate a new Inteview
+	 * 
+	 * 
+	 * @param resultBeanName
+	 *            the name of the result bean in the session
+	 * @param resultBeanClazz
+	 *            the class of the result bean
+	 * @param dialogs
+	 *            an array of dialogs executed in that order
+	 */
 	public Interview(String resultBeanName, Class<? extends Serializable> resultBeanClazz, IDialog[] dialogs) {
 		this(dialogs);
 		this.resultBeanClazz = resultBeanClazz;
