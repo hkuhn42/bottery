@@ -1,0 +1,9 @@
+version = '0.6.2'
+
+dependencies {
+    compile project(':bottery.core')
+    
+    compile 'com.amazonaws:aws-java-sdk-lex:1.11.96'
+
+    
+}
