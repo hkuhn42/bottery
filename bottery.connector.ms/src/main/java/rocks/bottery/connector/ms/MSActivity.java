@@ -14,6 +14,7 @@ package rocks.bottery.connector.ms;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import rocks.bottery.bot.ActivityType;
 import rocks.bottery.bot.Choice;
@@ -41,6 +42,7 @@ public class MSActivity extends GenericActivity implements IActivity {
 
 	MSActivity(Activity activity) {
 		this.activity = activity;
+		setLocale(new Locale(activity.getLocale()));
 	}
 
 	Activity getActivity() {
@@ -57,6 +59,7 @@ public class MSActivity extends GenericActivity implements IActivity {
 		return activity.getId();
 	}
 
+	@Override
 	public void setId(String id) {
 		activity.setId(id);
 	}
@@ -71,6 +74,7 @@ public class MSActivity extends GenericActivity implements IActivity {
 		return activity.getTopicName();
 	}
 
+	@Override
 	public void setTopic(String topic) {
 		activity.setTopicName(topic);
 	}
@@ -95,6 +99,7 @@ public class MSActivity extends GenericActivity implements IActivity {
 		return ActivityType.OTHER;
 	}
 
+	@Override
 	public void setType(ActivityType type) {
 		switch (type) {
 			case MESSAGE:
@@ -115,6 +120,7 @@ public class MSActivity extends GenericActivity implements IActivity {
 		return new MSParticipant(activity.getFrom());
 	}
 
+	@Override
 	public void setFrom(IParticipant from) {
 		if (from instanceof MSParticipant) {
 			activity.setFrom(((MSParticipant) from).getChannelAccount());
@@ -137,6 +143,7 @@ public class MSActivity extends GenericActivity implements IActivity {
 		return new MSParticipant(activity.getRecipient());
 	}
 
+	@Override
 	public void setRecipient(IParticipant recipient) {
 		activity.setRecipient(((MSParticipant) recipient).getChannelAccount());
 	}
@@ -146,6 +153,7 @@ public class MSActivity extends GenericActivity implements IActivity {
 		return activity.getText();
 	}
 
+	@Override
 	public void setText(String text) {
 		activity.setText(text);
 	}
@@ -155,6 +163,7 @@ public class MSActivity extends GenericActivity implements IActivity {
 		return new MSConversation(activity.getConversation(), activity.getChannelId());
 	}
 
+	@Override
 	public void setAttachments(List<IAttachment> attachments) {
 		List<Attachment> msAttachments = new ArrayList<>();
 		for (IAttachment attachment : attachments) {

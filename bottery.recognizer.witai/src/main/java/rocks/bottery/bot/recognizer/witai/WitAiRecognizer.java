@@ -25,7 +25,9 @@ import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 
 import rocks.bottery.bot.BotConfig;
@@ -38,6 +40,8 @@ import rocks.bottery.connector.GenericActivity;
 
 /**
  * A recognizer using wit.ai service to identify the useres intent
+ * 
+ * Warning this is still experimental and not ready for use
  * 
  * @author Harald Kuhn
  */
@@ -75,36 +79,36 @@ public class WitAiRecognizer extends RecognizerBase {
 			});
 		}
 
-		System.out.println("intent " + intent.getText());
+		Logger.getLogger(this.getClass()).debug("intent " + intent.getText());
 
 		for (String key : intent.getAdditionalProperties().keySet()) {
-			System.out.println(key + " " + intent.getAdditionalProperties().get(key));
+			Logger.getLogger(this.getClass()).debug(key + " " + intent.getAdditionalProperties().get(key));
 		}
 
 		for (Outcome outcome : intent.getOutcomes()) {
 
-			System.out.println("outcome " + outcome.getIntent() + " " + outcome.getText() + " " + outcome.getConfidence());
-
-			for (Datetime entity : outcome.getEntities().getDatetime()) {
-				System.out.println(entity.getType() + " " + entity.getValue());
-				for (String key : entity.getAdditionalProperties().keySet()) {
-					System.out.println(key + " " + entity.getAdditionalProperties().get(key));
-				}
-			}
-
-			for (Location entity : outcome.getEntities().getLocation()) {
-				System.out.println(entity.getType() + " " + entity.getValue());
-				for (String key : entity.getAdditionalProperties().keySet()) {
-					System.out.println(key + " " + entity.getAdditionalProperties().get(key));
-				}
-			}
-
-			for (Entity entity : outcome.getEntities().getEntities()) {
-				System.out.println(entity.getEntityType() + " " + entity.getType() + " - " + entity.getValue());
-				for (String key : entity.getAdditionalProperties().keySet()) {
-					System.out.println(key + " " + entity.getAdditionalProperties().get(key));
-				}
-			}
+			Logger.getLogger(this.getClass()).debug("outcome " + outcome.getIntent() + " " + outcome.getText() + " " + outcome.getConfidence());
+			//
+			// for (Datetime entity : outcome.getEntities().getDatetime()) {
+			// System.out.println(entity.getType() + " " + entity.getValue());
+			// for (String key : entity.getAdditionalProperties().keySet()) {
+			// System.out.println(key + " " + entity.getAdditionalProperties().get(key));
+			// }
+			// }
+			//
+			// for (Location entity : outcome.getEntities().getLocation()) {
+			// System.out.println(entity.getType() + " " + entity.getValue());
+			// for (String key : entity.getAdditionalProperties().keySet()) {
+			// System.out.println(key + " " + entity.getAdditionalProperties().get(key));
+			// }
+			// }
+			//
+			// for (Entity entity : outcome.getEntities()) {
+			// System.out.println(entity.getEntityType() + " " + entity.getType() + " - " + entity.getValue());
+			// for (String key : entity.getAdditionalProperties().keySet()) {
+			// System.out.println(key + " " + entity.getAdditionalProperties().get(key));
+			// }
+			// }
 
 		}
 
@@ -114,7 +118,8 @@ public class WitAiRecognizer extends RecognizerBase {
 	protected static WitAiApi initConversationRestProxy(String url) {
 		List<Object> providers = new ArrayList<>();
 		JacksonJaxbJsonProvider provider = new JacksonJaxbJsonProvider();
-		// provider.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
+		provider.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+		// provider.configure(DeserializationFeature.UNWRAP_SINGLE_VALUE_ARRAYS, true);
 		providers.add(provider);
 		WitAiApi proxy = JAXRSClientFactory.create(url, WitAiApi.class, providers);
 		configureLogging(proxy);
@@ -141,7 +146,8 @@ public class WitAiRecognizer extends RecognizerBase {
 		config.setSetting("witAi.token", args[0]);
 		r.init(config);
 		GenericActivity activity = new GenericActivity();
-		activity.setText("i would like to order a Salami Pizza");
+		activity.setText("What is the weather like tomorrow in Hamburg?");
+		// activity.setText("i would like to order a Salami Pizza");
 		r.recognize(null, activity);
 	}
 }

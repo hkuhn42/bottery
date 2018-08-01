@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016-2017 Harald Kuhn
+ * Copyright (C) 2016-2018 Harald Kuhn
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -46,6 +46,7 @@ import com.pengrad.telegrambot.response.SendResponse;
 import rocks.bottery.bot.AttachmentType;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IAttachment;
+import rocks.bottery.bot.IBot;
 import rocks.bottery.bot.IParticipant;
 import rocks.bottery.connector.console.ConnectorBase;
 import rocks.bottery.messaging.IReceiver;
@@ -79,6 +80,11 @@ public class TelegramConnector extends ConnectorBase {
 	 */
 	@Override
 	public void register(IReceiver receiver) {
+		// auto call init if not already happened
+		if (config == null && receiver instanceof IBot) {
+			IBot bot = (IBot) receiver;
+			init(bot.getBotConfig());
+		}
 		String key = config.getSetting(name + ".key");
 		telegramBot = TelegramBotAdapter.build(key);
 
@@ -155,8 +161,8 @@ public class TelegramConnector extends ConnectorBase {
 	public void send(IActivity data) {
 
 		SendMessage request = new SendMessage(Long.valueOf(data.getConversation().getId()), data.getText()).parseMode(ParseMode.HTML)
-		        .disableWebPagePreview(true).disableNotification(true).replyToMessageId(1).replyMarkup(new ForceReply());
-
+		        .disableWebPagePreview(true).disableNotification(true).replyMarkup(new ForceReply());
+		// replyToMessageId(1)
 		if (data.getChoices() != null && data.getChoices().size() > 0) {
 			KeyboardButton[] buttons = new KeyboardButton[data.getChoices().size()];
 			for (int i = 0; i < data.getChoices().size(); i++) {

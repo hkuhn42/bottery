@@ -27,10 +27,19 @@ import org.deeplearning4j.util.ModelSerializer;
 import rocks.bottery.bot.IBotConfig;
 import rocks.bottery.bot.recognizers.RecognizerBase;
 
+/**
+ * Base class for building recognizers using deeplearing4j
+ *
+ * FIXME: this is probably still to much on the qna side
+ * 
+ * @author Harald Kuhn
+ */
 public abstract class DL4JRecognizerBase extends RecognizerBase {
 
-	public static final String	   DL4J_FILE_VOCABULARY	= "dl4j.file.vocabulary";
-	public static final String	   DL4J_FILE_CLASSIFIER	= "dl4j.file.classifier";
+	public static final String	   DL4J_FILE_VOCABULARY		 = "dl4j.file.vocabulary";
+	public static final String	   DL4J_FILE_CLASSIFIER		 = "dl4j.file.classifier";
+	public static final String	   NOTHING_RECOGNIZED_INTENT = "intent.none";
+
 	protected MultiLayerNetwork	   neuralNetwork;
 	protected BagOfWordsVectorizer vectorizer;
 
@@ -38,6 +47,7 @@ public abstract class DL4JRecognizerBase extends RecognizerBase {
 		super();
 	}
 
+	@Override
 	public void init(IBotConfig config) throws IOException {
 		String classifierFileName = null;
 		String vocabularyFileName = null;

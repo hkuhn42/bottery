@@ -57,5 +57,6 @@ public interface IStrideAPI {
 	@POST
 	@Path("/site/{cloudId}/conversation/{conversationId}/user/{userId}/message")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void sendMessageToUser();
+	public void sendMessageToUser(@HeaderParam("authorization") String auth, @PathParam("cloudId") String cloudId,
+	        @PathParam("conversationId") String conversationId, @PathParam("userId") String userId, Message message);
 }

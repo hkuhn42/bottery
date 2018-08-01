@@ -61,12 +61,16 @@ public class StrideConnector extends ConnectorBase {
 
 	public static String		LOCAL_ADDRESS	  = "http://localhost";
 
+	/**
+	 * default local port
+	 */
 	public static String		LOCAL_PORT		  = "3974";
 
 	private String				clientId		  = null;
 	private String				clientSecret	  = null;
 	private String				cloudId			  = null;
 	private String				publicUrl		  = null;
+	private String				cloudUrl		  = API_ATLASSIAN_COM;
 
 	private Token				token;
 
@@ -84,6 +88,8 @@ public class StrideConnector extends ConnectorBase {
 		clientSecret = config.getSetting(connectorName + ".clientSecret");
 		cloudId = config.getSetting(connectorName + ".cloudId");
 		publicUrl = config.getSetting(connectorName + ".publicUrl");
+		address = config.getSetting(connectorName + ".localAddress");
+		cloudUrl = config.getSetting(connectorName + ".cloudUrl");
 		jwtUtils = new JWTUtils(clientSecret, cloudId);
 	}
 
@@ -92,8 +98,11 @@ public class StrideConnector extends ConnectorBase {
 
 		Token token = ensureToken();
 
+		if (cloudUrl == null) {
+			cloudUrl = API_ATLASSIAN_COM;
+		}
 		if (client == null) {
-			client = initStrideRestProxy(IStrideAPI.class, API_ATLASSIAN_COM);
+			client = initStrideRestProxy(IStrideAPI.class, cloudUrl);
 			configureLogging(client);
 		}
 		Message message = new Message();
@@ -130,7 +139,7 @@ public class StrideConnector extends ConnectorBase {
 
 		TokenRequest request = new TokenRequest("client_credentials", clientId, clientSecret);
 		if (authClient == null) {
-			authClient = initAuthRestProxy(IAuthAPI.class, API_ATLASSIAN_COM);
+			authClient = initAuthRestProxy(IAuthAPI.class, cloudUrl);
 			configureLogging(authClient);
 		}
 

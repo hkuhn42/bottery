@@ -39,7 +39,7 @@ public class GitterConversation implements IConversation {
 
 	@Override
 	public String getConnectorId() {
-		return GitterConnector.CHANNEL;
+		return GitterConnector.class.getName();
 	}
 
 	@Override

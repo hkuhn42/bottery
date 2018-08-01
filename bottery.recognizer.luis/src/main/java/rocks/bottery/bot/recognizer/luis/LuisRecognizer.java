@@ -46,18 +46,31 @@ import rocks.bottery.bot.recognizers.RecognizerBase;
  */
 public class LuisRecognizer extends RecognizerBase implements IRecognizer {
 
-	public static final String SERVER_URL = "https://api.projectoxford.ai/luis/v2.0";
+	public static final String SERVER_URL				 = "https://api.projectoxford.ai/luis/v2.0";
 
+	/**
+	 * the buildin intent for nothing recognized
+	 */
+	public static final String NOTHING_RECOGNIZED_INTENT = "builtin.intent.none";
+
+	/**
+	 * Create a new LuisRecognizer with greedy = true
+	 */
 	public LuisRecognizer() {
 		this.greedy = true;
 	}
 
+	/**
+	 * Create a new LuisRecognizer with given greedy flag
+	 * 
+	 * @param greedy
+	 *            true for greedy false otherwise
+	 */
 	public LuisRecognizer(boolean greedy) {
 		this.greedy = greedy;
 	}
 
-	public static String NOTHING_RECOGNIZED_INTENT = "builtin.intent.none";
-
+	// create LuisApi proxy
 	protected static LuisApi initConversationRestProxy(String url) {
 		List<Object> providers = new ArrayList<>();
 		JacksonJaxbJsonProvider provider = new JacksonJaxbJsonProvider();
