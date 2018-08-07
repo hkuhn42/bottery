@@ -13,6 +13,7 @@
 package rocks.bottery.bot.i18n;
 
 import java.util.HashMap;
+import java.util.ListResourceBundle;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -23,42 +24,52 @@ import java.util.ResourceBundle;
  *
  */
 public class BundleLocalizer implements ILocalizer {
-
-	private String						baseName;
-	private Map<Locale, ResourceBundle>	bundles;
-
-	public BundleLocalizer(String botClazz) {
-		this.baseName = botClazz;
-		this.bundles = new HashMap<>();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see rocks.bottery.bot.i18n.ILocalizer#getString(java.util.Locale, java.lang.String, java.lang.Object[])
-	 */
-	@Override
-	public String getString(Locale locale, String key, Object... params) {
-		String value = getString(locale, key);
-		if (params.length > 0) {
-
-		}
-		return value;
-	}
-
-	@Override
-	public String getString(Locale locale, String key) {
-		ResourceBundle bundle = bundles.get(locale);
-		if (bundle == null) {
-			try {
-				bundle = ResourceBundle.getBundle(baseName, locale);
-				bundles.put(locale, bundle);
-			}
-			catch (MissingResourceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return bundle.getString(key);
-	}
+    
+    private String                      baseName;
+    private Map<Locale, ResourceBundle> bundles;
+    
+    public BundleLocalizer(String botClazz) {
+        this.baseName = botClazz;
+        this.bundles = new HashMap<>();
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see rocks.bottery.bot.i18n.ILocalizer#getString(java.util.Locale, java.lang.String, java.lang.Object[])
+     */
+    @Override
+    public String getString(Locale locale, String key, Object... params) {
+        String value = getString(locale, key);
+        // FIXME: do we need plaint old params support?
+        // if (params.length > 0) {
+        //
+        // }
+        return value;
+    }
+    
+    @Override
+    public String getString(Locale locale, String key) {
+        ResourceBundle bundle = bundles.get(locale);
+        if (bundle == null) {
+            try {
+                bundle = ResourceBundle.getBundle(baseName, locale);
+                bundles.put(locale, bundle);
+            }
+            catch (MissingResourceException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                bundle = new ListResourceBundle() {
+                    
+                    @Override
+                    protected Object[][] getContents() {
+                        return new Object[][] {
+                                { "", "" }
+                        };
+                    }
+                };
+            }
+        }
+        return bundle.getString(key);
+    }
 }
