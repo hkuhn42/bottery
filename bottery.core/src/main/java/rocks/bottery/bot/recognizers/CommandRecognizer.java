@@ -23,36 +23,36 @@ import rocks.bottery.bot.ISession;
  *
  */
 public class CommandRecognizer extends RecognizerBase {
-
-	public static String NO_INTENT = "none";
-
-	private String[]	 pattern;
-
-	public CommandRecognizer(String... pattern) {
-		this.pattern = pattern;
-		if (pattern == null) {
-			throw new NullPointerException("pattern may not be null");
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sylvani.bot.recognize.IRecognizer#recognize(org.sylvani.bot.ISession, org.sylvani.bot.IActivity)
-	 */
-	@Override
-	public IIntent recognize(ISession session, IActivity activity) {
-
-		String text = activity.getText();
-		for (String string : pattern) {
-			if (text.contains(string)) {
-				return new CommandIntent(mapIntentName(string));
-			}
-		}
-		if (greedy) {
-			return new CommandIntent(NO_INTENT);
-		}
-		return null;
-	}
-
+    
+    public static String NO_INTENT = "none";
+    
+    private String[]     pattern;
+    
+    public CommandRecognizer(String... pattern) {
+        this.pattern = pattern;
+        if (pattern == null) {
+            throw new NullPointerException("pattern may not be null");
+        }
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.sylvani.bot.recognize.IRecognizer#recognize(org.sylvani.bot.ISession, org.sylvani.bot.IActivity)
+     */
+    @Override
+    public IIntent recognize(ISession session, IActivity activity) {
+        
+        String text = activity.getText();
+        for (String string : pattern) {
+            if (text.toLowerCase().contains(string.toLowerCase())) {
+                return new CommandIntent(mapIntentName(string));
+            }
+        }
+        if (greedy) {
+            return new CommandIntent(NO_INTENT);
+        }
+        return null;
+    }
+    
 }
