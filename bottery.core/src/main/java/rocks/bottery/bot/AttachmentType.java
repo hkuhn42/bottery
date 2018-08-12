@@ -21,6 +21,12 @@ public enum AttachmentType {
 
 	PHOTO,
 
+	VIDEO,
+
+	AUDIO,
+
+	CONTACT,
+
 	FILE
 
 }
