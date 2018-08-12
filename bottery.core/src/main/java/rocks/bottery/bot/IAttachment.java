@@ -26,14 +26,24 @@ import java.net.URL;
 public interface IAttachment extends IContext, Serializable {
 
 	/**
-	 * Key of the IMAGE_WIDTH attribute
+	 * Key of the IMAGE_WIDTH attribute. Value should be pixel in java.lang.Integer
 	 */
-	public static String IMAGE_WIDTH  = "imageWidth";
+	public static String IMAGE_WIDTH	= "imageWidth";
 
 	/**
-	 * Key of the IMAGE_HEIGHT attribute
+	 * Key of the IMAGE_HEIGHT attribute. Value should be pixel in java.lang.Integer
 	 */
-	public static String IMAGE_HEIGHT = "imageHeight";
+	public static String IMAGE_HEIGHT	= "imageHeight";
+
+	/**
+	 * Key of the VIDEO_DURATION attribute. Value should be seconds in java.lang.Integer
+	 */
+	public static String VIDEO_DURATION	= "videoDuration";
+
+	/**
+	 * Key of the THUMBNAIL attribute. Value should be an instance of IAttachment
+	 */
+	public static String THUMBNAIL		= "thumbnail";
 
 	/**
 	 * the type of attachment

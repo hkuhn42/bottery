@@ -30,6 +30,7 @@ import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.File;
 import com.pengrad.telegrambot.model.PhotoSize;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.model.Video;
 import com.pengrad.telegrambot.model.request.ForceReply;
 import com.pengrad.telegrambot.model.request.KeyboardButton;
 import com.pengrad.telegrambot.model.request.ParseMode;
@@ -124,21 +125,59 @@ public class TelegramConnector extends ConnectorBase {
 
 			protected TelegramActivity createActivity(Update update) {
 				TelegramActivity telegramActivity = new TelegramActivity(update);
-				if (update.message().photo() != null) {
 
+				Video video = update.message().video();
+				if (video != null) {
+					// as we currently do not support images with different resolutions, we just take the biggest one
+
+					try {
+						GenericAttachment videoAtta = newAttachment(video.fileId());
+						videoAtta.setType(AttachmentType.VIDEO);
+						videoAtta.setAttribute(IAttachment.IMAGE_HEIGHT, video.height());
+						videoAtta.setAttribute(IAttachment.IMAGE_WIDTH, video.width());
+						videoAtta.setAttribute(IAttachment.VIDEO_DURATION, video.duration());
+						telegramActivity.getAttachments().add(videoAtta);
+
+						GenericAttachment thump = newAttachment(video.thumb().fileId());
+						thump.setType(AttachmentType.PHOTO);
+						thump.setAttribute(IAttachment.IMAGE_HEIGHT, video.thumb().height());
+						thump.setAttribute(IAttachment.IMAGE_WIDTH, video.thumb().width());
+						videoAtta.setAttribute(IAttachment.THUMBNAIL, thump);
+
+					}
+					catch (MalformedURLException e) {
+						org.apache.log4j.Logger.getLogger(TelegramConnector.class).error("could not process attachment", e);
+					}
+				}
+				if (update.message().photo() != null) {
+					// as we currently do not support images with different resolutions, we just take the biggest one as
+					// image and the smalles as thumpnail
 					PhotoSize photo = null;
+					PhotoSize thumb = null;
 					for (PhotoSize photoSize : update.message().photo()) {
 						if (photo == null || photo.fileSize() < photoSize.fileSize()) {
 							photo = photoSize;
+						}
+						if (thumb == null || thumb.fileSize() > photoSize.fileSize()) {
+							thumb = photoSize;
 						}
 					}
 					try {
 						GenericAttachment attachment = newAttachment(photo.fileId());
 						attachment.setType(AttachmentType.PHOTO);
+						attachment.setAttribute(IAttachment.IMAGE_HEIGHT, photo.height());
+						attachment.setAttribute(IAttachment.IMAGE_WIDTH, photo.width());
 						telegramActivity.getAttachments().add(attachment);
+
+						GenericAttachment thumbAtta = newAttachment(photo.fileId());
+						thumbAtta.setType(AttachmentType.PHOTO);
+						thumbAtta.setAttribute(IAttachment.IMAGE_HEIGHT, photo.height());
+						thumbAtta.setAttribute(IAttachment.IMAGE_WIDTH, photo.width());
+
+						attachment.setAttribute(IAttachment.THUMBNAIL, thumbAtta);
 					}
 					catch (MalformedURLException e) {
-						e.printStackTrace();
+						org.apache.log4j.Logger.getLogger(TelegramConnector.class).error("could not process attachment", e);
 					}
 				}
 
@@ -223,11 +262,17 @@ public class TelegramConnector extends ConnectorBase {
 
 	@Override
 	public IParticipant getConnectorAccount() {
-		// TODO Auto-generated method stub
-		return null;
+		return new GenericParticipant("bot", "bot", "telegram");
 	}
 
-	private GenericAttachment newAttachment(String fileId) throws MalformedURLException {
+	/**
+	 * create an attachment for the given file
+	 * 
+	 * @param fileId
+	 * @return
+	 * @throws MalformedURLException
+	 */
+	protected GenericAttachment newAttachment(String fileId) throws MalformedURLException {
 		GenericAttachment attachment = new GenericAttachment();
 		GetFile request = new GetFile(fileId);
 		GetFileResponse getFileResponse = telegramBot.execute(request);
