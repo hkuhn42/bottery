@@ -16,6 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import rocks.bottery.bot.AttachmentType;
+import rocks.bottery.bot.ContextBase;
 import rocks.bottery.bot.IAttachment;
 import sx.blah.discord.handle.obj.IMessage.Attachment;
 
@@ -24,7 +25,7 @@ import sx.blah.discord.handle.obj.IMessage.Attachment;
  * 
  * @author Harald Kuhn
  */
-public class DiscordAttachment implements IAttachment {
+public class DiscordAttachment extends ContextBase implements IAttachment {
 
 	private static final long serialVersionUID = 1L;
 	private Attachment		  attachment;
@@ -87,5 +88,4 @@ public class DiscordAttachment implements IAttachment {
 			throw new RuntimeException(e);
 		}
 	}
-
 }

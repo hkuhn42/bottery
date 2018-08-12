@@ -18,6 +18,7 @@ package rocks.bottery.connector;
 import java.net.URL;
 
 import rocks.bottery.bot.AttachmentType;
+import rocks.bottery.bot.ContextBase;
 import rocks.bottery.bot.IAttachment;
 
 /**
@@ -25,7 +26,7 @@ import rocks.bottery.bot.IAttachment;
  * 
  * @author Harald Kuhn
  */
-public class GenericAttachment implements IAttachment {
+public class GenericAttachment extends ContextBase implements IAttachment {
 
 	private static final long serialVersionUID = 1L;
 

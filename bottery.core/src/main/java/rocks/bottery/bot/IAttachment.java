@@ -16,11 +16,24 @@ import java.io.Serializable;
 import java.net.URL;
 
 /**
- * An attachment to an activity depending on the connector different types of attachments may be supported
+ * An attachment to an activity like a photo video or audio message.
+ * 
+ * Depending on the connector different types of attachments may be supported. If the connector implementation offers
+ * additional metadata, these are delivered via attributes.
  * 
  * @author Harald Kuhn
  */
-public interface IAttachment extends Serializable {
+public interface IAttachment extends IContext, Serializable {
+
+	/**
+	 * Key of the IMAGE_WIDTH attribute
+	 */
+	public static String IMAGE_WIDTH  = "imageWidth";
+
+	/**
+	 * Key of the IMAGE_HEIGHT attribute
+	 */
+	public static String IMAGE_HEIGHT = "imageHeight";
 
 	/**
 	 * the type of attachment
