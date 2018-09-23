@@ -12,28 +12,18 @@
  */
 package rocks.bottery.connector.gitter;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.cxf.Bus;
-import org.apache.cxf.configuration.jsse.TLSClientParameters;
-import org.apache.cxf.interceptor.LoggingInInterceptor;
-import org.apache.cxf.interceptor.LoggingOutInterceptor;
-import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
-import org.apache.cxf.jaxrs.client.WebClient;
-import org.apache.cxf.transport.http.HTTPConduit;
-import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
-import org.codehaus.jackson.map.SerializationConfig;
 
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IParticipant;
 import rocks.bottery.connector.console.ExecutorConnectorBase;
 import rocks.bottery.messaging.IReceiver;
+import rocks.bottery.util.ClientFactory;
 
 /**
- * Connector for gitter
+ * Connector for gitter using the gitter rest api. This connector monitors one room.
  * 
- * https://developer.gitter.im/docs/rest-api
+ * @see <a href="https://developer.gitter.im/docs/rest-api">developer.gitter.im</a>
  *
  * @author Harald Kuhn
  *
@@ -51,8 +41,7 @@ public class GitterConnector extends ExecutorConnectorBase {
 
 	@Override
 	public void register(IReceiver receiver) {
-
-		proxy = initRestProxy(HTTPS_API_GITTER_IM_V1);
+		proxy = new ClientFactory<GitterAPI>().prepareClientProxy(HTTPS_API_GITTER_IM_V1, GitterAPI.class);
 
 		String token = config.getSetting("gitter.token");
 		User user = proxy.getUser("Bearer " + token, "me");
@@ -123,27 +112,4 @@ public class GitterConnector extends ExecutorConnectorBase {
 	public String getChannel() {
 		return CHANNEL;
 	}
-
-	protected static GitterAPI initRestProxy(String url) {
-		List<Object> providers = new ArrayList<>();
-		JacksonJaxbJsonProvider provider = new JacksonJaxbJsonProvider();
-		provider.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
-		providers.add(provider);
-		GitterAPI proxy = JAXRSClientFactory.create(url, GitterAPI.class, providers);
-		configureLogging(proxy);
-		return proxy;
-	}
-
-	protected static void configureLogging(Object proxy) {
-		Bus bus = WebClient.getConfig(proxy).getBus();
-		bus.getInInterceptors().add(new LoggingInInterceptor());
-		bus.getOutInterceptors().add(new LoggingOutInterceptor());
-	}
-
-	protected static void configureConduit(Object proxy) {
-		HTTPConduit conduit = (HTTPConduit) WebClient.getConfig(proxy).getConduit();
-		TLSClientParameters params = new TLSClientParameters();
-		conduit.setTlsClientParameters(params);
-	}
-
 }

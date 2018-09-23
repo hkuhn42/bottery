@@ -25,13 +25,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
 /**
+ * JAX-RS API definition interface for the Gitter Rest API Version 1
  * 
- * https://api.gitter.im/v1
- * 
- * Authorization: Bearer {{token}}
- * 
+ * @see <a href="https://developer.gitter.im/docs/rest-api">developer.gitter.im</a>
  * @author Harald Kuhn
- *
  */
 @Path("/")
 @Consumes({ "application/json" })

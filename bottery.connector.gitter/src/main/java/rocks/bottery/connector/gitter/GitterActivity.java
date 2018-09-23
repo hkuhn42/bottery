@@ -25,6 +25,8 @@ import rocks.bottery.bot.IParticipant;
 import rocks.bottery.connector.ActivityBase;
 
 /**
+ * {@link IActivity} implementation for Gitter message
+ * 
  * @author Harald Kuhn
  *
  */
