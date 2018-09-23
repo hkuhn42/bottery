@@ -33,9 +33,11 @@ public class DiscordActivity extends GenericActivity {
 	private static final long serialVersionUID = 1L;
 
 	private IMessage		  message;
+	private IParticipant	  participant;
 
-	public DiscordActivity(IMessage message) {
+	public DiscordActivity(IMessage message, IParticipant participant) {
 		this.message = message;
+		this.participant = participant;
 	}
 
 	/*
@@ -95,7 +97,7 @@ public class DiscordActivity extends GenericActivity {
 	 */
 	@Override
 	public IParticipant getRecipient() {
-		return null;
+		return participant;
 	}
 
 	/*

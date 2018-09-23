@@ -13,6 +13,7 @@
 package rocks.bottery.connector.discord;
 
 import rocks.bottery.bot.IParticipant;
+import rocks.bottery.connector.Channel;
 import sx.blah.discord.handle.obj.IUser;
 
 /**
@@ -52,7 +53,7 @@ public class DiscordParticipant implements IParticipant {
 
 	@Override
 	public String getChannel() {
-		return "discord";
+		return Channel.DISCORD.name();
 	}
 
 	@Override

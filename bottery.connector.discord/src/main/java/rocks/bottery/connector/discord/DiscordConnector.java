@@ -16,6 +16,8 @@ import org.apache.log4j.Logger;
 
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IParticipant;
+import rocks.bottery.connector.Channel;
+import rocks.bottery.connector.GenericParticipant;
 import rocks.bottery.connector.console.ConnectorBase;
 import rocks.bottery.messaging.IReceiver;
 import sx.blah.discord.api.ClientBuilder;
@@ -30,7 +32,8 @@ import sx.blah.discord.util.RequestBuffer;
 /**
  * Connector for discord
  *
- * Call after replacing <appid> with your appid
+ * The connector needs an access token. This can be generated with a call of the following url after replacing <appid>
+ * with your appid
  *
  * https://discordapp.com/api/oauth2/authorize?client_id=<appid>&scope=bot&permissions=1
  * 
@@ -45,15 +48,20 @@ public class DiscordConnector extends ConnectorBase {
 	@Override
 	public void register(IReceiver receiver) {
 		this.receiver = receiver;
-		client = createClient(config.getSetting("discord.token"), true);
-		EventDispatcher dispatcher = client.getDispatcher();
-		dispatcher.registerListener(this);
+		try {
+			client = createClient(config.getSetting("discord.token"));
+			EventDispatcher dispatcher = client.getDispatcher();
+			dispatcher.registerListener(this);
+		}
+		catch (DiscordException e) {
+			Logger.getLogger(DiscordConnector.class).error("could not create discord client", e);
+		}
 	}
 
 	@Override
 	public void send(IActivity activity) {
 		IChannel channel = (IChannel) activity.getConversation().getConnectorConversation();
-		// This might look weird but it'll be explained in another page.
+		// send via request buffer to prevent api "overload"
 		RequestBuffer.request(() -> {
 			try {
 				channel.sendMessage(activity.getText());
@@ -66,40 +74,34 @@ public class DiscordConnector extends ConnectorBase {
 
 	@Override
 	public IParticipant getConnectorAccount() {
-		return null;
+		return new GenericParticipant("discord", "discord", "discord");
 	}
 
 	@Override
 	public String getChannel() {
-		return "discord";
-	}
-
-	public static IDiscordClient createClient(String token, boolean login) { // Returns a new instance of the Discord
-	                                                                         // client
-		ClientBuilder clientBuilder = new ClientBuilder(); // Creates the ClientBuilder instance
-		clientBuilder.withToken(token); // Adds the login info to the builder
-		try {
-			if (login) {
-				return clientBuilder.login(); // Creates the client instance and logs the client in
-			}
-			else {
-				return clientBuilder.build(); // Creates the client instance but it doesn't log the client in yet, you
-				                              // would have to call client.login() yourself
-			}
-		}
-		catch (DiscordException e) { // This is thrown if there was a problem building the client
-			Logger.getLogger(DiscordConnector.class).error("could not create discord client", e);
-			return null;
-		}
+		return Channel.DISCORD.name();
 	}
 
 	@EventSubscriber
 	public void onMessageReceived(MessageReceivedEvent event) {
-		receiver.receive(new DiscordActivity(event.getMessage()), this);
+		receiver.receive(new DiscordActivity(event.getMessage(), getConnectorAccount()), this);
 	}
 
 	@Override
 	public void shutdown() {
 		client.logout();
+	}
+
+	/**
+	 * Instatiates the IDiscordClient with the given token
+	 * 
+	 * @param token
+	 * @param login
+	 * @return
+	 */
+	protected static IDiscordClient createClient(String token) throws DiscordException {
+		ClientBuilder clientBuilder = new ClientBuilder();
+		clientBuilder.withToken(token);
+		return clientBuilder.login();
 	}
 }
