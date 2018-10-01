@@ -53,6 +53,8 @@ public abstract class ConnectorBase implements IConnector {
 		activity.setRecipient(genericRecipient);
 		genericRecipient.setId(recipient.getId());
 		genericRecipient.setName(recipient.getName());
+		genericRecipient.setAddress(recipient.getAddress());
+		genericRecipient.setChannel(recipient.getChannel());
 		return activity;
 	}
 
@@ -60,6 +62,7 @@ public abstract class ConnectorBase implements IConnector {
 	public GenericActivity newReplyTo(IActivity toThisActivity) {
 		GenericActivity reply = newMessageTo(toThisActivity.getFrom());
 		reply.setConversation(toThisActivity.getConversation());
+		reply.setFrom(toThisActivity.getRecipient());
 		return reply;
 	}
 
