@@ -29,6 +29,17 @@ public class GenericConversation implements IConversation, Serializable {
 	private String			  channel;
 	private String			  connectorId;
 
+	public GenericConversation() {
+		super();
+	}
+
+	public GenericConversation(String id, String channel, String connectorId) {
+		super();
+		this.id = id;
+		this.channel = channel;
+		this.connectorId = connectorId;
+	}
+
 	@Override
 	public String getId() {
 		return id;

@@ -37,6 +37,14 @@ public class GenericParticipant implements IParticipant {
 		this.channel = channel;
 	}
 
+	public GenericParticipant(String id, String name, String channel, String address) {
+		this();
+		this.id = id;
+		this.name = name;
+		this.channel = channel;
+		this.address = address;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -67,7 +75,7 @@ public class GenericParticipant implements IParticipant {
 
 	@Override
 	public String getChannel() {
-		return "discord";
+		return channel;
 	}
 
 	public void setChannel(String channel) {
