@@ -72,7 +72,7 @@ public interface IConnector {
 	 *            the IParticipant to receive this message
 	 * @return a pre initialized ActivityBase instance
 	 */
-	public ActivityBase newMessageTo(IParticipant recipientId);
+	public GenericActivity newMessageTo(IParticipant recipientId);
 
 	/**
 	 * prepare an answer to the given Activity (e.g. User, Bot, Group)
