@@ -1,11 +1,11 @@
-# Bottery connector for telegram
+# Bottery connectors for telegram
 
 A connector for the [Telegram Messengers](https://telegram.org) [Bot Framework](https://core.telegram.org/bots) 
 implemented with [pengards java api](https://github.com/pengrad/java-telegram-bot-api#creating-your-bot) 
  
 ## Getting started    
 
-Before beeing able to use this api, you need to obtain an api key from the telegram. This is done by using the BotFather 
+Before beeing able to use this api, you need to obtain an api key from telegram. This is done by using the BotFather 
 bot. There is a very good explanation with the documentation of their [Bot Framework](https://core.telegram.org/bots).          
 
 ## Example
@@ -23,7 +23,9 @@ bot. There is a very good explanation with the documentation of their [Bot Frame
                 return new Model<String>("Hello World");
             }
         });
-        new TelegramConnector().register(bot);
+        
+        TelegramBotConnector connector = new TelegramBotConnector();
+        connector.register(bot);
     }
 }
 ```
@@ -37,7 +39,7 @@ where xxxxxxxxxxxxxxxxxxxx is the key you got from the BotFather
 
 ## Features
 
-Currently only basic features are supported but extensions are planned.
+Currently only basic (text and basic attachments) features are supported but extensions are planned.
 
 ## Advanced
 
