@@ -13,19 +13,8 @@
 package rocks.bottery.bot.recognizer.luis;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.cxf.Bus;
-import org.apache.cxf.configuration.jsse.TLSClientParameters;
-import org.apache.cxf.interceptor.LoggingInInterceptor;
-import org.apache.cxf.interceptor.LoggingOutInterceptor;
-import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
-import org.apache.cxf.jaxrs.client.WebClient;
-import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
-import org.codehaus.jackson.map.SerializationConfig;
 
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IBotConfig;
@@ -33,6 +22,7 @@ import rocks.bottery.bot.ISession;
 import rocks.bottery.bot.recognizers.IIntent;
 import rocks.bottery.bot.recognizers.IRecognizer;
 import rocks.bottery.bot.recognizers.RecognizerBase;
+import rocks.bottery.util.ClientFactory;
 
 /**
  * Recognizer which uses the Microsoft Luis API to recognize intents
@@ -70,36 +60,16 @@ public class LuisRecognizer extends RecognizerBase implements IRecognizer {
 		this.greedy = greedy;
 	}
 
-	// create LuisApi proxy
-	protected static LuisApi initConversationRestProxy(String url) {
-		List<Object> providers = new ArrayList<>();
-		JacksonJaxbJsonProvider provider = new JacksonJaxbJsonProvider();
-		provider.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
-		providers.add(provider);
-		LuisApi proxy = JAXRSClientFactory.create(url, LuisApi.class, providers);
-		configureLogging(proxy);
-		return proxy;
-	}
-
-	protected static void configureLogging(Object proxy) {
-		Bus bus = WebClient.getConfig(proxy).getBus();
-		bus.getInInterceptors().add(new LoggingInInterceptor());
-		bus.getOutInterceptors().add(new LoggingOutInterceptor());
-	}
-
-	protected static void configureConduit(Object proxy) {
-		HTTPConduit conduit = (HTTPConduit) WebClient.getConfig(proxy).getConduit();
-		TLSClientParameters params = new TLSClientParameters();
-		conduit.setTlsClientParameters(params);
-	}
-
 	private LuisApi	proxy;
 	private String	appId;
 	private String	subscriptionKey;
 
 	@Override
 	public void init(IBotConfig config) throws IOException {
-		proxy = initConversationRestProxy(SERVER_URL);
+		ClientFactory<LuisApi> factory = new ClientFactory<>(false);
+		proxy = factory.prepareClientProxy(SERVER_URL, LuisApi.class);
+
+		// proxy = initConversationRestProxy(SERVER_URL);
 		appId = config.getSetting("luis.appId");
 		subscriptionKey = config.getSetting("luis.subscriptionKey");
 	}
