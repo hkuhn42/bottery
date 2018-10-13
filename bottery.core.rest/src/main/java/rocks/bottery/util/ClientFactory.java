@@ -71,6 +71,8 @@ public class ClientFactory<T> {
 		bus.getInInterceptors().add(new LoggingInInterceptor());
 		bus.getOutInterceptors().add(new LoggingOutInterceptor());
 
+		WebClient.client(proxy).accept("application/json");
+
 		HTTPConduit conduit = (HTTPConduit) WebClient.getConfig(proxy).getConduit();
 		TLSClientParameters params = new TLSClientParameters();
 		conduit.setTlsClientParameters(params);
