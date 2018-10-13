@@ -96,7 +96,7 @@ public class TelegramActivity extends ActivityBase implements IActivity {
 	 */
 	@Override
 	public IParticipant getRecipient() {
-		return new GenericParticipant("bot", "bot", "telegram");
+		return new GenericParticipant("bot", "bot", "telegram", "bot");
 	}
 
 	/*

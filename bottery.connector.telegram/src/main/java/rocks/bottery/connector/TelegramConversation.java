@@ -60,7 +60,7 @@ public class TelegramConversation implements IConversation {
 	 */
 	@Override
 	public String getConnectorId() {
-		return TelegramConnector.class.getName();
+		return TelegramBotConnector.class.getName();
 	}
 
 	@Override

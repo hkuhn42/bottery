@@ -59,18 +59,18 @@ import rocks.bottery.messaging.IReceiver;
  * 
  * @author Harald Kuhn
  */
-public class TelegramConnector extends ConnectorBase {
+public class TelegramBotConnector extends ConnectorBase {
 
-	private Logger		logger = LoggerFactory.getLogger(TelegramConnector.class);
+	private Logger		logger = LoggerFactory.getLogger(TelegramBotConnector.class);
 
 	private TelegramBot	telegramBot;
 	private String		name;
 
-	public TelegramConnector() {
+	public TelegramBotConnector() {
 		this("telegram");
 	}
 
-	public TelegramConnector(String name) {
+	public TelegramBotConnector(String name) {
 		this.name = name;
 	}
 
@@ -103,7 +103,7 @@ public class TelegramConnector extends ConnectorBase {
 				if (updates != null) {
 					for (Update update : updates) {
 						logger.debug("received " + update);
-						receiver.receive(createActivity(update), TelegramConnector.this);
+						receiver.receive(createActivity(update), TelegramBotConnector.this);
 					}
 				}
 
@@ -115,7 +115,7 @@ public class TelegramConnector extends ConnectorBase {
 						if (updates != null) {
 							for (Update update : updates) {
 								logger.debug("received " + update);
-								receiver.receive(createActivity(update), TelegramConnector.this);
+								receiver.receive(createActivity(update), TelegramBotConnector.this);
 							}
 						}
 						return UpdatesListener.CONFIRMED_UPDATES_ALL;
@@ -146,7 +146,7 @@ public class TelegramConnector extends ConnectorBase {
 
 					}
 					catch (MalformedURLException e) {
-						org.apache.log4j.Logger.getLogger(TelegramConnector.class).error("could not process attachment", e);
+						org.apache.log4j.Logger.getLogger(TelegramBotConnector.class).error("could not process attachment", e);
 					}
 				}
 				if (update.message().photo() != null) {
@@ -177,7 +177,7 @@ public class TelegramConnector extends ConnectorBase {
 						attachment.setAttribute(IAttachment.THUMBNAIL, thumbAtta);
 					}
 					catch (MalformedURLException e) {
-						org.apache.log4j.Logger.getLogger(TelegramConnector.class).error("could not process attachment", e);
+						org.apache.log4j.Logger.getLogger(TelegramBotConnector.class).error("could not process attachment", e);
 					}
 				}
 
@@ -255,7 +255,7 @@ public class TelegramConnector extends ConnectorBase {
 	}
 
 	public static void main(String[] args) {
-		TelegramConnector c = new TelegramConnector("telegram");
+		TelegramBotConnector c = new TelegramBotConnector("telegram");
 		c.register(null);
 		c.send(null);
 	}
