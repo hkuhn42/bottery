@@ -1,19 +1,18 @@
 include 'bottery.core',
         'bottery.core.rest', 
-        //'bottery.connector.alexa', 
+       // 'bottery.connector.alexa', 
         'bottery.connector.ms', 
         'bottery.connector.telegram', 
-        //'bottery.connector.twitter',
         'bottery.connector.discord',
         'bottery.connector.gitter',
         'bottery.connector.stride',
+		'bottery.connector.generic',
         'bottery.recognizer.dialogflow',
         'bottery.recognizer.dl4j',
         'bottery.recognizer.lex',
         'bottery.recognizer.luis', 
         'bottery.recognizer.witai',     
         'bottery.notifier.quartz',
-        //'bottery.cdi',  
         'bottery.examples'
 
 rootProject.name = 'rocks.bottery'
