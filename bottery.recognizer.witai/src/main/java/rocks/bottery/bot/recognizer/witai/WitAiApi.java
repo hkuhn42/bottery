@@ -20,10 +20,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
 /**
- * {@link https://wit.ai/docs/http/20170307#get--message-link}
+ * See <a href="https://wit.ai/docs/http/20170307#get--message-link">get--message-link</a>
  * 
- * 'https://api.wit.ai/message?v=20170307&q=how%20many%20people%20between%20Tuesday%20and%20Friday' \ -H 'Authorization:
- * Bearer $TOKEN'
+ * Interface for https://api.wit.ai/message?v=20170307&amp;q=how%20many%20people%20between%20Tuesday%20and%20Friday' \
+ * -H 'Authorization: Bearer $TOKEN'
  * 
  * @author Harald Kuhn
  *

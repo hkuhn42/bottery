@@ -32,13 +32,12 @@ import sx.blah.discord.util.RequestBuffer;
 /**
  * Connector for discord
  *
- * The connector needs an access token. This can be generated with a call of the following url after replacing <appid>
- * with your appid
+ * The connector needs an access token. This can be generated with a call of the following url after replacing
+ * &lt;appid&gt; with your appid
  *
- * https://discordapp.com/api/oauth2/authorize?client_id=<appid>&scope=bot&permissions=1
+ * https://discordapp.com/api/oauth2/authorize?client_id=&lt;appid&gt;&nbsp;scope=bot&nbsp;permissions=1
  * 
  * @author Harald Kuhn
- *
  */
 public class DiscordConnector extends ConnectorBase {
 
@@ -96,8 +95,8 @@ public class DiscordConnector extends ConnectorBase {
 	 * Instatiates the IDiscordClient with the given token
 	 * 
 	 * @param token
-	 * @param login
-	 * @return
+	 *            the discord token
+	 * @return IDiscordClient instance
 	 */
 	protected static IDiscordClient createClient(String token) throws DiscordException {
 		ClientBuilder clientBuilder = new ClientBuilder();

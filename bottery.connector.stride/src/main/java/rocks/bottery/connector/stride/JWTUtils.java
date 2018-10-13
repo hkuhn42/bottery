@@ -30,7 +30,7 @@ import org.jose4j.keys.HmacKey;
 /**
  * Utility to validate JWTs
  * 
- * @see https://developer.atlassian.com/cloud/stride/security/jwt
+ * <a href="https://developer.atlassian.com/cloud/stride/security/jwt">Stride JWT</a>
  * 
  * @author Harald Kuhn
  *

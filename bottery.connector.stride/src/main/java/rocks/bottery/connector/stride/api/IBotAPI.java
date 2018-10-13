@@ -83,12 +83,12 @@ public interface IBotAPI {
 	 * 
 	 * @param authorization
 	 *            an auth header
-	 * @param mention
+	 * @param message
 	 *            the message object
 	 */
 	@POST
 	@Path("/directMessage")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void directMessage(@HeaderParam("Authorization") String authorization, Activity data);
+	public void directMessage(@HeaderParam("Authorization") String authorization, Activity message);
 
 }

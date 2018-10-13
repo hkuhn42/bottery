@@ -22,12 +22,25 @@ import javax.ws.rs.Produces;
 /**
  * API for the Microsoft QnA Maker
  * 
- * @see https://docs.microsoft.com/en-us/azure/cognitive-services/QnAMaker/quickstarts/java#GetAnswers
+ * Also see
+ * <a href="https://docs.microsoft.com/en-us/azure/cognitive-services/QnAMaker/quickstarts/java#GetAnswers">QnAMaker
+ * Quickstarts</a>
  * 
  * @author Harald Kuhn
  */
 public interface QnaMakerAPI {
 
+	/**
+	 * Generate an answer from the knowlege base
+	 * 
+	 * @param authorization
+	 *            the auth key
+	 * @param kbId
+	 *            the knowledbe base
+	 * @param question
+	 *            the question
+	 * @return the answer
+	 */
 	@POST
 	@Path("/knowledgebases/{kbId}/generateAnswer")
 	@Consumes({ "application/json" })

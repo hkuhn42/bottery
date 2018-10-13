@@ -37,6 +37,11 @@ public interface IStrideAPI {
 	 * 
 	 * {"body": {"version":1, "type": "doc",
 	 * "content":[{"type":"paragraph","content":[{"type":"text","content":[],"text":"Hello World, back!"}]}]}}
+	 * 
+	 * @param auth
+	 * @param cloudId
+	 * @param conversationId
+	 * @param message
 	 */
 	@POST
 	@Path("/site/{cloudId}/conversation/{conversationId}/message")
@@ -53,6 +58,11 @@ public interface IStrideAPI {
 	 * Bearer {accessToken}' \ -H 'content-type: application/json' \ -d '{"body": {"version": 1,"type": "doc","content":
 	 * [{"type": "paragraph","content": [{"type": "text","text": "Hello you!"}]}]}}'
 	 * 
+	 * @param auth
+	 * @param cloudId
+	 * @param conversationId
+	 * @param userId
+	 * @param message
 	 */
 	@POST
 	@Path("/site/{cloudId}/conversation/{conversationId}/user/{userId}/message")
