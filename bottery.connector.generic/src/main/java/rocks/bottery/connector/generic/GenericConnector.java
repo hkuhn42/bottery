@@ -55,14 +55,14 @@ public class GenericConnector extends ConnectorBase implements IHandoffConnector
 		}
 	}
 
-	public static final String CHANNEL = "turnfriendly";
+	public static final String CHANNEL = "generic";
 
 	private IMessagingAPI	   proxy;
 
 	@Override
 	public void register(IReceiver receiver) {
-		proxy = new ClientFactory<IMessagingAPI>().prepareClientProxy("http://harald5520.fritz.box:8048/turnfriendly/ws/rest", IMessagingAPI.class);
-		StandalonePublisher.publish(new Handler(receiver), "http://localhost:9090");
+		proxy = new ClientFactory<IMessagingAPI>().prepareClientProxy(config.getSetting("generic.remote.url"), IMessagingAPI.class);
+		StandalonePublisher.publish(new Handler(receiver), config.getSetting("generic.local.address"));
 
 	}
 
