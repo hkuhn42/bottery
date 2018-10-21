@@ -33,4 +33,6 @@ public interface IActivityArchive extends IInterceptor {
 
 	public IActivity getActivityById(String id);
 
+	public void archive(IActivity activity);
+
 }

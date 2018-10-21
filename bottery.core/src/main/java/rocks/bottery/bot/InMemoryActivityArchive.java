@@ -43,14 +43,19 @@ public class InMemoryActivityArchive extends InterceptorBase implements IActivit
 	 */
 	@Override
 	public void handle(ISession session, IActivity activity) {
-		List<IActivity> activities = conversations.get(session.getId());
+		archive(activity);
+		nextInChain.handle(session, activity);
+	}
+
+	@Override
+	public void archive(IActivity activity) {
+		List<IActivity> activities = conversations.get(activity.getConversation().getId());
 		if (activities == null) {
 			activities = new ArrayList<>();
-			conversations.put(session.getId(), activities);
+			conversations.put(activity.getConversation().getId(), activities);
 		}
 		activities.add(activity);
 		Logger.getLogger(InMemoryActivityArchive.class).info("archived " + activity.getId() + " " + activity.getType() + " " + activity.getText());
-		nextInChain.handle(session, activity);
 	}
 
 	/*
