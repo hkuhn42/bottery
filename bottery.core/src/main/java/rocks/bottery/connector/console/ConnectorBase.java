@@ -65,7 +65,7 @@ public abstract class ConnectorBase implements IConnector {
 	public GenericActivity newReplyTo(IActivity toThisActivity) {
 		GenericActivity reply = newMessageTo(toThisActivity.getFrom());
 		reply.setConversation(toThisActivity.getConversation());
-		reply.setFrom(toThisActivity.getRecipient());
+		reply.setFrom(toThisActivity.getFrom());
 		return reply;
 	}
 
