@@ -10,18 +10,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/**
- * 
- */
-package rocks.bottery.bot.dialogs;
+package rocks.bottery.connector.handoff;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import rocks.bottery.bot.ActivityType;
 import rocks.bottery.bot.IActivity;
+import rocks.bottery.bot.IBot;
 import rocks.bottery.bot.ISession;
+import rocks.bottery.bot.dialogs.IDialog;
 import rocks.bottery.connector.GenericActivity;
 import rocks.bottery.connector.IConnector;
 import rocks.bottery.messaging.IReceiver;
@@ -42,37 +41,55 @@ import rocks.bottery.messaging.IReceiver;
  */
 public class HandoffDialog implements IDialog, IReceiver {
 
-	private IConnector					 targetConnector;
-	private ISession					 session;
+	private IBot			  bot;
 
-	// FIXME: this violates statelessnes, check wether there is a better solution
-	private Map<String, GenericActivity> replyMapping;
+	private IHandoffConnector targetConnector;
 
-	public HandoffDialog(IConnector targetConnector) {
+	private boolean			  targetConnectorRegistered	= false;
+
+	public HandoffDialog(IHandoffConnector targetConnector) {
 		this.targetConnector = targetConnector;
-		targetConnector.register(this);
-		replyMapping = new HashMap<>();
 	}
 
 	@Override
 	public void handle(ISession session, IActivity request) {
-		this.session = session;
+		if (!targetConnectorRegistered) {
+			targetConnector.register(this);
+			targetConnectorRegistered = true;
 
-		replyMapping.put(request.getConversation().getId(), session.getConnector().newReplyTo(request));
+			bot = session.getBot();
 
-		Logger.getLogger(HandoffDialog.class).debug(session.getChannel() + " -> " + targetConnector.getChannel() + " " + request.getText());
-		targetConnector.send(request);
+			List<IActivity> activitiesByConversation = session.getBot().getBotConfig().getArchive()
+			        .getActivitiesByConversation(request.getConversation().getId());
+			targetConnector.handoff(request.getConversation(), activitiesByConversation);
+
+		}
+		else {
+
+			Logger.getLogger(HandoffDialog.class).debug("handle " + session.getChannel() + " -> " + targetConnector.getChannel() + " " + request.getText());
+
+			targetConnector.send(request);
+		}
+
 	}
 
 	@Override
 	public void receive(IActivity activity, IConnector connector) {
-		Logger.getLogger(HandoffDialog.class).debug(connector.getChannel() + " -> " + session.getChannel() + " " + activity.getText());
+		if (activity.getType() != ActivityType.MESSAGE) {
+			return;
+		}
+
 		try {
-			GenericActivity reply = replyMapping.get(activity.getConversation().getId());
+			ISession session = bot.getBotConfig().getSessionStore().find(activity.getConversation().getId());
+
+			Logger.getLogger(HandoffDialog.class).debug("receive " + connector.getChannel() + " -> " + session.getChannel() + " " + activity.getText());
+			Logger.getLogger(HandoffDialog.class).debug(activity.getFrom().getAddress() + " > " + activity.getRecipient().getAddress());
+			GenericActivity reply = connector.newMessageTo(activity.getRecipient());
 			Logger.getLogger(HandoffDialog.class).debug("found reply " + reply);
 			// FIXME: also copy attachments etc., create an utility for it
 			reply.setText(activity.getText());
 			reply.setFrom(activity.getFrom());
+			reply.setConversation(activity.getConversation());
 
 			session.send(reply);
 		}

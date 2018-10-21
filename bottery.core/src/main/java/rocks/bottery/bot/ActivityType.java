@@ -23,6 +23,11 @@ import java.io.Serializable;
 public enum ActivityType implements Serializable {
 
 	/**
+	 * handoff to a human
+	 */
+	HANDOFF,
+
+	/**
 	 * other activity like status updates
 	 */
 	OTHER,

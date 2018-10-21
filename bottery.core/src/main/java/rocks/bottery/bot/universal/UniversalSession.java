@@ -46,6 +46,9 @@ public class UniversalSession extends ContextBase implements ISession {
 
 	@Override
 	public void send(IActivity activity) {
+		if (bot.getBotConfig().getArchive() != null) {
+			bot.getBotConfig().getArchive().handle(this, activity);
+		}
 		connector.send(activity);
 	}
 

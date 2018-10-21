@@ -140,6 +140,7 @@ public class UniversalBot extends ContextBase implements IBot {
 		if (ActivityType.MESSAGE == activity.getType() || ActivityType.NEW_CONTACT == activity.getType()) {
 			IDialog dialog = findDialog(session, activity);
 			((UniversalSession) session).setActiveDialog(dialog);
+
 			dialog.handle(session, activity);
 		}
 	}
@@ -150,9 +151,11 @@ public class UniversalBot extends ContextBase implements IBot {
 			IIntent intent = recognizer.recognize(session, activity);
 			if (intent != null) {
 				possibleIntents.add(intent);
+				// TODO: check wether recognizer strategy should be configurable
+				break;
 			}
 		}
-		// fixme: sort on confidene
+		// fixme: sort on confidence
 		if (possibleIntents.size() > 0) {
 			activity.setIntent(possibleIntents.get(0));
 		}

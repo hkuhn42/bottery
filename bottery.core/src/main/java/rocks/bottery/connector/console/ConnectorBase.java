@@ -13,6 +13,7 @@
 package rocks.bottery.connector.console;
 
 import java.util.Random;
+import java.util.UUID;
 
 import rocks.bottery.bot.ActivityType;
 import rocks.bottery.bot.IActivity;
@@ -41,8 +42,10 @@ public abstract class ConnectorBase implements IConnector {
 	public GenericActivity newMessageTo(IParticipant recipient) {
 		GenericActivity activity = new GenericActivity();
 		activity.setType(ActivityType.MESSAGE);
+
+		UUID uuid = UUID.randomUUID();
 		GenericConversation conversation = new GenericConversation();
-		conversation.setId(String.valueOf(this.hashCode()));
+		conversation.setId(uuid.toString());
 		conversation.setChannel(getChannel());
 		activity.setConversation(conversation);
 		activity.setFrom(getConnectorAccount());

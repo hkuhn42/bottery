@@ -14,6 +14,8 @@ package rocks.bottery.connector.console;
 
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
 import rocks.bottery.bot.ActivityType;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.IParticipant;
@@ -47,7 +49,7 @@ public class ConsoleConnector extends ExecutorConnectorBase {
 
 			@Override
 			public void run() {
-				GenericActivity activity = newMessageTo(new GenericParticipant("bot", "bot", getChannel()));
+				GenericActivity activity = newMessageTo(new GenericParticipant("bot", "bot", getChannel(), "bot@bot"));
 				activity.setType(ActivityType.START);
 				handler.receive(activity, ConsoleConnector.this);
 				listen(handler);
@@ -63,7 +65,7 @@ public class ConsoleConnector extends ExecutorConnectorBase {
 					activity = newReplyTo(lastMessage);
 				}
 				else {
-					activity = newMessageTo(new GenericParticipant("bot", "bot", getChannel()));
+					activity = newMessageTo(new GenericParticipant("bot", "bot", getChannel(), "bot@bot"));
 				}
 
 				// handle special commands
@@ -84,6 +86,7 @@ public class ConsoleConnector extends ExecutorConnectorBase {
 				}
 
 				try {
+					Logger.getLogger(ConsoleConnector.class).info("send activity " + activity + " to handler " + handler);
 					handler.receive(activity, ConsoleConnector.this);
 				}
 				catch (Exception e) {
@@ -121,7 +124,7 @@ public class ConsoleConnector extends ExecutorConnectorBase {
 
 	@Override
 	public IParticipant getConnectorAccount() {
-		return new GenericParticipant("shell", "shell", getChannel());
+		return new GenericParticipant("console", "console", getChannel(), "console@bot");
 	}
 
 	@Override
