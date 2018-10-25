@@ -16,6 +16,7 @@
 package rocks.bottery.bot.universal;
 
 import java.util.Locale;
+import java.util.Stack;
 
 import rocks.bottery.bot.ContextBase;
 import rocks.bottery.bot.IActivity;
@@ -31,17 +32,18 @@ import rocks.bottery.connector.IConnector;
  */
 public class UniversalSession extends ContextBase implements ISession {
 
-	private IBot	   bot;
-	private IDialog	   dialog;
-	private IConnector connector;
-	private String	   id;
-	private Locale	   locale;
+	private IBot		   bot;
+	private Stack<IDialog> activeDialogs;
+	private IConnector	   connector;
+	private String		   id;
+	private Locale		   locale;
 
 	protected UniversalSession(String id, IBot bot, IConnector connector, Locale locale) {
 		this.bot = bot;
 		this.connector = connector;
 		this.id = id;
 		this.locale = locale;
+		this.activeDialogs = new Stack<>();
 	}
 
 	@Override
@@ -59,12 +61,17 @@ public class UniversalSession extends ContextBase implements ISession {
 
 	@Override
 	public void setActiveDialog(IDialog dialog) {
-		this.dialog = dialog;
+		if (activeDialogs.isEmpty() || !activeDialogs.peek().equals(dialog)) {
+			this.activeDialogs.push(dialog);
+		}
 	}
 
 	@Override
 	public IDialog getActiveDialog() {
-		return dialog;
+		if (activeDialogs.isEmpty()) {
+			return null;
+		}
+		return activeDialogs.peek();
 	}
 
 	@Override
@@ -74,7 +81,7 @@ public class UniversalSession extends ContextBase implements ISession {
 
 	@Override
 	public void activeDialogFinished() {
-		dialog = null;
+		activeDialogs.pop();
 	}
 
 	@Override
@@ -85,6 +92,7 @@ public class UniversalSession extends ContextBase implements ISession {
 
 	@Override
 	public void invalidate() {
+		activeDialogs.clear();
 		getBot().invalidate(this);
 	}
 
