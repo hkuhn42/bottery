@@ -1,12 +1,27 @@
 /**
+ * Copyright (C) 2016-2018 Harald Kuhn
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+/**
  * 
  */
 package rocks.bottery.examples.basic.interview;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 import rocks.bottery.bot.Choice;
 import rocks.bottery.bot.IActivity;
@@ -17,6 +32,7 @@ import rocks.bottery.bot.dialogs.IValidator;
 import rocks.bottery.bot.dialogs.Interview;
 import rocks.bottery.bot.dialogs.Question;
 import rocks.bottery.bot.dialogs.Utterance;
+import rocks.bottery.bot.recognizers.CommandRecognizer;
 import rocks.bottery.bot.universal.UniversalBot;
 import rocks.bottery.bot.util.IModel;
 import rocks.bottery.bot.util.Model;
@@ -24,6 +40,8 @@ import rocks.bottery.bot.util.SessionPropertyModel;
 import rocks.bottery.connector.console.ConsoleConnector;;
 
 /**
+ * An example of a simple scripted bot without using a recognizer
+ * 
  * @author Harald Kuhn
  *
  */
@@ -35,9 +53,7 @@ public class InterviewBot extends UniversalBot {
 		choices.add(new Choice<String>("Groovy", "Groovy"));
 		choices.add(new Choice<String>("Scala", "Scala"));
 
-		// String[] choices = new String[] { "Java", "Groovy", "Scala" };
-
-		setWelcomeDialog(new Interview("statsBean", DeveloperStatsBean.class, new IDialog[] {
+		IDialog[] iDialogs = new IDialog[] {
 
 		        new Question<String>(new SessionPropertyModel<>("statsBean", "name")) {
 			        @Override
@@ -84,16 +100,33 @@ public class InterviewBot extends UniversalBot {
 			        };
 		        }
 
-		}));
+		};
+		try {
+			addRecognizer(new CommandRecognizer("interview"));
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		setWelcomeDialog(new Utterance("Hi, wanna answer some questions?"));
+
+		addDialog("interview", new Interview<DeveloperStatsBean>("statsBean", DeveloperStatsBean.class, iDialogs) {
+			@Override
+			protected void interviewFinished(ISession session, DeveloperStatsBean resultBean) {
+			}
+		});
 	}
 
 	public static void main(String[] args) {
 		BasicConfigurator.configure();
-		ConsoleConnector consoleConnector = new ConsoleConnector();
-
+		Logger.getRootLogger().setLevel(Level.INFO);
+		// MSConnector connector = new MSConnector();
+		ConsoleConnector connector = new ConsoleConnector();
 		InterviewBot bot = new InterviewBot();
-		consoleConnector.init(bot.getBotConfig());
-		consoleConnector.register(bot);
+		// bot.getBotConfig().getLocalizer().getString(new Locale("EN"), "", null);
+		connector.init(bot.getBotConfig());
+		connector.register(bot);
 
 	}
 

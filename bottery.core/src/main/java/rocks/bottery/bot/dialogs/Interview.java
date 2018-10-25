@@ -10,9 +10,6 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-/**
- * 
- */
 package rocks.bottery.bot.dialogs;
 
 import java.io.Serializable;
@@ -25,14 +22,14 @@ import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.ISession;
 
 /**
- * Simple waterfall dialog which consists of a number of subdialogs which are processes in sequence
+ * Simple waterfall dialog which consists of a number of subdialogs which are processed in sequence
  * 
  * The inverview keeps track of the index of the current subdialog and sets the next one as activeDialog each time the
  * previous one calls finished
  * 
  * @author Harald Kuhn
  */
-public class Interview implements IDialog {
+public abstract class Interview<T extends Serializable> implements IDialog {
 
 	private static final String				DIALOG_STATE_PREFIX	= "Interview";
 
@@ -71,13 +68,14 @@ public class Interview implements IDialog {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.sylvani.bot.IHandler#handle(org.sylvani.bot.ISession, org.sylvani.bot.connector.ms.model.Activity)
+	 * @see org.sylvani. bot.IHandler#handle(org.sylvani.bot.ISession, org.sylvani.bot.connector.ms.model.Activity)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void handle(ISession session, IActivity activity) {
 		if (resultBeanClazz != null && session.getAttribute(resultBeanName) == null) {
 			try {
-				Serializable resultBean = initBean();
+				T resultBean = initBean();
 				session.setAttribute(resultBeanName, resultBean);
 			}
 			catch (InstantiationException | IllegalAccessException e) {
@@ -91,6 +89,7 @@ public class Interview implements IDialog {
 		else if (instanceState >= dialogs.size()) {
 			instanceState = new Integer(0);
 			// finish?
+			interviewFinished(session, (T) session.getAttribute(resultBeanName));
 			session.activeDialogFinished();
 		}
 		IDialog activeDialog = dialogs.get(instanceState.intValue());
@@ -101,6 +100,9 @@ public class Interview implements IDialog {
 		activeDialog.handle(session, activity);
 	}
 
+	// called with the resuslt bean after the inreview finished
+	protected abstract void interviewFinished(ISession session, T resultBean);
+
 	/**
 	 * initializes a new result bean
 	 * 
@@ -108,7 +110,8 @@ public class Interview implements IDialog {
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 */
-	protected Serializable initBean() throws InstantiationException, IllegalAccessException {
-		return resultBeanClazz.newInstance();
+	@SuppressWarnings("unchecked")
+	protected T initBean() throws InstantiationException, IllegalAccessException {
+		return (T) resultBeanClazz.newInstance();
 	}
 }
