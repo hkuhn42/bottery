@@ -75,7 +75,7 @@ public abstract class Interview<T extends Serializable> implements IDialog {
 	public void handle(ISession session, IActivity activity) {
 		if (resultBeanClazz != null && session.getAttribute(resultBeanName) == null) {
 			try {
-				T resultBean = initBean();
+				T resultBean = initBean(session, activity);
 				session.setAttribute(resultBeanName, resultBean);
 			}
 			catch (InstantiationException | IllegalAccessException e) {
@@ -87,10 +87,10 @@ public abstract class Interview<T extends Serializable> implements IDialog {
 			instanceState = new Integer(0);
 		}
 		else if (instanceState >= dialogs.size()) {
-			instanceState = new Integer(0);
-			// finish?
-			interviewFinished(session, (T) session.getAttribute(resultBeanName));
 			session.activeDialogFinished();
+			session.removeAttribut(instanceStateKey);
+			interviewFinished(session, activity, (T) session.getAttribute(resultBeanName));
+			return;
 		}
 		IDialog activeDialog = dialogs.get(instanceState.intValue());
 		session.setActiveDialog(activeDialog);
@@ -101,17 +101,22 @@ public abstract class Interview<T extends Serializable> implements IDialog {
 	}
 
 	// called with the resuslt bean after the inreview finished
-	protected abstract void interviewFinished(ISession session, T resultBean);
+	protected abstract void interviewFinished(ISession session, IActivity last, T resultBean);
 
 	/**
 	 * initializes a new result bean
+	 * 
+	 * @param session
+	 *            TODO
+	 * @param start
+	 *            TODO
 	 * 
 	 * @return
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 */
 	@SuppressWarnings("unchecked")
-	protected T initBean() throws InstantiationException, IllegalAccessException {
+	protected T initBean(ISession session, IActivity start) throws InstantiationException, IllegalAccessException {
 		return (T) resultBeanClazz.newInstance();
 	}
 }
