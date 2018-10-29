@@ -15,11 +15,11 @@ package rocks.bottery.bot;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Properties;
 
 import rocks.bottery.bot.i18n.ILocalizer;
 import rocks.bottery.bot.interceptors.IInterceptor;
 import rocks.bottery.bot.recognizers.IRecognizer;
+import rocks.bottery.messaging.MessagingConfig;
 
 /**
  * Default bot config. If a settings starts with "Crypt " (note the blanc) it is considered to be encrypted with the
@@ -27,14 +27,10 @@ import rocks.bottery.bot.recognizers.IRecognizer;
  * 
  * @author Harald Kuhn
  */
-public class BotConfig implements IBotConfig {
-
-	protected Properties		 properties;
+public class BotConfig extends MessagingConfig implements IBotConfig {
 
 	protected ILocalizer		 localizer;
 	protected List<IRecognizer>	 recognizers;
-	protected ICrypt			 crypt;
-
 	protected IVariableResolver	 resolver;
 	protected ISessionStore		 sessionStore;
 
@@ -46,10 +42,10 @@ public class BotConfig implements IBotConfig {
 	protected Locale			 defaultLocale;
 
 	public BotConfig() {
+		super();
 		inInterceptors = new ArrayList<>();
 		outInterceptors = new ArrayList<>();
 		recognizers = new ArrayList<>();
-		properties = new Properties();
 		defaultLocale = Locale.getDefault();
 	}
 
@@ -82,25 +78,6 @@ public class BotConfig implements IBotConfig {
 	@Override
 	public List<IInterceptor> getOutInterceptors() {
 		return outInterceptors;
-	}
-
-	@Override
-	public String getSetting(String name) {
-		String setting = properties.getProperty(name);
-		if (setting != null && setting.startsWith("Crypt ")) {
-			setting = crypt.decrypt(setting.substring(6));
-		}
-		return setting;
-	}
-
-	@Override
-	public ICrypt getCrypt() {
-		return crypt;
-	}
-
-	@Override
-	public void setCrypt(ICrypt crypt) {
-		this.crypt = crypt;
 	}
 
 	@Override
