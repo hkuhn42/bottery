@@ -81,7 +81,9 @@ public class UniversalSession extends ContextBase implements ISession {
 
 	@Override
 	public void activeDialogFinished() {
-		activeDialogs.pop();
+		if (!activeDialogs.isEmpty()) {
+			activeDialogs.pop();
+		}
 	}
 
 	@Override
