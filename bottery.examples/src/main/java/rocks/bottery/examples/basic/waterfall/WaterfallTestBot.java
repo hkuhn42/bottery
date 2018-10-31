@@ -66,7 +66,7 @@ public class WaterfallTestBot extends UniversalBot {
 
 		}) {
 			@Override
-			protected void interviewFinished(ISession session, Serializable resultBean) {
+			protected void interviewFinished(ISession session, IActivity last, Serializable resultBean) {
 
 			}
 		});

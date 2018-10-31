@@ -113,7 +113,7 @@ public class InterviewBot extends UniversalBot {
 
 		addDialog("interview", new Interview<DeveloperStatsBean>("statsBean", DeveloperStatsBean.class, iDialogs) {
 			@Override
-			protected void interviewFinished(ISession session, DeveloperStatsBean resultBean) {
+			protected void interviewFinished(ISession session, IActivity last, DeveloperStatsBean resultBean) {
 			}
 		});
 	}

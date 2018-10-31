@@ -113,7 +113,7 @@ public class WaterfallBot extends UniversalBot {
 		}) {
 
 			@Override
-			protected void interviewFinished(ISession session, Serializable resultBean) {
+			protected void interviewFinished(ISession session, IActivity last, Serializable resultBean) {
 				// TODO Auto-generated method stub
 
 			}
