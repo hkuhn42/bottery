@@ -1,0 +1,9 @@
+dependencies {
+    compile  project(':bottery.core')
+    compile  project(':bottery.core.rest')
+ 
+ 
+    compile 'com.linecorp.bot:line-bot-api-client:2.1.0'
+    
+	runtime 'org.apache.cxf:cxf-rt-transports-http-jetty:3.2.4'
+}
