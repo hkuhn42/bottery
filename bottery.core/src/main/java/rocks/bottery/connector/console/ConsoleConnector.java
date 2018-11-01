@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 
 import rocks.bottery.bot.ActivityType;
 import rocks.bottery.bot.IActivity;
+import rocks.bottery.bot.IConversation;
 import rocks.bottery.bot.IParticipant;
 import rocks.bottery.connector.GenericActivity;
 import rocks.bottery.connector.GenericParticipant;
@@ -39,7 +40,8 @@ import rocks.bottery.messaging.IReceiver;
  */
 public class ConsoleConnector extends ExecutorConnectorBase {
 
-	private IActivity lastMessage;
+	private IActivity	  lastMessage;
+	private IConversation current;
 
 	@Override
 	public void register(final IReceiver handler) {
@@ -49,9 +51,11 @@ public class ConsoleConnector extends ExecutorConnectorBase {
 
 			@Override
 			public void run() {
-				GenericActivity activity = newMessageTo(new GenericParticipant("bot", "bot", getChannel(), "bot@bot"));
+				GenericActivity activity = newMessageTo(getConnectorAccount());
+				activity.setFrom(getConsoleAccont());
 				activity.setType(ActivityType.START);
 				handler.receive(activity, ConsoleConnector.this);
+				current = activity.getConversation();
 				listen(handler);
 			}
 
@@ -60,14 +64,9 @@ public class ConsoleConnector extends ExecutorConnectorBase {
 				String text = scanner.nextLine();
 
 				// prepare activity
-				GenericActivity activity = null;
-				if (lastMessage != null) {
-					activity = newReplyTo(lastMessage);
-				}
-				else {
-					activity = newMessageTo(new GenericParticipant("bot", "bot", getChannel(), "bot@bot"));
-				}
-
+				GenericActivity activity = newMessageTo(getConnectorAccount());
+				activity.setConversation(current);
+				activity.setFrom(getConsoleAccont());
 				// handle special commands
 				if ("/sendFile".equalsIgnoreCase(text)) {
 					// load file
@@ -123,12 +122,16 @@ public class ConsoleConnector extends ExecutorConnectorBase {
 	}
 
 	@Override
-	public IParticipant getConnectorAccount() {
-		return new GenericParticipant("console", "console", getChannel(), "console@bot");
+	public String getChannel() {
+		return "console";
 	}
 
 	@Override
-	public String getChannel() {
-		return "console";
+	public IParticipant getConnectorAccount() {
+		return new GenericParticipant("bot", "bot", getChannel(), "bot#bot");
+	}
+
+	protected GenericParticipant getConsoleAccont() {
+		return new GenericParticipant("console", "console", getChannel(), "console#bot");
 	}
 }
