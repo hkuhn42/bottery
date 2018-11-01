@@ -15,6 +15,7 @@ package rocks.bottery.connector;
 import java.io.Serializable;
 import java.util.Locale;
 
+import rocks.bottery.bot.ContextBase;
 import rocks.bottery.bot.IActivity;
 import rocks.bottery.bot.recognizers.IIntent;
 
@@ -23,7 +24,7 @@ import rocks.bottery.bot.recognizers.IIntent;
  * 
  * @author Harald Kuhn
  */
-public abstract class ActivityBase implements IActivity, Serializable {
+public abstract class ActivityBase extends ContextBase implements IActivity, Serializable {
 
 	private static final long serialVersionUID = 1L;
 

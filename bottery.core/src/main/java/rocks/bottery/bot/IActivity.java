@@ -31,7 +31,7 @@ import rocks.bottery.bot.recognizers.IIntent;
  * @author Harald Kuhn
  *
  */
-public interface IActivity {
+public interface IActivity extends IContext {
 
 	/**
 	 * the id of the activity or null if no id is available
