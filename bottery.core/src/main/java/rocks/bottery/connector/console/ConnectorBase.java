@@ -65,13 +65,11 @@ public abstract class ConnectorBase implements IConnector {
 	public GenericActivity newReplyTo(IActivity toThisActivity) {
 		GenericActivity reply = newMessageTo(toThisActivity.getFrom());
 		reply.setConversation(toThisActivity.getConversation());
-		reply.setFrom(toThisActivity.getFrom());
 		return reply;
 	}
 
 	@Override
 	public void shutdown() {
-		// some connectors to not need to shutdown explicitly
+		// some connectors do not need to shutdown explicitly
 	}
-
 }
