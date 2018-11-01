@@ -24,6 +24,10 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 public class StandalonePublisher {
 
 	public static Server publish(Object api, String address) {
+		return prepare(api, address).create();
+	}
+
+	public static JAXRSServerFactoryBean prepare(Object api, String address) {
 
 		try {
 			JAXRSServerFactoryBean sf = new JAXRSServerFactoryBean();
@@ -42,7 +46,7 @@ public class StandalonePublisher {
 			factory.setBus(sf.getBus());
 			sf.getBus().getInInterceptors().add(new LoggingInInterceptor());
 			manager.registerBindingFactory(JAXRSBindingFactory.JAXRS_BINDING_ID, factory);
-			return sf.create();
+			return sf;
 		}
 		catch (RuntimeException e) {
 			Logger.getLogger(StandalonePublisher.class).error("failed to publish service", e);
