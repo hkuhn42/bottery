@@ -42,7 +42,12 @@ public class MSActivity extends GenericActivity implements IActivity {
 
 	MSActivity(Activity activity) {
 		this.activity = activity;
-		setLocale(new Locale(activity.getLocale()));
+		if (activity.getLocale() != null) {
+			setLocale(new Locale(activity.getLocale()));
+		}
+		else {
+			setLocale(new Locale("de"));
+		}
 	}
 
 	Activity getActivity() {
@@ -164,20 +169,11 @@ public class MSActivity extends GenericActivity implements IActivity {
 	}
 
 	@Override
-	public void setAttachments(List<IAttachment> attachments) {
-		List<Attachment> msAttachments = new ArrayList<>();
-		for (IAttachment attachment : attachments) {
-
-		}
-		activity.setAttachments(msAttachments);
-	}
-
-	@Override
 	public List<IAttachment> getAttachments() {
 		List<Attachment> attas = activity.getAttachments();
 		List<IAttachment> attachments = new ArrayList<>();
 		for (Attachment atta : attas) {
-
+			attachments.add(new MSAttachment(atta));
 		}
 		return attachments;
 	}
