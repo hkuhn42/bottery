@@ -1,5 +1,3 @@
-version = '0.8.0'
-
 repositories {
   jcenter() //This prevents issues with transitive dependencies
   maven {
@@ -12,5 +10,5 @@ dependencies {
     
     compile 'log4j:log4j:1.2.17'
     
-    compile "com.github.austinv11:Discord4J:2.9.3"
+    compile "com.github.austinv11:Discord4J:2.10.1"
 }
