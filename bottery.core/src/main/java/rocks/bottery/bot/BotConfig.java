@@ -111,7 +111,7 @@ public class BotConfig extends MessagingConfig implements IBotConfig {
 	}
 
 	public void setSetting(String setting, String value) {
-		properties.setProperty(setting, value);
+		properties.put(setting, value);
 	}
 
 	@Override

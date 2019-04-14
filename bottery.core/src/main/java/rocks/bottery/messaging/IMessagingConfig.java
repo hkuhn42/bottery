@@ -12,6 +12,8 @@
  */
 package rocks.bottery.messaging;
 
+import java.util.Properties;
+
 import rocks.bottery.bot.ICrypt;
 
 /**
@@ -29,6 +31,14 @@ public interface IMessagingConfig {
 	 * @return the value of the setting or null
 	 */
 	public String getSetting(String name);
+	
+	/**
+	 * Get all properties which keys have the given prefix. The prefix is removed from the keys. 
+	 * 
+	 * @param prefix the prefix
+	 * @return all properties with the given prefix
+	 */
+	public Properties getSettings(String prefix);
 
 	/**
 	 * Get the crypt implementation used to encrypt / decrypt settings

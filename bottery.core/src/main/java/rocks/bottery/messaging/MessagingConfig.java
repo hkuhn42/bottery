@@ -12,6 +12,8 @@
  */
 package rocks.bottery.messaging;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import rocks.bottery.bot.ICrypt;
@@ -24,26 +26,38 @@ import rocks.bottery.bot.ICrypt;
  */
 public class MessagingConfig implements IMessagingConfig {
 
-	protected Properties properties;
+	protected Map<String, String> properties;
 	protected ICrypt	 crypt;
 
 	public MessagingConfig() {
 		super();
-		this.properties = new Properties();
+		this.properties = new HashMap<>();
 	}
 
 	public MessagingConfig(Properties properties) {
 		super();
-		this.properties = properties;
+		properties.putAll(properties);
 	}
 
 	@Override
 	public String getSetting(String name) {
-		String setting = properties.getProperty(name);
+		String setting = properties.get(name);
 		if (setting != null && setting.startsWith("Crypt ")) {
 			setting = crypt.decrypt(setting.substring(6));
 		}
 		return setting;
+	}
+	
+	@Override
+	public Properties getSettings(String prefix) {
+		Properties prefixedProperties = new Properties();
+		for (Map.Entry<String, String> entry : properties.entrySet()) {
+			String key = entry.getKey();
+			if( key.startsWith(prefix)) { 
+				prefixedProperties.put(key.substring(prefix.length()+1, key.length()), entry.getValue()); 
+			}
+		}
+		return prefixedProperties;
 	}
 
 	@Override
