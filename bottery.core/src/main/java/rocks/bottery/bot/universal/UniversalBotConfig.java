@@ -13,6 +13,7 @@
 package rocks.bottery.bot.universal;
 
 import java.io.IOException;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
@@ -33,7 +34,11 @@ public class UniversalBotConfig extends BotConfig {
     
     public UniversalBotConfig(String botClazz) {
         try {
-            properties.load(getClass().getClassLoader().getResourceAsStream("Bot.properties"));
+        	Properties props = new Properties();
+            props.load(getClass().getClassLoader().getResourceAsStream("Bot.properties"));
+            for (String name : props.stringPropertyNames()) {
+				properties.put(name, props.getProperty(name));
+			}
         }
         catch (IOException e) {
             Logger.getLogger(UniversalBotConfig.class).warn("no Bot.properties found", e);
